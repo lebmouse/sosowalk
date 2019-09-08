@@ -1,3 +1,5 @@
+const port = process.env.PORT || 3000
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const { prisma } = require('./generated/prisma-client')
@@ -66,6 +68,7 @@ app.get('/filterPosts', async (req, res) => {
   res.json(draftPosts)
 })
 
-app.listen(3000, () =>
-  console.log('Server is running on http://localhost:3000'),
-)
+app.listen(port, err => {
+  if (err) throw err
+  console.log(`> Ready On Server http://localhost:${port}`)
+});
