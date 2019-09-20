@@ -5,48 +5,8 @@ type User {
   phone: String! @unique
 }
 
-type Notification{
+type Post {
   id: ID! @id
-  thumnail: String
-  title: String!
-  subtitle: String
-  clicked: Int! @default(value: 0)
-}
-
-type Farm {
-  id: ID! @id
-  images: [String!]! @scalarList(strategy: RELATION)
+  image: String!
   name: String!
-  subtitle: String
-  address: String!
-  time: String!
-  descriptoin: String
-  saleDetail: String
-  subInformation: String
-  traffic: String
-  otherNote: String
-  geoLongitude: Float @default(value: 0)
-  geoLatitude: Float @default(value: 0)
-  point: Float @default(value: 0)
-  owner: User! @relation(name: "FarmOwner", onDelete: SET_NULL)
-  product: [Product!]! @relation(name: "Products", onDelete: CASCADE)
-  review: [Review!]! @relation(name: "Reviews", onDelete: CASCADE)
-}
-
-type Product {
-  id: ID! @id
-  startDate: DateTime!
-  marginDate: String @default(value: "당일")
-  price: Int!
-  numberPeople: Int @default(value: 0)
-  farm: Farm! @relation(name: "Products", onDelete: SET_NULL)
-  detail: String
-}
-
-type Review {
-  id: ID! @id
-  point: Int!
-  content: String!
-  farm: Farm! @relation(name: "Reviews", onDelete: SET_NULL)
-  author: User @relation(name: "ReviewAuthor", onDelete: SET_NULL)
 }

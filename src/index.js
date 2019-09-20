@@ -1,74 +1,65 @@
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const { prisma } = require('./generated/prisma-client')
+const express = require("express");
+const bodyParser = require("body-parser");
+const { prisma } = require("./generated/prisma-client");
 
-const app = express()
+const firebase = require('fi')
 
-app.use(bodyParser.json())
+// Set the configuration for your app
+// TODO: Replace with your project's config object
+const config = {
+  apiKey: "<your-api-key>",
+  authDomain: "<your-auth-domain>",
+  databaseURL: "<your-database-url>",
+  storageBucket: "<your-storage-bucket>"
+};
+firebase.initializeApp(config);
+
+// Get a reference to the storage service, which is used to create references in your storage bucket
+const storage = firebase.storage();
+
+const app = express();
+
+app.use(bodyParser.json());
 
 app.post(`/user`, async (req, res) => {
   const result = await prisma.createUser({
-    ...req.body,
-  })
-  res.json(result)
-})
+    ...req.body
+  });
+  res.json(result);
+});
 
-app.post(`/post`, async (req, res) => {
-  const { title, content, authorEmail } = req.body
-  const result = await prisma.createPost({
-    title: title,
+app.get("/farms/:farmId/reviews", async (req, res) => {
+  const { farmId } = req.params;
+  const { page = 1 } = req.query;
+  const reivews = await prisma.farm({ first: page, id: farmId }).reviews();
+  res.json(reivews);
+});
+
+app.post("/farms/:farmId/reviews", async (req, res) => {
+  const { farmId } = req.params;
+  const { point, content, authorEmail } = req.body;
+  const reivews = await prisma.farm({ first: page, id: farmId }).createReview({
+    point: point,
     content: content,
-    author: { connect: { email: authorEmail } },
-  })
-  res.json(result)
-})
+    author: { connect: { email: authorEmail } }
+  });
+  res.json(reivews);
+});
 
-app.put('/publish/:id', async (req, res) => {
-  const { id } = req.params
-  const post = await prisma.updatePost({
-    where: { id },
-    data: { published: true },
-  })
-  res.json(post)
-})
-
-app.delete(`/post/:id`, async (req, res) => {
-  const { id } = req.params
-  const post = await prisma.deletePost({ id })
-  res.json(post)
-})
-
-app.get(`/post/:id`, async (req, res) => {
-  const { id } = req.params
-  const post = await prisma.post({ id })
-  res.json(post)
-})
-
-app.get('/feed', async (req, res) => {
-  const posts = await prisma.posts({ where: { published: true } })
-  res.json(posts)
-})
-
-app.get('/filterPosts', async (req, res) => {
-  const { searchString } = req.query
-  const draftPosts = await prisma.posts({
-    where: {
-      OR: [
-        {
-          title_contains: searchString,
-        },
-        {
-          content_contains: searchString,
-        },
-      ],
+app.put("/reviews/:reviewId", async (req, res) => {
+  const { reviewId } = req.params;
+  const reivews = await prisma.updateReview({
+    data: {
+      ...req.body
     },
-  })
-  res.json(draftPosts)
-})
+    where: { id: reviewId }
+  });
+  res.json(reivews);
+});
 
 app.listen(port, err => {
-  if (err) throw err
-  console.log(`> Ready On Server http://localhost:${port}`)
+  if (err) throw err;
+  console.log(`> Ready On Server http://localhost:${port}`);
 });
