@@ -15,7 +15,7 @@ type Notification{
 
 type Farm {
   id: ID! @id
-  images: [String!]!
+  images: [String!]! @scalarList(strategy: RELATION)
   name: String!
   subtitle: String
   address: String!
@@ -29,7 +29,7 @@ type Farm {
   geoLatitude: Float @default(value: 0)
   point: Float @default(value: 0)
   owner: User! @relation(name: "FarmOwner", onDelete: SET_NULL)
-  product: [Product!]! @relation(name: "productsByFarm", onDelete: CASCADE)
+  product: [Product!]! @relation(name: "Products", onDelete: CASCADE)
   review: [Review!]! @relation(name: "Reviews", onDelete: CASCADE)
 }
 
@@ -39,6 +39,7 @@ type Product {
   marginDate: String @default(value: "당일")
   price: Int!
   numberPeople: Int @default(value: 0)
+  farm: Farm! @relation(name: "Products", onDelete: SET_NULL)
   detail: String
 }
 

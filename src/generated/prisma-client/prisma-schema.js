@@ -75,13 +75,37 @@ input FarmCreateInput {
   geoLatitude: Float
   point: Float
   owner: UserCreateOneInput!
-  product: ProductCreateManyInput
+  product: ProductCreateManyWithoutFarmInput
   review: ReviewCreateManyWithoutFarmInput
+}
+
+input FarmCreateOneWithoutProductInput {
+  create: FarmCreateWithoutProductInput
+  connect: FarmWhereUniqueInput
 }
 
 input FarmCreateOneWithoutReviewInput {
   create: FarmCreateWithoutReviewInput
   connect: FarmWhereUniqueInput
+}
+
+input FarmCreateWithoutProductInput {
+  id: ID
+  images: FarmCreateimagesInput
+  name: String!
+  subtitle: String
+  address: String!
+  time: String!
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+  owner: UserCreateOneInput!
+  review: ReviewCreateManyWithoutFarmInput
 }
 
 input FarmCreateWithoutReviewInput {
@@ -100,7 +124,7 @@ input FarmCreateWithoutReviewInput {
   geoLatitude: Float
   point: Float
   owner: UserCreateOneInput!
-  product: ProductCreateManyInput
+  product: ProductCreateManyWithoutFarmInput
 }
 
 type FarmEdge {
@@ -191,7 +215,7 @@ input FarmUpdateInput {
   geoLatitude: Float
   point: Float
   owner: UserUpdateOneRequiredInput
-  product: ProductUpdateManyInput
+  product: ProductUpdateManyWithoutFarmInput
   review: ReviewUpdateManyWithoutFarmInput
 }
 
@@ -211,11 +235,36 @@ input FarmUpdateManyMutationInput {
   point: Float
 }
 
+input FarmUpdateOneRequiredWithoutProductInput {
+  create: FarmCreateWithoutProductInput
+  update: FarmUpdateWithoutProductDataInput
+  upsert: FarmUpsertWithoutProductInput
+  connect: FarmWhereUniqueInput
+}
+
 input FarmUpdateOneRequiredWithoutReviewInput {
   create: FarmCreateWithoutReviewInput
   update: FarmUpdateWithoutReviewDataInput
   upsert: FarmUpsertWithoutReviewInput
   connect: FarmWhereUniqueInput
+}
+
+input FarmUpdateWithoutProductDataInput {
+  images: FarmUpdateimagesInput
+  name: String
+  subtitle: String
+  address: String
+  time: String
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+  owner: UserUpdateOneRequiredInput
+  review: ReviewUpdateManyWithoutFarmInput
 }
 
 input FarmUpdateWithoutReviewDataInput {
@@ -233,7 +282,12 @@ input FarmUpdateWithoutReviewDataInput {
   geoLatitude: Float
   point: Float
   owner: UserUpdateOneRequiredInput
-  product: ProductUpdateManyInput
+  product: ProductUpdateManyWithoutFarmInput
+}
+
+input FarmUpsertWithoutProductInput {
+  update: FarmUpdateWithoutProductDataInput!
+  create: FarmCreateWithoutProductInput!
 }
 
 input FarmUpsertWithoutReviewInput {
@@ -634,6 +688,7 @@ type Product {
   marginDate: String
   price: Int!
   numberPeople: Int
+  farm: Farm!
   detail: String
 }
 
@@ -649,12 +704,22 @@ input ProductCreateInput {
   marginDate: String
   price: Int!
   numberPeople: Int
+  farm: FarmCreateOneWithoutProductInput!
   detail: String
 }
 
-input ProductCreateManyInput {
-  create: [ProductCreateInput!]
+input ProductCreateManyWithoutFarmInput {
+  create: [ProductCreateWithoutFarmInput!]
   connect: [ProductWhereUniqueInput!]
+}
+
+input ProductCreateWithoutFarmInput {
+  id: ID
+  startDate: DateTime!
+  marginDate: String
+  price: Int!
+  numberPeople: Int
+  detail: String
 }
 
 type ProductEdge {
@@ -776,19 +841,12 @@ input ProductSubscriptionWhereInput {
   NOT: [ProductSubscriptionWhereInput!]
 }
 
-input ProductUpdateDataInput {
-  startDate: DateTime
-  marginDate: String
-  price: Int
-  numberPeople: Int
-  detail: String
-}
-
 input ProductUpdateInput {
   startDate: DateTime
   marginDate: String
   price: Int
   numberPeople: Int
+  farm: FarmUpdateOneRequiredWithoutProductInput
   detail: String
 }
 
@@ -800,18 +858,6 @@ input ProductUpdateManyDataInput {
   detail: String
 }
 
-input ProductUpdateManyInput {
-  create: [ProductCreateInput!]
-  update: [ProductUpdateWithWhereUniqueNestedInput!]
-  upsert: [ProductUpsertWithWhereUniqueNestedInput!]
-  delete: [ProductWhereUniqueInput!]
-  connect: [ProductWhereUniqueInput!]
-  set: [ProductWhereUniqueInput!]
-  disconnect: [ProductWhereUniqueInput!]
-  deleteMany: [ProductScalarWhereInput!]
-  updateMany: [ProductUpdateManyWithWhereNestedInput!]
-}
-
 input ProductUpdateManyMutationInput {
   startDate: DateTime
   marginDate: String
@@ -820,20 +866,40 @@ input ProductUpdateManyMutationInput {
   detail: String
 }
 
+input ProductUpdateManyWithoutFarmInput {
+  create: [ProductCreateWithoutFarmInput!]
+  delete: [ProductWhereUniqueInput!]
+  connect: [ProductWhereUniqueInput!]
+  set: [ProductWhereUniqueInput!]
+  disconnect: [ProductWhereUniqueInput!]
+  update: [ProductUpdateWithWhereUniqueWithoutFarmInput!]
+  upsert: [ProductUpsertWithWhereUniqueWithoutFarmInput!]
+  deleteMany: [ProductScalarWhereInput!]
+  updateMany: [ProductUpdateManyWithWhereNestedInput!]
+}
+
 input ProductUpdateManyWithWhereNestedInput {
   where: ProductScalarWhereInput!
   data: ProductUpdateManyDataInput!
 }
 
-input ProductUpdateWithWhereUniqueNestedInput {
-  where: ProductWhereUniqueInput!
-  data: ProductUpdateDataInput!
+input ProductUpdateWithoutFarmDataInput {
+  startDate: DateTime
+  marginDate: String
+  price: Int
+  numberPeople: Int
+  detail: String
 }
 
-input ProductUpsertWithWhereUniqueNestedInput {
+input ProductUpdateWithWhereUniqueWithoutFarmInput {
   where: ProductWhereUniqueInput!
-  update: ProductUpdateDataInput!
-  create: ProductCreateInput!
+  data: ProductUpdateWithoutFarmDataInput!
+}
+
+input ProductUpsertWithWhereUniqueWithoutFarmInput {
+  where: ProductWhereUniqueInput!
+  update: ProductUpdateWithoutFarmDataInput!
+  create: ProductCreateWithoutFarmInput!
 }
 
 input ProductWhereInput {
@@ -889,6 +955,7 @@ input ProductWhereInput {
   numberPeople_lte: Int
   numberPeople_gt: Int
   numberPeople_gte: Int
+  farm: FarmWhereInput
   detail: String
   detail_not: String
   detail_in: [String!]
