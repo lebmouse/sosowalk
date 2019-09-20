@@ -3,7 +3,19 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregatePost {
+/* GraphQL */ `type AggregateFarm {
+  count: Int!
+}
+
+type AggregateNotification {
+  count: Int!
+}
+
+type AggregateProduct {
+  count: Int!
+}
+
+type AggregateReview {
   count: Int!
 }
 
@@ -17,15 +29,426 @@ type BatchPayload {
 
 scalar DateTime
 
+type Farm {
+  id: ID!
+  images: [String!]!
+  name: String!
+  subtitle: String
+  address: String!
+  time: String!
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+  owner: User!
+  product(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product!]
+  review(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
+}
+
+type FarmConnection {
+  pageInfo: PageInfo!
+  edges: [FarmEdge]!
+  aggregate: AggregateFarm!
+}
+
+input FarmCreateimagesInput {
+  set: [String!]
+}
+
+input FarmCreateInput {
+  id: ID
+  images: FarmCreateimagesInput
+  name: String!
+  subtitle: String
+  address: String!
+  time: String!
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+  owner: UserCreateOneInput!
+  product: ProductCreateManyInput
+  review: ReviewCreateManyWithoutFarmInput
+}
+
+input FarmCreateOneWithoutReviewInput {
+  create: FarmCreateWithoutReviewInput
+  connect: FarmWhereUniqueInput
+}
+
+input FarmCreateWithoutReviewInput {
+  id: ID
+  images: FarmCreateimagesInput
+  name: String!
+  subtitle: String
+  address: String!
+  time: String!
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+  owner: UserCreateOneInput!
+  product: ProductCreateManyInput
+}
+
+type FarmEdge {
+  node: Farm!
+  cursor: String!
+}
+
+enum FarmOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  subtitle_ASC
+  subtitle_DESC
+  address_ASC
+  address_DESC
+  time_ASC
+  time_DESC
+  descriptoin_ASC
+  descriptoin_DESC
+  saleDetail_ASC
+  saleDetail_DESC
+  subInformation_ASC
+  subInformation_DESC
+  traffic_ASC
+  traffic_DESC
+  otherNote_ASC
+  otherNote_DESC
+  geoLongitude_ASC
+  geoLongitude_DESC
+  geoLatitude_ASC
+  geoLatitude_DESC
+  point_ASC
+  point_DESC
+}
+
+type FarmPreviousValues {
+  id: ID!
+  images: [String!]!
+  name: String!
+  subtitle: String
+  address: String!
+  time: String!
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+}
+
+type FarmSubscriptionPayload {
+  mutation: MutationType!
+  node: Farm
+  updatedFields: [String!]
+  previousValues: FarmPreviousValues
+}
+
+input FarmSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: FarmWhereInput
+  AND: [FarmSubscriptionWhereInput!]
+  OR: [FarmSubscriptionWhereInput!]
+  NOT: [FarmSubscriptionWhereInput!]
+}
+
+input FarmUpdateimagesInput {
+  set: [String!]
+}
+
+input FarmUpdateInput {
+  images: FarmUpdateimagesInput
+  name: String
+  subtitle: String
+  address: String
+  time: String
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+  owner: UserUpdateOneRequiredInput
+  product: ProductUpdateManyInput
+  review: ReviewUpdateManyWithoutFarmInput
+}
+
+input FarmUpdateManyMutationInput {
+  images: FarmUpdateimagesInput
+  name: String
+  subtitle: String
+  address: String
+  time: String
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+}
+
+input FarmUpdateOneRequiredWithoutReviewInput {
+  create: FarmCreateWithoutReviewInput
+  update: FarmUpdateWithoutReviewDataInput
+  upsert: FarmUpsertWithoutReviewInput
+  connect: FarmWhereUniqueInput
+}
+
+input FarmUpdateWithoutReviewDataInput {
+  images: FarmUpdateimagesInput
+  name: String
+  subtitle: String
+  address: String
+  time: String
+  descriptoin: String
+  saleDetail: String
+  subInformation: String
+  traffic: String
+  otherNote: String
+  geoLongitude: Float
+  geoLatitude: Float
+  point: Float
+  owner: UserUpdateOneRequiredInput
+  product: ProductUpdateManyInput
+}
+
+input FarmUpsertWithoutReviewInput {
+  update: FarmUpdateWithoutReviewDataInput!
+  create: FarmCreateWithoutReviewInput!
+}
+
+input FarmWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  subtitle: String
+  subtitle_not: String
+  subtitle_in: [String!]
+  subtitle_not_in: [String!]
+  subtitle_lt: String
+  subtitle_lte: String
+  subtitle_gt: String
+  subtitle_gte: String
+  subtitle_contains: String
+  subtitle_not_contains: String
+  subtitle_starts_with: String
+  subtitle_not_starts_with: String
+  subtitle_ends_with: String
+  subtitle_not_ends_with: String
+  address: String
+  address_not: String
+  address_in: [String!]
+  address_not_in: [String!]
+  address_lt: String
+  address_lte: String
+  address_gt: String
+  address_gte: String
+  address_contains: String
+  address_not_contains: String
+  address_starts_with: String
+  address_not_starts_with: String
+  address_ends_with: String
+  address_not_ends_with: String
+  time: String
+  time_not: String
+  time_in: [String!]
+  time_not_in: [String!]
+  time_lt: String
+  time_lte: String
+  time_gt: String
+  time_gte: String
+  time_contains: String
+  time_not_contains: String
+  time_starts_with: String
+  time_not_starts_with: String
+  time_ends_with: String
+  time_not_ends_with: String
+  descriptoin: String
+  descriptoin_not: String
+  descriptoin_in: [String!]
+  descriptoin_not_in: [String!]
+  descriptoin_lt: String
+  descriptoin_lte: String
+  descriptoin_gt: String
+  descriptoin_gte: String
+  descriptoin_contains: String
+  descriptoin_not_contains: String
+  descriptoin_starts_with: String
+  descriptoin_not_starts_with: String
+  descriptoin_ends_with: String
+  descriptoin_not_ends_with: String
+  saleDetail: String
+  saleDetail_not: String
+  saleDetail_in: [String!]
+  saleDetail_not_in: [String!]
+  saleDetail_lt: String
+  saleDetail_lte: String
+  saleDetail_gt: String
+  saleDetail_gte: String
+  saleDetail_contains: String
+  saleDetail_not_contains: String
+  saleDetail_starts_with: String
+  saleDetail_not_starts_with: String
+  saleDetail_ends_with: String
+  saleDetail_not_ends_with: String
+  subInformation: String
+  subInformation_not: String
+  subInformation_in: [String!]
+  subInformation_not_in: [String!]
+  subInformation_lt: String
+  subInformation_lte: String
+  subInformation_gt: String
+  subInformation_gte: String
+  subInformation_contains: String
+  subInformation_not_contains: String
+  subInformation_starts_with: String
+  subInformation_not_starts_with: String
+  subInformation_ends_with: String
+  subInformation_not_ends_with: String
+  traffic: String
+  traffic_not: String
+  traffic_in: [String!]
+  traffic_not_in: [String!]
+  traffic_lt: String
+  traffic_lte: String
+  traffic_gt: String
+  traffic_gte: String
+  traffic_contains: String
+  traffic_not_contains: String
+  traffic_starts_with: String
+  traffic_not_starts_with: String
+  traffic_ends_with: String
+  traffic_not_ends_with: String
+  otherNote: String
+  otherNote_not: String
+  otherNote_in: [String!]
+  otherNote_not_in: [String!]
+  otherNote_lt: String
+  otherNote_lte: String
+  otherNote_gt: String
+  otherNote_gte: String
+  otherNote_contains: String
+  otherNote_not_contains: String
+  otherNote_starts_with: String
+  otherNote_not_starts_with: String
+  otherNote_ends_with: String
+  otherNote_not_ends_with: String
+  geoLongitude: Float
+  geoLongitude_not: Float
+  geoLongitude_in: [Float!]
+  geoLongitude_not_in: [Float!]
+  geoLongitude_lt: Float
+  geoLongitude_lte: Float
+  geoLongitude_gt: Float
+  geoLongitude_gte: Float
+  geoLatitude: Float
+  geoLatitude_not: Float
+  geoLatitude_in: [Float!]
+  geoLatitude_not_in: [Float!]
+  geoLatitude_lt: Float
+  geoLatitude_lte: Float
+  geoLatitude_gt: Float
+  geoLatitude_gte: Float
+  point: Float
+  point_not: Float
+  point_in: [Float!]
+  point_not_in: [Float!]
+  point_lt: Float
+  point_lte: Float
+  point_gt: Float
+  point_gte: Float
+  owner: UserWhereInput
+  product_every: ProductWhereInput
+  product_some: ProductWhereInput
+  product_none: ProductWhereInput
+  review_every: ReviewWhereInput
+  review_some: ReviewWhereInput
+  review_none: ReviewWhereInput
+  AND: [FarmWhereInput!]
+  OR: [FarmWhereInput!]
+  NOT: [FarmWhereInput!]
+}
+
+input FarmWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
-  createPost(data: PostCreateInput!): Post!
-  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
-  updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
-  upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
-  deletePost(where: PostWhereUniqueInput!): Post
-  deleteManyPosts(where: PostWhereInput): BatchPayload!
+  createFarm(data: FarmCreateInput!): Farm!
+  updateFarm(data: FarmUpdateInput!, where: FarmWhereUniqueInput!): Farm
+  updateManyFarms(data: FarmUpdateManyMutationInput!, where: FarmWhereInput): BatchPayload!
+  upsertFarm(where: FarmWhereUniqueInput!, create: FarmCreateInput!, update: FarmUpdateInput!): Farm!
+  deleteFarm(where: FarmWhereUniqueInput!): Farm
+  deleteManyFarms(where: FarmWhereInput): BatchPayload!
+  createNotification(data: NotificationCreateInput!): Notification!
+  updateNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification
+  updateManyNotifications(data: NotificationUpdateManyMutationInput!, where: NotificationWhereInput): BatchPayload!
+  upsertNotification(where: NotificationWhereUniqueInput!, create: NotificationCreateInput!, update: NotificationUpdateInput!): Notification!
+  deleteNotification(where: NotificationWhereUniqueInput!): Notification
+  deleteManyNotifications(where: NotificationWhereInput): BatchPayload!
+  createProduct(data: ProductCreateInput!): Product!
+  updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+  updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
+  upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
+  deleteProduct(where: ProductWhereUniqueInput!): Product
+  deleteManyProducts(where: ProductWhereInput): BatchPayload!
+  createReview(data: ReviewCreateInput!): Review!
+  updateReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
+  updateManyReviews(data: ReviewUpdateManyMutationInput!, where: ReviewWhereInput): BatchPayload!
+  upsertReview(where: ReviewWhereUniqueInput!, create: ReviewCreateInput!, update: ReviewUpdateInput!): Review!
+  deleteReview(where: ReviewWhereUniqueInput!): Review
+  deleteManyReviews(where: ReviewWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -44,6 +467,160 @@ interface Node {
   id: ID!
 }
 
+type Notification {
+  id: ID!
+  thumnail: String
+  title: String!
+  subtitle: String
+  clicked: Int!
+}
+
+type NotificationConnection {
+  pageInfo: PageInfo!
+  edges: [NotificationEdge]!
+  aggregate: AggregateNotification!
+}
+
+input NotificationCreateInput {
+  id: ID
+  thumnail: String
+  title: String!
+  subtitle: String
+  clicked: Int
+}
+
+type NotificationEdge {
+  node: Notification!
+  cursor: String!
+}
+
+enum NotificationOrderByInput {
+  id_ASC
+  id_DESC
+  thumnail_ASC
+  thumnail_DESC
+  title_ASC
+  title_DESC
+  subtitle_ASC
+  subtitle_DESC
+  clicked_ASC
+  clicked_DESC
+}
+
+type NotificationPreviousValues {
+  id: ID!
+  thumnail: String
+  title: String!
+  subtitle: String
+  clicked: Int!
+}
+
+type NotificationSubscriptionPayload {
+  mutation: MutationType!
+  node: Notification
+  updatedFields: [String!]
+  previousValues: NotificationPreviousValues
+}
+
+input NotificationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: NotificationWhereInput
+  AND: [NotificationSubscriptionWhereInput!]
+  OR: [NotificationSubscriptionWhereInput!]
+  NOT: [NotificationSubscriptionWhereInput!]
+}
+
+input NotificationUpdateInput {
+  thumnail: String
+  title: String
+  subtitle: String
+  clicked: Int
+}
+
+input NotificationUpdateManyMutationInput {
+  thumnail: String
+  title: String
+  subtitle: String
+  clicked: Int
+}
+
+input NotificationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  thumnail: String
+  thumnail_not: String
+  thumnail_in: [String!]
+  thumnail_not_in: [String!]
+  thumnail_lt: String
+  thumnail_lte: String
+  thumnail_gt: String
+  thumnail_gte: String
+  thumnail_contains: String
+  thumnail_not_contains: String
+  thumnail_starts_with: String
+  thumnail_not_starts_with: String
+  thumnail_ends_with: String
+  thumnail_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  subtitle: String
+  subtitle_not: String
+  subtitle_in: [String!]
+  subtitle_not_in: [String!]
+  subtitle_lt: String
+  subtitle_lte: String
+  subtitle_gt: String
+  subtitle_gte: String
+  subtitle_contains: String
+  subtitle_not_contains: String
+  subtitle_starts_with: String
+  subtitle_not_starts_with: String
+  subtitle_ends_with: String
+  subtitle_not_ends_with: String
+  clicked: Int
+  clicked_not: Int
+  clicked_in: [Int!]
+  clicked_not_in: [Int!]
+  clicked_lt: Int
+  clicked_lte: Int
+  clicked_gt: Int
+  clicked_gte: Int
+  AND: [NotificationWhereInput!]
+  OR: [NotificationWhereInput!]
+  NOT: [NotificationWhereInput!]
+}
+
+input NotificationWhereUniqueInput {
+  id: ID
+}
+
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
@@ -51,72 +628,65 @@ type PageInfo {
   endCursor: String
 }
 
-type Post {
+type Product {
   id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  published: Boolean!
-  title: String!
-  content: String
-  author: User!
+  startDate: DateTime!
+  marginDate: String
+  price: Int!
+  numberPeople: Int
+  detail: String
 }
 
-type PostConnection {
+type ProductConnection {
   pageInfo: PageInfo!
-  edges: [PostEdge]!
-  aggregate: AggregatePost!
+  edges: [ProductEdge]!
+  aggregate: AggregateProduct!
 }
 
-input PostCreateInput {
+input ProductCreateInput {
   id: ID
-  published: Boolean
-  title: String!
-  content: String
-  author: UserCreateOneWithoutPostsInput!
+  startDate: DateTime!
+  marginDate: String
+  price: Int!
+  numberPeople: Int
+  detail: String
 }
 
-input PostCreateManyWithoutAuthorInput {
-  create: [PostCreateWithoutAuthorInput!]
-  connect: [PostWhereUniqueInput!]
+input ProductCreateManyInput {
+  create: [ProductCreateInput!]
+  connect: [ProductWhereUniqueInput!]
 }
 
-input PostCreateWithoutAuthorInput {
-  id: ID
-  published: Boolean
-  title: String!
-  content: String
-}
-
-type PostEdge {
-  node: Post!
+type ProductEdge {
+  node: Product!
   cursor: String!
 }
 
-enum PostOrderByInput {
+enum ProductOrderByInput {
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  published_ASC
-  published_DESC
-  title_ASC
-  title_DESC
-  content_ASC
-  content_DESC
+  startDate_ASC
+  startDate_DESC
+  marginDate_ASC
+  marginDate_DESC
+  price_ASC
+  price_DESC
+  numberPeople_ASC
+  numberPeople_DESC
+  detail_ASC
+  detail_DESC
 }
 
-type PostPreviousValues {
+type ProductPreviousValues {
   id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  published: Boolean!
-  title: String!
-  content: String
+  startDate: DateTime!
+  marginDate: String
+  price: Int!
+  numberPeople: Int
+  detail: String
 }
 
-input PostScalarWhereInput {
+input ProductScalarWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -131,129 +701,142 @@ input PostScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  published: Boolean
-  published_not: Boolean
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  content: String
-  content_not: String
-  content_in: [String!]
-  content_not_in: [String!]
-  content_lt: String
-  content_lte: String
-  content_gt: String
-  content_gte: String
-  content_contains: String
-  content_not_contains: String
-  content_starts_with: String
-  content_not_starts_with: String
-  content_ends_with: String
-  content_not_ends_with: String
-  AND: [PostScalarWhereInput!]
-  OR: [PostScalarWhereInput!]
-  NOT: [PostScalarWhereInput!]
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
+  marginDate: String
+  marginDate_not: String
+  marginDate_in: [String!]
+  marginDate_not_in: [String!]
+  marginDate_lt: String
+  marginDate_lte: String
+  marginDate_gt: String
+  marginDate_gte: String
+  marginDate_contains: String
+  marginDate_not_contains: String
+  marginDate_starts_with: String
+  marginDate_not_starts_with: String
+  marginDate_ends_with: String
+  marginDate_not_ends_with: String
+  price: Int
+  price_not: Int
+  price_in: [Int!]
+  price_not_in: [Int!]
+  price_lt: Int
+  price_lte: Int
+  price_gt: Int
+  price_gte: Int
+  numberPeople: Int
+  numberPeople_not: Int
+  numberPeople_in: [Int!]
+  numberPeople_not_in: [Int!]
+  numberPeople_lt: Int
+  numberPeople_lte: Int
+  numberPeople_gt: Int
+  numberPeople_gte: Int
+  detail: String
+  detail_not: String
+  detail_in: [String!]
+  detail_not_in: [String!]
+  detail_lt: String
+  detail_lte: String
+  detail_gt: String
+  detail_gte: String
+  detail_contains: String
+  detail_not_contains: String
+  detail_starts_with: String
+  detail_not_starts_with: String
+  detail_ends_with: String
+  detail_not_ends_with: String
+  AND: [ProductScalarWhereInput!]
+  OR: [ProductScalarWhereInput!]
+  NOT: [ProductScalarWhereInput!]
 }
 
-type PostSubscriptionPayload {
+type ProductSubscriptionPayload {
   mutation: MutationType!
-  node: Post
+  node: Product
   updatedFields: [String!]
-  previousValues: PostPreviousValues
+  previousValues: ProductPreviousValues
 }
 
-input PostSubscriptionWhereInput {
+input ProductSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: PostWhereInput
-  AND: [PostSubscriptionWhereInput!]
-  OR: [PostSubscriptionWhereInput!]
-  NOT: [PostSubscriptionWhereInput!]
+  node: ProductWhereInput
+  AND: [ProductSubscriptionWhereInput!]
+  OR: [ProductSubscriptionWhereInput!]
+  NOT: [ProductSubscriptionWhereInput!]
 }
 
-input PostUpdateInput {
-  published: Boolean
-  title: String
-  content: String
-  author: UserUpdateOneRequiredWithoutPostsInput
+input ProductUpdateDataInput {
+  startDate: DateTime
+  marginDate: String
+  price: Int
+  numberPeople: Int
+  detail: String
 }
 
-input PostUpdateManyDataInput {
-  published: Boolean
-  title: String
-  content: String
+input ProductUpdateInput {
+  startDate: DateTime
+  marginDate: String
+  price: Int
+  numberPeople: Int
+  detail: String
 }
 
-input PostUpdateManyMutationInput {
-  published: Boolean
-  title: String
-  content: String
+input ProductUpdateManyDataInput {
+  startDate: DateTime
+  marginDate: String
+  price: Int
+  numberPeople: Int
+  detail: String
 }
 
-input PostUpdateManyWithoutAuthorInput {
-  create: [PostCreateWithoutAuthorInput!]
-  delete: [PostWhereUniqueInput!]
-  connect: [PostWhereUniqueInput!]
-  set: [PostWhereUniqueInput!]
-  disconnect: [PostWhereUniqueInput!]
-  update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
-  upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
-  deleteMany: [PostScalarWhereInput!]
-  updateMany: [PostUpdateManyWithWhereNestedInput!]
+input ProductUpdateManyInput {
+  create: [ProductCreateInput!]
+  update: [ProductUpdateWithWhereUniqueNestedInput!]
+  upsert: [ProductUpsertWithWhereUniqueNestedInput!]
+  delete: [ProductWhereUniqueInput!]
+  connect: [ProductWhereUniqueInput!]
+  set: [ProductWhereUniqueInput!]
+  disconnect: [ProductWhereUniqueInput!]
+  deleteMany: [ProductScalarWhereInput!]
+  updateMany: [ProductUpdateManyWithWhereNestedInput!]
 }
 
-input PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput!
-  data: PostUpdateManyDataInput!
+input ProductUpdateManyMutationInput {
+  startDate: DateTime
+  marginDate: String
+  price: Int
+  numberPeople: Int
+  detail: String
 }
 
-input PostUpdateWithoutAuthorDataInput {
-  published: Boolean
-  title: String
-  content: String
+input ProductUpdateManyWithWhereNestedInput {
+  where: ProductScalarWhereInput!
+  data: ProductUpdateManyDataInput!
 }
 
-input PostUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput!
-  data: PostUpdateWithoutAuthorDataInput!
+input ProductUpdateWithWhereUniqueNestedInput {
+  where: ProductWhereUniqueInput!
+  data: ProductUpdateDataInput!
 }
 
-input PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput!
-  update: PostUpdateWithoutAuthorDataInput!
-  create: PostCreateWithoutAuthorInput!
+input ProductUpsertWithWhereUniqueNestedInput {
+  where: ProductWhereUniqueInput!
+  update: ProductUpdateDataInput!
+  create: ProductCreateInput!
 }
 
-input PostWhereInput {
+input ProductWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -268,82 +851,312 @@ input PostWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-  updatedAt_not: DateTime
-  updatedAt_in: [DateTime!]
-  updatedAt_not_in: [DateTime!]
-  updatedAt_lt: DateTime
-  updatedAt_lte: DateTime
-  updatedAt_gt: DateTime
-  updatedAt_gte: DateTime
-  published: Boolean
-  published_not: Boolean
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  content: String
-  content_not: String
-  content_in: [String!]
-  content_not_in: [String!]
-  content_lt: String
-  content_lte: String
-  content_gt: String
-  content_gte: String
-  content_contains: String
-  content_not_contains: String
-  content_starts_with: String
-  content_not_starts_with: String
-  content_ends_with: String
-  content_not_ends_with: String
-  author: UserWhereInput
-  AND: [PostWhereInput!]
-  OR: [PostWhereInput!]
-  NOT: [PostWhereInput!]
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
+  marginDate: String
+  marginDate_not: String
+  marginDate_in: [String!]
+  marginDate_not_in: [String!]
+  marginDate_lt: String
+  marginDate_lte: String
+  marginDate_gt: String
+  marginDate_gte: String
+  marginDate_contains: String
+  marginDate_not_contains: String
+  marginDate_starts_with: String
+  marginDate_not_starts_with: String
+  marginDate_ends_with: String
+  marginDate_not_ends_with: String
+  price: Int
+  price_not: Int
+  price_in: [Int!]
+  price_not_in: [Int!]
+  price_lt: Int
+  price_lte: Int
+  price_gt: Int
+  price_gte: Int
+  numberPeople: Int
+  numberPeople_not: Int
+  numberPeople_in: [Int!]
+  numberPeople_not_in: [Int!]
+  numberPeople_lt: Int
+  numberPeople_lte: Int
+  numberPeople_gt: Int
+  numberPeople_gte: Int
+  detail: String
+  detail_not: String
+  detail_in: [String!]
+  detail_not_in: [String!]
+  detail_lt: String
+  detail_lte: String
+  detail_gt: String
+  detail_gte: String
+  detail_contains: String
+  detail_not_contains: String
+  detail_starts_with: String
+  detail_not_starts_with: String
+  detail_ends_with: String
+  detail_not_ends_with: String
+  AND: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
 }
 
-input PostWhereUniqueInput {
+input ProductWhereUniqueInput {
   id: ID
 }
 
 type Query {
-  post(where: PostWhereUniqueInput!): Post
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
-  postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
+  farm(where: FarmWhereUniqueInput!): Farm
+  farms(where: FarmWhereInput, orderBy: FarmOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Farm]!
+  farmsConnection(where: FarmWhereInput, orderBy: FarmOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FarmConnection!
+  notification(where: NotificationWhereUniqueInput!): Notification
+  notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification]!
+  notificationsConnection(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NotificationConnection!
+  product(where: ProductWhereUniqueInput!): Product
+  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
+  productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
+  review(where: ReviewWhereUniqueInput!): Review
+  reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review]!
+  reviewsConnection(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReviewConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+type Review {
+  id: ID!
+  point: Int!
+  content: String!
+  farm: Farm!
+  author: User
+}
+
+type ReviewConnection {
+  pageInfo: PageInfo!
+  edges: [ReviewEdge]!
+  aggregate: AggregateReview!
+}
+
+input ReviewCreateInput {
+  id: ID
+  point: Int!
+  content: String!
+  farm: FarmCreateOneWithoutReviewInput!
+  author: UserCreateOneInput
+}
+
+input ReviewCreateManyWithoutFarmInput {
+  create: [ReviewCreateWithoutFarmInput!]
+  connect: [ReviewWhereUniqueInput!]
+}
+
+input ReviewCreateWithoutFarmInput {
+  id: ID
+  point: Int!
+  content: String!
+  author: UserCreateOneInput
+}
+
+type ReviewEdge {
+  node: Review!
+  cursor: String!
+}
+
+enum ReviewOrderByInput {
+  id_ASC
+  id_DESC
+  point_ASC
+  point_DESC
+  content_ASC
+  content_DESC
+}
+
+type ReviewPreviousValues {
+  id: ID!
+  point: Int!
+  content: String!
+}
+
+input ReviewScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  point: Int
+  point_not: Int
+  point_in: [Int!]
+  point_not_in: [Int!]
+  point_lt: Int
+  point_lte: Int
+  point_gt: Int
+  point_gte: Int
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  AND: [ReviewScalarWhereInput!]
+  OR: [ReviewScalarWhereInput!]
+  NOT: [ReviewScalarWhereInput!]
+}
+
+type ReviewSubscriptionPayload {
+  mutation: MutationType!
+  node: Review
+  updatedFields: [String!]
+  previousValues: ReviewPreviousValues
+}
+
+input ReviewSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ReviewWhereInput
+  AND: [ReviewSubscriptionWhereInput!]
+  OR: [ReviewSubscriptionWhereInput!]
+  NOT: [ReviewSubscriptionWhereInput!]
+}
+
+input ReviewUpdateInput {
+  point: Int
+  content: String
+  farm: FarmUpdateOneRequiredWithoutReviewInput
+  author: UserUpdateOneInput
+}
+
+input ReviewUpdateManyDataInput {
+  point: Int
+  content: String
+}
+
+input ReviewUpdateManyMutationInput {
+  point: Int
+  content: String
+}
+
+input ReviewUpdateManyWithoutFarmInput {
+  create: [ReviewCreateWithoutFarmInput!]
+  delete: [ReviewWhereUniqueInput!]
+  connect: [ReviewWhereUniqueInput!]
+  set: [ReviewWhereUniqueInput!]
+  disconnect: [ReviewWhereUniqueInput!]
+  update: [ReviewUpdateWithWhereUniqueWithoutFarmInput!]
+  upsert: [ReviewUpsertWithWhereUniqueWithoutFarmInput!]
+  deleteMany: [ReviewScalarWhereInput!]
+  updateMany: [ReviewUpdateManyWithWhereNestedInput!]
+}
+
+input ReviewUpdateManyWithWhereNestedInput {
+  where: ReviewScalarWhereInput!
+  data: ReviewUpdateManyDataInput!
+}
+
+input ReviewUpdateWithoutFarmDataInput {
+  point: Int
+  content: String
+  author: UserUpdateOneInput
+}
+
+input ReviewUpdateWithWhereUniqueWithoutFarmInput {
+  where: ReviewWhereUniqueInput!
+  data: ReviewUpdateWithoutFarmDataInput!
+}
+
+input ReviewUpsertWithWhereUniqueWithoutFarmInput {
+  where: ReviewWhereUniqueInput!
+  update: ReviewUpdateWithoutFarmDataInput!
+  create: ReviewCreateWithoutFarmInput!
+}
+
+input ReviewWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  point: Int
+  point_not: Int
+  point_in: [Int!]
+  point_not_in: [Int!]
+  point_lt: Int
+  point_lte: Int
+  point_gt: Int
+  point_gte: Int
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
+  farm: FarmWhereInput
+  author: UserWhereInput
+  AND: [ReviewWhereInput!]
+  OR: [ReviewWhereInput!]
+  NOT: [ReviewWhereInput!]
+}
+
+input ReviewWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
-  post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+  farm(where: FarmSubscriptionWhereInput): FarmSubscriptionPayload
+  notification(where: NotificationSubscriptionWhereInput): NotificationSubscriptionPayload
+  product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
+  review(where: ReviewSubscriptionWhereInput): ReviewSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User {
   id: ID!
   email: String!
-  name: String
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  name: String!
+  phone: String!
 }
 
 type UserConnection {
@@ -355,19 +1168,13 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   email: String!
-  name: String
-  posts: PostCreateManyWithoutAuthorInput
+  name: String!
+  phone: String!
 }
 
-input UserCreateOneWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
+input UserCreateOneInput {
+  create: UserCreateInput
   connect: UserWhereUniqueInput
-}
-
-input UserCreateWithoutPostsInput {
-  id: ID
-  email: String!
-  name: String
 }
 
 type UserEdge {
@@ -382,12 +1189,15 @@ enum UserOrderByInput {
   email_DESC
   name_ASC
   name_DESC
+  phone_ASC
+  phone_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   email: String!
-  name: String
+  name: String!
+  phone: String!
 }
 
 type UserSubscriptionPayload {
@@ -408,32 +1218,43 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  email: String
+  name: String
+  phone: String
+}
+
 input UserUpdateInput {
   email: String
   name: String
-  posts: PostUpdateManyWithoutAuthorInput
+  phone: String
 }
 
 input UserUpdateManyMutationInput {
   email: String
   name: String
+  phone: String
 }
 
-input UserUpdateOneRequiredWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
-  update: UserUpdateWithoutPostsDataInput
-  upsert: UserUpsertWithoutPostsInput
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateWithoutPostsDataInput {
-  email: String
-  name: String
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
 }
 
-input UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput!
-  create: UserCreateWithoutPostsInput!
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -479,9 +1300,20 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  posts_every: PostWhereInput
-  posts_some: PostWhereInput
-  posts_none: PostWhereInput
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -490,6 +1322,7 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+  phone: String
 }
 `
       }

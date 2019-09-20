@@ -9,7 +9,19 @@ var models = [
     embedded: false
   },
   {
-    name: "Post",
+    name: "Notification",
+    embedded: false
+  },
+  {
+    name: "Farm",
+    embedded: false
+  },
+  {
+    name: "Product",
+    embedded: false
+  },
+  {
+    name: "Review",
     embedded: false
   }
 ];

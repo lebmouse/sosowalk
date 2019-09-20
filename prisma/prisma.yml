@@ -9,5 +9,5 @@ hooks:
   post-deploy:
     - prisma generate
 
-seed:
-  run: node ./prisma/seed.js
+# seed:
+#   run: node ./prisma/seed.js
