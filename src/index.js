@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const Multer = require("multer");
 const multerGoogleStorage = require("multer-google-storage");
 const fs = require("fs");
-const firebase = require("firebase");
 const { prisma } = require("./generated/prisma-client");
 
 const upload = Multer({
