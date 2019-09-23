@@ -3,10 +3,51 @@ type User {
   email: String! @unique
   name: String!
   phone: String! @unique
+  reviews: [Review!]! @relation(name: "ReviewAuthor", onDelete: SET_NULL)
+  myFundings: [Funding!]! @relation(name: "FundingAuthor", onDelete: SET_NULL)
+  fundingInvest: [Funding!]! @relation(name: "FundingInvestor", onDelete: SET_NULL)
 }
 
-type Post {
+type Image {
   id: ID! @id
   image: String!
   name: String!
+}
+
+type Booking {
+  id: ID! @id
+  user: [User!]! @relation(name: "UserBooking", onDelete: SET_NULL)
+  course: [Course!]! @relation(name: "CourseBooking", onDelete: SET_NULL)
+}
+
+type Course {
+  id: ID! @id
+  title: String!
+  subtitle: String!
+  images: String
+  number: Int!
+  prevStation: String!
+  departureStation: String!
+  nextStation: String!
+  courseRoute: [String!]! @scalarList(strategy: RELATION)
+  departureTime: DateTime!
+  departureArea: String!
+}
+
+type Review {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  image: String
+  author: User! @relation(name: "ReviewAuthor", onDelete: SET_NULL)
+}
+
+type Funding {
+  id: ID! @id
+  title: String!
+  emoji: String
+  author: User! @relation(name: "FundingAuthor", onDelete: SET_NULL)
+  content: String!
+  createdAt: DateTime! @createdAt
+  deadline: DateTime!
+  investors: [User!]! @relation(name: "FundingInvestor", onDelete: SET_NULL)
 }

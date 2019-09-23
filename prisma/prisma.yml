@@ -4,10 +4,3 @@ datamodel: datamodel.prisma
 generate:
   - generator: javascript-client
     output: ../src/generated/prisma-client/
-
-hooks:
-  post-deploy:
-    - prisma generate
-
-# seed:
-#   run: node ./prisma/seed.js

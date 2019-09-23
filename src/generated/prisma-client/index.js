@@ -9,19 +9,23 @@ var models = [
     embedded: false
   },
   {
-    name: "Notification",
+    name: "Image",
     embedded: false
   },
   {
-    name: "Farm",
+    name: "Booking",
     embedded: false
   },
   {
-    name: "Product",
+    name: "Course",
     embedded: false
   },
   {
     name: "Review",
+    embedded: false
+  },
+  {
+    name: "Funding",
     embedded: false
   }
 ];
