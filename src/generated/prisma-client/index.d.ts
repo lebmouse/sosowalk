@@ -16,10 +16,9 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
-  booking: (where?: BookingWhereInput) => Promise<boolean>;
+  category: (where?: CategoryWhereInput) => Promise<boolean>;
   course: (where?: CourseWhereInput) => Promise<boolean>;
   funding: (where?: FundingWhereInput) => Promise<boolean>;
-  image: (where?: ImageWhereInput) => Promise<boolean>;
   review: (where?: ReviewWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -43,25 +42,25 @@ export interface Prisma {
    * Queries
    */
 
-  booking: (where: BookingWhereUniqueInput) => BookingNullablePromise;
-  bookings: (args?: {
-    where?: BookingWhereInput;
-    orderBy?: BookingOrderByInput;
+  category: (where: CategoryWhereUniqueInput) => CategoryNullablePromise;
+  categories: (args?: {
+    where?: CategoryWhereInput;
+    orderBy?: CategoryOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => FragmentableArray<Booking>;
-  bookingsConnection: (args?: {
-    where?: BookingWhereInput;
-    orderBy?: BookingOrderByInput;
+  }) => FragmentableArray<Category>;
+  categoriesConnection: (args?: {
+    where?: CategoryWhereInput;
+    orderBy?: CategoryOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
     first?: Int;
     last?: Int;
-  }) => BookingConnectionPromise;
+  }) => CategoryConnectionPromise;
   course: (where: CourseWhereUniqueInput) => CourseNullablePromise;
   courses: (args?: {
     where?: CourseWhereInput;
@@ -100,25 +99,6 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => FundingConnectionPromise;
-  image: (where: ImageWhereUniqueInput) => ImageNullablePromise;
-  images: (args?: {
-    where?: ImageWhereInput;
-    orderBy?: ImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Image>;
-  imagesConnection: (args?: {
-    where?: ImageWhereInput;
-    orderBy?: ImageOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => ImageConnectionPromise;
   review: (where: ReviewWhereUniqueInput) => ReviewNullablePromise;
   reviews: (args?: {
     where?: ReviewWhereInput;
@@ -163,18 +143,22 @@ export interface Prisma {
    * Mutations
    */
 
-  createBooking: (data: BookingCreateInput) => BookingPromise;
-  updateBooking: (args: {
-    data: BookingUpdateInput;
-    where: BookingWhereUniqueInput;
-  }) => BookingPromise;
-  upsertBooking: (args: {
-    where: BookingWhereUniqueInput;
-    create: BookingCreateInput;
-    update: BookingUpdateInput;
-  }) => BookingPromise;
-  deleteBooking: (where: BookingWhereUniqueInput) => BookingPromise;
-  deleteManyBookings: (where?: BookingWhereInput) => BatchPayloadPromise;
+  createCategory: (data: CategoryCreateInput) => CategoryPromise;
+  updateCategory: (args: {
+    data: CategoryUpdateInput;
+    where: CategoryWhereUniqueInput;
+  }) => CategoryPromise;
+  updateManyCategories: (args: {
+    data: CategoryUpdateManyMutationInput;
+    where?: CategoryWhereInput;
+  }) => BatchPayloadPromise;
+  upsertCategory: (args: {
+    where: CategoryWhereUniqueInput;
+    create: CategoryCreateInput;
+    update: CategoryUpdateInput;
+  }) => CategoryPromise;
+  deleteCategory: (where: CategoryWhereUniqueInput) => CategoryPromise;
+  deleteManyCategories: (where?: CategoryWhereInput) => BatchPayloadPromise;
   createCourse: (data: CourseCreateInput) => CoursePromise;
   updateCourse: (args: {
     data: CourseUpdateInput;
@@ -207,22 +191,6 @@ export interface Prisma {
   }) => FundingPromise;
   deleteFunding: (where: FundingWhereUniqueInput) => FundingPromise;
   deleteManyFundings: (where?: FundingWhereInput) => BatchPayloadPromise;
-  createImage: (data: ImageCreateInput) => ImagePromise;
-  updateImage: (args: {
-    data: ImageUpdateInput;
-    where: ImageWhereUniqueInput;
-  }) => ImagePromise;
-  updateManyImages: (args: {
-    data: ImageUpdateManyMutationInput;
-    where?: ImageWhereInput;
-  }) => BatchPayloadPromise;
-  upsertImage: (args: {
-    where: ImageWhereUniqueInput;
-    create: ImageCreateInput;
-    update: ImageUpdateInput;
-  }) => ImagePromise;
-  deleteImage: (where: ImageWhereUniqueInput) => ImagePromise;
-  deleteManyImages: (where?: ImageWhereInput) => BatchPayloadPromise;
   createReview: (data: ReviewCreateInput) => ReviewPromise;
   updateReview: (args: {
     data: ReviewUpdateInput;
@@ -264,18 +232,15 @@ export interface Prisma {
 }
 
 export interface Subscription {
-  booking: (
-    where?: BookingSubscriptionWhereInput
-  ) => BookingSubscriptionPayloadSubscription;
+  category: (
+    where?: CategorySubscriptionWhereInput
+  ) => CategorySubscriptionPayloadSubscription;
   course: (
     where?: CourseSubscriptionWhereInput
   ) => CourseSubscriptionPayloadSubscription;
   funding: (
     where?: FundingSubscriptionWhereInput
   ) => FundingSubscriptionPayloadSubscription;
-  image: (
-    where?: ImageSubscriptionWhereInput
-  ) => ImageSubscriptionPayloadSubscription;
   review: (
     where?: ReviewSubscriptionWhereInput
   ) => ReviewSubscriptionPayloadSubscription;
@@ -291,6 +256,30 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type CourseOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "subtitle_ASC"
+  | "subtitle_DESC"
+  | "images_ASC"
+  | "images_DESC"
+  | "number_ASC"
+  | "number_DESC"
+  | "prevStation_ASC"
+  | "prevStation_DESC"
+  | "departureStation_ASC"
+  | "departureStation_DESC"
+  | "nextStation_ASC"
+  | "nextStation_DESC"
+  | "departureTime_ASC"
+  | "departureTime_DESC"
+  | "departureArea_ASC"
+  | "departureArea_DESC"
+  | "capacity_ASC"
+  | "capacity_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -324,116 +313,34 @@ export type FundingOrderByInput =
   | "deadline_ASC"
   | "deadline_DESC";
 
-export type CourseOrderByInput =
+export type CategoryOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "title_ASC"
   | "title_DESC"
   | "subtitle_ASC"
   | "subtitle_DESC"
-  | "images_ASC"
-  | "images_DESC"
-  | "number_ASC"
-  | "number_DESC"
-  | "prevStation_ASC"
-  | "prevStation_DESC"
-  | "departureStation_ASC"
-  | "departureStation_DESC"
-  | "nextStation_ASC"
-  | "nextStation_DESC"
-  | "departureTime_ASC"
-  | "departureTime_DESC"
-  | "departureArea_ASC"
-  | "departureArea_DESC";
-
-export type BookingOrderByInput = "id_ASC" | "id_DESC";
-
-export type ImageOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "image_ASC"
-  | "image_DESC"
-  | "name_ASC"
-  | "name_DESC";
+  | "openingDate_ASC"
+  | "openingDate_DESC"
+  | "closingDate_ASC"
+  | "closingDate_DESC"
+  | "openingTime_ASC"
+  | "openingTime_DESC"
+  | "closingTime_ASC"
+  | "closingTime_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface ReviewUpsertWithWhereUniqueWithoutAuthorInput {
-  where: ReviewWhereUniqueInput;
-  update: ReviewUpdateWithoutAuthorDataInput;
-  create: ReviewCreateWithoutAuthorInput;
+export interface ReviewUpdateWithoutAuthorDataInput {
+  image?: Maybe<String>;
 }
 
-export type BookingWhereUniqueInput = AtLeastOne<{
+export type CategoryWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface UserCreateManyWithoutFundingInvestInput {
-  create?: Maybe<
-    UserCreateWithoutFundingInvestInput[] | UserCreateWithoutFundingInvestInput
-  >;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
-export interface CourseUpdatecourseRouteInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface UserCreateWithoutFundingInvestInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  name: String;
-  phone: String;
-  reviews?: Maybe<ReviewCreateManyWithoutAuthorInput>;
-  myFundings?: Maybe<FundingCreateManyWithoutAuthorInput>;
-}
-
-export interface FundingUpdateWithWhereUniqueWithoutAuthorInput {
-  where: FundingWhereUniqueInput;
-  data: FundingUpdateWithoutAuthorDataInput;
-}
-
-export interface FundingCreateManyWithoutInvestorsInput {
-  create?: Maybe<
-    FundingCreateWithoutInvestorsInput[] | FundingCreateWithoutInvestorsInput
-  >;
-  connect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface FundingCreateWithoutInvestorsInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  emoji?: Maybe<String>;
-  author: UserCreateOneWithoutMyFundingsInput;
-  content: String;
-  deadline: DateTimeInput;
-}
-
-export interface ImageSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ImageWhereInput>;
-  AND?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
-  OR?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
-  NOT?: Maybe<ImageSubscriptionWhereInput[] | ImageSubscriptionWhereInput>;
-}
-
-export interface UserCreateOneWithoutMyFundingsInput {
-  create?: Maybe<UserCreateWithoutMyFundingsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface ReviewUpdateManyDataInput {
+  image?: Maybe<String>;
 }
 
 export interface ReviewWhereInput {
@@ -479,187 +386,27 @@ export interface ReviewWhereInput {
   NOT?: Maybe<ReviewWhereInput[] | ReviewWhereInput>;
 }
 
-export interface UserCreateWithoutMyFundingsInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  name: String;
-  phone: String;
-  reviews?: Maybe<ReviewCreateManyWithoutAuthorInput>;
-  fundingInvest?: Maybe<FundingCreateManyWithoutInvestorsInput>;
-}
-
-export interface BookingWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  user_every?: Maybe<UserWhereInput>;
-  user_some?: Maybe<UserWhereInput>;
-  user_none?: Maybe<UserWhereInput>;
-  course_every?: Maybe<CourseWhereInput>;
-  course_some?: Maybe<CourseWhereInput>;
-  course_none?: Maybe<CourseWhereInput>;
-  AND?: Maybe<BookingWhereInput[] | BookingWhereInput>;
-  OR?: Maybe<BookingWhereInput[] | BookingWhereInput>;
-  NOT?: Maybe<BookingWhereInput[] | BookingWhereInput>;
-}
-
-export interface CourseCreateManyInput {
-  create?: Maybe<CourseCreateInput[] | CourseCreateInput>;
-  connect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
-}
-
-export interface BookingSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<BookingWhereInput>;
-  AND?: Maybe<BookingSubscriptionWhereInput[] | BookingSubscriptionWhereInput>;
-  OR?: Maybe<BookingSubscriptionWhereInput[] | BookingSubscriptionWhereInput>;
-  NOT?: Maybe<BookingSubscriptionWhereInput[] | BookingSubscriptionWhereInput>;
-}
-
-export interface CourseCreateInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  subtitle: String;
-  images?: Maybe<String>;
-  number: Int;
-  prevStation: String;
-  departureStation: String;
-  nextStation: String;
-  courseRoute?: Maybe<CourseCreatecourseRouteInput>;
-  departureTime: DateTimeInput;
-  departureArea: String;
-}
-
-export interface UserUpdateInput {
-  email?: Maybe<String>;
-  name?: Maybe<String>;
-  phone?: Maybe<String>;
-  reviews?: Maybe<ReviewUpdateManyWithoutAuthorInput>;
-  myFundings?: Maybe<FundingUpdateManyWithoutAuthorInput>;
-  fundingInvest?: Maybe<FundingUpdateManyWithoutInvestorsInput>;
-}
-
-export interface CourseCreatecourseRouteInput {
-  set?: Maybe<String[] | String>;
-}
-
-export interface UserUpsertWithoutReviewsInput {
-  update: UserUpdateWithoutReviewsDataInput;
-  create: UserCreateWithoutReviewsInput;
-}
-
-export interface BookingUpdateInput {
-  user?: Maybe<UserUpdateManyInput>;
-  course?: Maybe<CourseUpdateManyInput>;
-}
-
-export interface UserUpdateWithoutReviewsDataInput {
-  email?: Maybe<String>;
-  name?: Maybe<String>;
-  phone?: Maybe<String>;
-  myFundings?: Maybe<FundingUpdateManyWithoutAuthorInput>;
-  fundingInvest?: Maybe<FundingUpdateManyWithoutInvestorsInput>;
-}
-
-export interface UserUpdateManyInput {
-  create?: Maybe<UserCreateInput[] | UserCreateInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueNestedInput[]
-    | UserUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueNestedInput[]
-    | UserUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface ReviewUpdateInput {
-  image?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredWithoutReviewsInput>;
-}
-
-export interface UserUpdateWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateDataInput;
-}
-
-export interface UserCreateWithoutReviewsInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  name: String;
-  phone: String;
-  myFundings?: Maybe<FundingCreateManyWithoutAuthorInput>;
-  fundingInvest?: Maybe<FundingCreateManyWithoutInvestorsInput>;
-}
-
-export interface UserUpdateDataInput {
-  email?: Maybe<String>;
-  name?: Maybe<String>;
-  phone?: Maybe<String>;
-  reviews?: Maybe<ReviewUpdateManyWithoutAuthorInput>;
-  myFundings?: Maybe<FundingUpdateManyWithoutAuthorInput>;
-  fundingInvest?: Maybe<FundingUpdateManyWithoutInvestorsInput>;
-}
-
-export interface ReviewCreateInput {
-  id?: Maybe<ID_Input>;
-  image?: Maybe<String>;
-  author: UserCreateOneWithoutReviewsInput;
-}
-
-export interface ReviewUpdateManyWithoutAuthorInput {
+export interface FundingUpdateManyWithoutAuthorInput {
   create?: Maybe<
-    ReviewCreateWithoutAuthorInput[] | ReviewCreateWithoutAuthorInput
+    FundingCreateWithoutAuthorInput[] | FundingCreateWithoutAuthorInput
   >;
-  delete?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
-  connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
-  set?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
-  disconnect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  delete?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
+  connect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
+  set?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
+  disconnect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
   update?: Maybe<
-    | ReviewUpdateWithWhereUniqueWithoutAuthorInput[]
-    | ReviewUpdateWithWhereUniqueWithoutAuthorInput
+    | FundingUpdateWithWhereUniqueWithoutAuthorInput[]
+    | FundingUpdateWithWhereUniqueWithoutAuthorInput
   >;
   upsert?: Maybe<
-    | ReviewUpsertWithWhereUniqueWithoutAuthorInput[]
-    | ReviewUpsertWithWhereUniqueWithoutAuthorInput
+    | FundingUpsertWithWhereUniqueWithoutAuthorInput[]
+    | FundingUpsertWithWhereUniqueWithoutAuthorInput
   >;
-  deleteMany?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
+  deleteMany?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
   updateMany?: Maybe<
-    | ReviewUpdateManyWithWhereNestedInput[]
-    | ReviewUpdateManyWithWhereNestedInput
+    | FundingUpdateManyWithWhereNestedInput[]
+    | FundingUpdateManyWithWhereNestedInput
   >;
-}
-
-export interface ImageUpdateManyMutationInput {
-  image?: Maybe<String>;
-  name?: Maybe<String>;
-}
-
-export interface ReviewUpdateWithWhereUniqueWithoutAuthorInput {
-  where: ReviewWhereUniqueInput;
-  data: ReviewUpdateWithoutAuthorDataInput;
 }
 
 export interface UserWhereInput {
@@ -722,25 +469,624 @@ export interface UserWhereInput {
   reviews_every?: Maybe<ReviewWhereInput>;
   reviews_some?: Maybe<ReviewWhereInput>;
   reviews_none?: Maybe<ReviewWhereInput>;
-  myFundings_every?: Maybe<FundingWhereInput>;
-  myFundings_some?: Maybe<FundingWhereInput>;
-  myFundings_none?: Maybe<FundingWhereInput>;
+  fundingAuthor_every?: Maybe<FundingWhereInput>;
+  fundingAuthor_some?: Maybe<FundingWhereInput>;
+  fundingAuthor_none?: Maybe<FundingWhereInput>;
   fundingInvest_every?: Maybe<FundingWhereInput>;
   fundingInvest_some?: Maybe<FundingWhereInput>;
   fundingInvest_none?: Maybe<FundingWhereInput>;
+  bookingCourse_every?: Maybe<CourseWhereInput>;
+  bookingCourse_some?: Maybe<CourseWhereInput>;
+  bookingCourse_none?: Maybe<CourseWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface ReviewUpdateWithoutAuthorDataInput {
+export interface UserCreateOneWithoutFundingAuthorInput {
+  create?: Maybe<UserCreateWithoutFundingAuthorInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface FundingUpsertWithWhereUniqueWithoutInvestorsInput {
+  where: FundingWhereUniqueInput;
+  update: FundingUpdateWithoutInvestorsDataInput;
+  create: FundingCreateWithoutInvestorsInput;
+}
+
+export interface UserCreateWithoutFundingAuthorInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  name: String;
+  phone: String;
+  reviews?: Maybe<ReviewCreateManyWithoutAuthorInput>;
+  fundingInvest?: Maybe<FundingCreateManyWithoutInvestorsInput>;
+  bookingCourse?: Maybe<CourseCreateManyWithoutBookingUsersInput>;
+}
+
+export interface FundingUpdateWithWhereUniqueWithoutAuthorInput {
+  where: FundingWhereUniqueInput;
+  data: FundingUpdateWithoutAuthorDataInput;
+}
+
+export interface CategoryUpdateInput {
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  openingDate?: Maybe<DateTimeInput>;
+  closingDate?: Maybe<DateTimeInput>;
+  openingTime?: Maybe<DateTimeInput>;
+  closingTime?: Maybe<DateTimeInput>;
+  courses?: Maybe<CourseUpdateManyInput>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface CourseUpdateManyInput {
+  create?: Maybe<CourseCreateInput[] | CourseCreateInput>;
+  update?: Maybe<
+    | CourseUpdateWithWhereUniqueNestedInput[]
+    | CourseUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | CourseUpsertWithWhereUniqueNestedInput[]
+    | CourseUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+  connect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+  set?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+  disconnect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+  deleteMany?: Maybe<CourseScalarWhereInput[] | CourseScalarWhereInput>;
+  updateMany?: Maybe<
+    | CourseUpdateManyWithWhereNestedInput[]
+    | CourseUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface FundingSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<FundingWhereInput>;
+  AND?: Maybe<FundingSubscriptionWhereInput[] | FundingSubscriptionWhereInput>;
+  OR?: Maybe<FundingSubscriptionWhereInput[] | FundingSubscriptionWhereInput>;
+  NOT?: Maybe<FundingSubscriptionWhereInput[] | FundingSubscriptionWhereInput>;
+}
+
+export interface CourseUpdateWithWhereUniqueNestedInput {
+  where: CourseWhereUniqueInput;
+  data: CourseUpdateDataInput;
+}
+
+export interface CourseSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CourseWhereInput>;
+  AND?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
+  OR?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
+  NOT?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
+}
+
+export interface CourseUpdateDataInput {
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  images?: Maybe<String>;
+  number?: Maybe<Int>;
+  prevStation?: Maybe<String>;
+  departureStation?: Maybe<String>;
+  nextStation?: Maybe<String>;
+  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
+  departureTime?: Maybe<DateTimeInput>;
+  departureArea?: Maybe<String>;
+  capacity?: Maybe<Int>;
+  bookingUsers?: Maybe<UserUpdateManyWithoutBookingCourseInput>;
+}
+
+export interface UserUpdateManyMutationInput {
+  email?: Maybe<String>;
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+}
+
+export interface CourseUpdatecourseRouteInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  name: String;
+  phone: String;
+  reviews?: Maybe<ReviewCreateManyWithoutAuthorInput>;
+  fundingAuthor?: Maybe<FundingCreateManyWithoutAuthorInput>;
+  fundingInvest?: Maybe<FundingCreateManyWithoutInvestorsInput>;
+  bookingCourse?: Maybe<CourseCreateManyWithoutBookingUsersInput>;
+}
+
+export interface UserUpdateManyWithoutBookingCourseInput {
+  create?: Maybe<
+    UserCreateWithoutBookingCourseInput[] | UserCreateWithoutBookingCourseInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutBookingCourseInput[]
+    | UserUpdateWithWhereUniqueWithoutBookingCourseInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutBookingCourseInput[]
+    | UserUpsertWithWhereUniqueWithoutBookingCourseInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export type CourseWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface UserUpdateWithWhereUniqueWithoutBookingCourseInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutBookingCourseDataInput;
+}
+
+export interface UserUpdateWithoutReviewsDataInput {
+  email?: Maybe<String>;
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  fundingAuthor?: Maybe<FundingUpdateManyWithoutAuthorInput>;
+  fundingInvest?: Maybe<FundingUpdateManyWithoutInvestorsInput>;
+  bookingCourse?: Maybe<CourseUpdateManyWithoutBookingUsersInput>;
+}
+
+export interface UserUpdateWithoutBookingCourseDataInput {
+  email?: Maybe<String>;
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  reviews?: Maybe<ReviewUpdateManyWithoutAuthorInput>;
+  fundingAuthor?: Maybe<FundingUpdateManyWithoutAuthorInput>;
+  fundingInvest?: Maybe<FundingUpdateManyWithoutInvestorsInput>;
+}
+
+export type FundingWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface ReviewUpdateManyWithoutAuthorInput {
+  create?: Maybe<
+    ReviewCreateWithoutAuthorInput[] | ReviewCreateWithoutAuthorInput
+  >;
+  delete?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  set?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  disconnect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
+  update?: Maybe<
+    | ReviewUpdateWithWhereUniqueWithoutAuthorInput[]
+    | ReviewUpdateWithWhereUniqueWithoutAuthorInput
+  >;
+  upsert?: Maybe<
+    | ReviewUpsertWithWhereUniqueWithoutAuthorInput[]
+    | ReviewUpsertWithWhereUniqueWithoutAuthorInput
+  >;
+  deleteMany?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
+  updateMany?: Maybe<
+    | ReviewUpdateManyWithWhereNestedInput[]
+    | ReviewUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserCreateWithoutReviewsInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  name: String;
+  phone: String;
+  fundingAuthor?: Maybe<FundingCreateManyWithoutAuthorInput>;
+  fundingInvest?: Maybe<FundingCreateManyWithoutInvestorsInput>;
+  bookingCourse?: Maybe<CourseCreateManyWithoutBookingUsersInput>;
+}
+
+export interface ReviewUpdateWithWhereUniqueWithoutAuthorInput {
+  where: ReviewWhereUniqueInput;
+  data: ReviewUpdateWithoutAuthorDataInput;
+}
+
+export type ReviewWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface CategoryUpdateManyMutationInput {
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  openingDate?: Maybe<DateTimeInput>;
+  closingDate?: Maybe<DateTimeInput>;
+  openingTime?: Maybe<DateTimeInput>;
+  closingTime?: Maybe<DateTimeInput>;
+}
+
+export interface FundingUpdateManyMutationInput {
+  title?: Maybe<String>;
+  emoji?: Maybe<String>;
+  content?: Maybe<String>;
+  deadline?: Maybe<DateTimeInput>;
+}
+
+export interface ReviewUpsertWithWhereUniqueWithoutAuthorInput {
+  where: ReviewWhereUniqueInput;
+  update: ReviewUpdateWithoutAuthorDataInput;
+  create: ReviewCreateWithoutAuthorInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+}>;
+
+export interface ReviewScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  AND?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
+  OR?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
+  NOT?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
+}
+
+export interface CourseUpdateManyMutationInput {
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  images?: Maybe<String>;
+  number?: Maybe<Int>;
+  prevStation?: Maybe<String>;
+  departureStation?: Maybe<String>;
+  nextStation?: Maybe<String>;
+  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
+  departureTime?: Maybe<DateTimeInput>;
+  departureArea?: Maybe<String>;
+  capacity?: Maybe<Int>;
+}
+
+export interface ReviewUpdateManyWithWhereNestedInput {
+  where: ReviewScalarWhereInput;
+  data: ReviewUpdateManyDataInput;
+}
+
+export interface CourseCreateManyInput {
+  create?: Maybe<CourseCreateInput[] | CourseCreateInput>;
+  connect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+}
+
+export interface FundingWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  emoji?: Maybe<String>;
+  emoji_not?: Maybe<String>;
+  emoji_in?: Maybe<String[] | String>;
+  emoji_not_in?: Maybe<String[] | String>;
+  emoji_lt?: Maybe<String>;
+  emoji_lte?: Maybe<String>;
+  emoji_gt?: Maybe<String>;
+  emoji_gte?: Maybe<String>;
+  emoji_contains?: Maybe<String>;
+  emoji_not_contains?: Maybe<String>;
+  emoji_starts_with?: Maybe<String>;
+  emoji_not_starts_with?: Maybe<String>;
+  emoji_ends_with?: Maybe<String>;
+  emoji_not_ends_with?: Maybe<String>;
+  author?: Maybe<UserWhereInput>;
+  content?: Maybe<String>;
+  content_not?: Maybe<String>;
+  content_in?: Maybe<String[] | String>;
+  content_not_in?: Maybe<String[] | String>;
+  content_lt?: Maybe<String>;
+  content_lte?: Maybe<String>;
+  content_gt?: Maybe<String>;
+  content_gte?: Maybe<String>;
+  content_contains?: Maybe<String>;
+  content_not_contains?: Maybe<String>;
+  content_starts_with?: Maybe<String>;
+  content_not_starts_with?: Maybe<String>;
+  content_ends_with?: Maybe<String>;
+  content_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  deadline?: Maybe<DateTimeInput>;
+  deadline_not?: Maybe<DateTimeInput>;
+  deadline_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  deadline_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  deadline_lt?: Maybe<DateTimeInput>;
+  deadline_lte?: Maybe<DateTimeInput>;
+  deadline_gt?: Maybe<DateTimeInput>;
+  deadline_gte?: Maybe<DateTimeInput>;
+  investors_every?: Maybe<UserWhereInput>;
+  investors_some?: Maybe<UserWhereInput>;
+  investors_none?: Maybe<UserWhereInput>;
+  AND?: Maybe<FundingWhereInput[] | FundingWhereInput>;
+  OR?: Maybe<FundingWhereInput[] | FundingWhereInput>;
+  NOT?: Maybe<FundingWhereInput[] | FundingWhereInput>;
+}
+
+export interface CourseCreatecourseRouteInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface CourseUpsertWithWhereUniqueNestedInput {
+  where: CourseWhereUniqueInput;
+  update: CourseUpdateDataInput;
+  create: CourseCreateInput;
+}
+
+export interface UserCreateWithoutBookingCourseInput {
+  id?: Maybe<ID_Input>;
+  email: String;
+  name: String;
+  phone: String;
+  reviews?: Maybe<ReviewCreateManyWithoutAuthorInput>;
+  fundingAuthor?: Maybe<FundingCreateManyWithoutAuthorInput>;
+  fundingInvest?: Maybe<FundingCreateManyWithoutInvestorsInput>;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutBookingCourseInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutBookingCourseDataInput;
+  create: UserCreateWithoutBookingCourseInput;
+}
+
+export interface ReviewCreateWithoutAuthorInput {
+  id?: Maybe<ID_Input>;
   image?: Maybe<String>;
 }
 
-export interface ImageCreateInput {
+export interface FundingUpdateWithoutAuthorDataInput {
+  title?: Maybe<String>;
+  emoji?: Maybe<String>;
+  content?: Maybe<String>;
+  deadline?: Maybe<DateTimeInput>;
+  investors?: Maybe<UserUpdateManyWithoutFundingInvestInput>;
+}
+
+export interface FundingCreateWithoutAuthorInput {
   id?: Maybe<ID_Input>;
-  image: String;
+  title: String;
+  emoji?: Maybe<String>;
+  content: String;
+  deadline: DateTimeInput;
+  investors?: Maybe<UserCreateManyWithoutFundingInvestInput>;
+}
+
+export interface UserUpdateManyWithoutFundingInvestInput {
+  create?: Maybe<
+    UserCreateWithoutFundingInvestInput[] | UserCreateWithoutFundingInvestInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutFundingInvestInput[]
+    | UserUpdateWithWhereUniqueWithoutFundingInvestInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutFundingInvestInput[]
+    | UserUpsertWithWhereUniqueWithoutFundingInvestInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserCreateWithoutFundingInvestInput {
+  id?: Maybe<ID_Input>;
+  email: String;
   name: String;
+  phone: String;
+  reviews?: Maybe<ReviewCreateManyWithoutAuthorInput>;
+  fundingAuthor?: Maybe<FundingCreateManyWithoutAuthorInput>;
+  bookingCourse?: Maybe<CourseCreateManyWithoutBookingUsersInput>;
+}
+
+export interface UserUpdateWithWhereUniqueWithoutFundingInvestInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutFundingInvestDataInput;
+}
+
+export interface CourseCreateWithoutBookingUsersInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  subtitle: String;
+  images?: Maybe<String>;
+  number: Int;
+  prevStation: String;
+  departureStation: String;
+  nextStation: String;
+  courseRoute?: Maybe<CourseCreatecourseRouteInput>;
+  departureTime: DateTimeInput;
+  departureArea: String;
+  capacity: Int;
+}
+
+export interface UserUpdateWithoutFundingInvestDataInput {
+  email?: Maybe<String>;
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+  reviews?: Maybe<ReviewUpdateManyWithoutAuthorInput>;
+  fundingAuthor?: Maybe<FundingUpdateManyWithoutAuthorInput>;
+  bookingCourse?: Maybe<CourseUpdateManyWithoutBookingUsersInput>;
+}
+
+export interface FundingCreateWithoutInvestorsInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  emoji?: Maybe<String>;
+  author: UserCreateOneWithoutFundingAuthorInput;
+  content: String;
+  deadline: DateTimeInput;
+}
+
+export interface CourseUpdateManyWithoutBookingUsersInput {
+  create?: Maybe<
+    | CourseCreateWithoutBookingUsersInput[]
+    | CourseCreateWithoutBookingUsersInput
+  >;
+  delete?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+  connect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+  set?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+  disconnect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+  update?: Maybe<
+    | CourseUpdateWithWhereUniqueWithoutBookingUsersInput[]
+    | CourseUpdateWithWhereUniqueWithoutBookingUsersInput
+  >;
+  upsert?: Maybe<
+    | CourseUpsertWithWhereUniqueWithoutBookingUsersInput[]
+    | CourseUpsertWithWhereUniqueWithoutBookingUsersInput
+  >;
+  deleteMany?: Maybe<CourseScalarWhereInput[] | CourseScalarWhereInput>;
+  updateMany?: Maybe<
+    | CourseUpdateManyWithWhereNestedInput[]
+    | CourseUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ReviewSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ReviewWhereInput>;
+  AND?: Maybe<ReviewSubscriptionWhereInput[] | ReviewSubscriptionWhereInput>;
+  OR?: Maybe<ReviewSubscriptionWhereInput[] | ReviewSubscriptionWhereInput>;
+  NOT?: Maybe<ReviewSubscriptionWhereInput[] | ReviewSubscriptionWhereInput>;
+}
+
+export interface CourseUpdateWithWhereUniqueWithoutBookingUsersInput {
+  where: CourseWhereUniqueInput;
+  data: CourseUpdateWithoutBookingUsersDataInput;
+}
+
+export interface CategorySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CategoryWhereInput>;
+  AND?: Maybe<
+    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
+  >;
+  OR?: Maybe<CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput>;
+  NOT?: Maybe<
+    CategorySubscriptionWhereInput[] | CategorySubscriptionWhereInput
+  >;
+}
+
+export interface CourseUpdateWithoutBookingUsersDataInput {
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  images?: Maybe<String>;
+  number?: Maybe<Int>;
+  prevStation?: Maybe<String>;
+  departureStation?: Maybe<String>;
+  nextStation?: Maybe<String>;
+  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
+  departureTime?: Maybe<DateTimeInput>;
+  departureArea?: Maybe<String>;
+  capacity?: Maybe<Int>;
+}
+
+export interface ReviewUpdateManyMutationInput {
+  image?: Maybe<String>;
+}
+
+export interface CourseUpsertWithWhereUniqueWithoutBookingUsersInput {
+  where: CourseWhereUniqueInput;
+  update: CourseUpdateWithoutBookingUsersDataInput;
+  create: CourseCreateWithoutBookingUsersInput;
+}
+
+export interface UserUpdateOneRequiredWithoutReviewsInput {
+  create?: Maybe<UserCreateWithoutReviewsInput>;
+  update?: Maybe<UserUpdateWithoutReviewsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutReviewsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface CourseScalarWhereInput {
@@ -872,16 +1218,90 @@ export interface CourseScalarWhereInput {
   departureArea_not_starts_with?: Maybe<String>;
   departureArea_ends_with?: Maybe<String>;
   departureArea_not_ends_with?: Maybe<String>;
+  capacity?: Maybe<Int>;
+  capacity_not?: Maybe<Int>;
+  capacity_in?: Maybe<Int[] | Int>;
+  capacity_not_in?: Maybe<Int[] | Int>;
+  capacity_lt?: Maybe<Int>;
+  capacity_lte?: Maybe<Int>;
+  capacity_gt?: Maybe<Int>;
+  capacity_gte?: Maybe<Int>;
   AND?: Maybe<CourseScalarWhereInput[] | CourseScalarWhereInput>;
   OR?: Maybe<CourseScalarWhereInput[] | CourseScalarWhereInput>;
   NOT?: Maybe<CourseScalarWhereInput[] | CourseScalarWhereInput>;
 }
 
-export type ReviewWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
+export interface UserCreateOneWithoutReviewsInput {
+  create?: Maybe<UserCreateWithoutReviewsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
 
-export interface ReviewScalarWhereInput {
+export interface CourseUpdateManyWithWhereNestedInput {
+  where: CourseScalarWhereInput;
+  data: CourseUpdateManyDataInput;
+}
+
+export interface FundingUpdateInput {
+  title?: Maybe<String>;
+  emoji?: Maybe<String>;
+  author?: Maybe<UserUpdateOneRequiredWithoutFundingAuthorInput>;
+  content?: Maybe<String>;
+  deadline?: Maybe<DateTimeInput>;
+  investors?: Maybe<UserUpdateManyWithoutFundingInvestInput>;
+}
+
+export interface CourseUpdateManyDataInput {
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  images?: Maybe<String>;
+  number?: Maybe<Int>;
+  prevStation?: Maybe<String>;
+  departureStation?: Maybe<String>;
+  nextStation?: Maybe<String>;
+  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
+  departureTime?: Maybe<DateTimeInput>;
+  departureArea?: Maybe<String>;
+  capacity?: Maybe<Int>;
+}
+
+export interface CourseUpdateInput {
+  title?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  images?: Maybe<String>;
+  number?: Maybe<Int>;
+  prevStation?: Maybe<String>;
+  departureStation?: Maybe<String>;
+  nextStation?: Maybe<String>;
+  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
+  departureTime?: Maybe<DateTimeInput>;
+  departureArea?: Maybe<String>;
+  capacity?: Maybe<Int>;
+  bookingUsers?: Maybe<UserUpdateManyWithoutBookingCourseInput>;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutFundingInvestInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutFundingInvestDataInput;
+  create: UserCreateWithoutFundingInvestInput;
+}
+
+export interface CourseCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  subtitle: String;
+  images?: Maybe<String>;
+  number: Int;
+  prevStation: String;
+  departureStation: String;
+  nextStation: String;
+  courseRoute?: Maybe<CourseCreatecourseRouteInput>;
+  departureTime: DateTimeInput;
+  departureArea: String;
+  capacity: Int;
+  bookingUsers?: Maybe<UserCreateManyWithoutBookingCourseInput>;
+}
+
+export interface UserScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -896,103 +1316,51 @@ export interface ReviewScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  image?: Maybe<String>;
-  image_not?: Maybe<String>;
-  image_in?: Maybe<String[] | String>;
-  image_not_in?: Maybe<String[] | String>;
-  image_lt?: Maybe<String>;
-  image_lte?: Maybe<String>;
-  image_gt?: Maybe<String>;
-  image_gte?: Maybe<String>;
-  image_contains?: Maybe<String>;
-  image_not_contains?: Maybe<String>;
-  image_starts_with?: Maybe<String>;
-  image_not_starts_with?: Maybe<String>;
-  image_ends_with?: Maybe<String>;
-  image_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
-  OR?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
-  NOT?: Maybe<ReviewScalarWhereInput[] | ReviewScalarWhereInput>;
-}
-
-export interface FundingCreateInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  emoji?: Maybe<String>;
-  author: UserCreateOneWithoutMyFundingsInput;
-  content: String;
-  deadline: DateTimeInput;
-  investors?: Maybe<UserCreateManyWithoutFundingInvestInput>;
-}
-
-export interface ReviewUpdateManyWithWhereNestedInput {
-  where: ReviewScalarWhereInput;
-  data: ReviewUpdateManyDataInput;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
   email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
   phone?: Maybe<String>;
-}>;
-
-export interface ReviewUpdateManyDataInput {
-  image?: Maybe<String>;
-}
-
-export interface CourseUpdateManyDataInput {
-  title?: Maybe<String>;
-  subtitle?: Maybe<String>;
-  images?: Maybe<String>;
-  number?: Maybe<Int>;
-  prevStation?: Maybe<String>;
-  departureStation?: Maybe<String>;
-  nextStation?: Maybe<String>;
-  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
-  departureTime?: Maybe<DateTimeInput>;
-  departureArea?: Maybe<String>;
-}
-
-export interface FundingUpdateManyWithoutAuthorInput {
-  create?: Maybe<
-    FundingCreateWithoutAuthorInput[] | FundingCreateWithoutAuthorInput
-  >;
-  delete?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-  connect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-  set?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-  disconnect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-  update?: Maybe<
-    | FundingUpdateWithWhereUniqueWithoutAuthorInput[]
-    | FundingUpdateWithWhereUniqueWithoutAuthorInput
-  >;
-  upsert?: Maybe<
-    | FundingUpsertWithWhereUniqueWithoutAuthorInput[]
-    | FundingUpsertWithWhereUniqueWithoutAuthorInput
-  >;
-  deleteMany?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
-  updateMany?: Maybe<
-    | FundingUpdateManyWithWhereNestedInput[]
-    | FundingUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface UserCreateManyInput {
-  create?: Maybe<UserCreateInput[] | UserCreateInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-}
-
-export interface CourseUpsertWithWhereUniqueNestedInput {
-  where: CourseWhereUniqueInput;
-  update: CourseUpdateDataInput;
-  create: CourseCreateInput;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
 }
 
 export interface ReviewCreateManyWithoutAuthorInput {
@@ -1002,44 +1370,121 @@ export interface ReviewCreateManyWithoutAuthorInput {
   connect?: Maybe<ReviewWhereUniqueInput[] | ReviewWhereUniqueInput>;
 }
 
-export interface FundingUpdateWithoutAuthorDataInput {
-  title?: Maybe<String>;
-  emoji?: Maybe<String>;
-  content?: Maybe<String>;
-  deadline?: Maybe<DateTimeInput>;
-  investors?: Maybe<UserUpdateManyWithoutFundingInvestInput>;
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
 }
 
-export interface FundingCreateManyWithoutAuthorInput {
+export interface UserCreateManyWithoutFundingInvestInput {
   create?: Maybe<
-    FundingCreateWithoutAuthorInput[] | FundingCreateWithoutAuthorInput
+    UserCreateWithoutFundingInvestInput[] | UserCreateWithoutFundingInvestInput
+  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserUpdateManyDataInput {
+  email?: Maybe<String>;
+  name?: Maybe<String>;
+  phone?: Maybe<String>;
+}
+
+export interface FundingCreateManyWithoutInvestorsInput {
+  create?: Maybe<
+    FundingCreateWithoutInvestorsInput[] | FundingCreateWithoutInvestorsInput
   >;
   connect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
 }
 
-export interface UserUpdateManyWithoutFundingInvestInput {
-  create?: Maybe<
-    UserCreateWithoutFundingInvestInput[] | UserCreateWithoutFundingInvestInput
-  >;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  update?: Maybe<
-    | UserUpdateWithWhereUniqueWithoutFundingInvestInput[]
-    | UserUpdateWithWhereUniqueWithoutFundingInvestInput
-  >;
-  upsert?: Maybe<
-    | UserUpsertWithWhereUniqueWithoutFundingInvestInput[]
-    | UserUpsertWithWhereUniqueWithoutFundingInvestInput
-  >;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
-  >;
+export interface FundingUpsertWithWhereUniqueWithoutAuthorInput {
+  where: FundingWhereUniqueInput;
+  update: FundingUpdateWithoutAuthorDataInput;
+  create: FundingCreateWithoutAuthorInput;
 }
 
-export interface FundingWhereInput {
+export interface CategoryWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  subtitle?: Maybe<String>;
+  subtitle_not?: Maybe<String>;
+  subtitle_in?: Maybe<String[] | String>;
+  subtitle_not_in?: Maybe<String[] | String>;
+  subtitle_lt?: Maybe<String>;
+  subtitle_lte?: Maybe<String>;
+  subtitle_gt?: Maybe<String>;
+  subtitle_gte?: Maybe<String>;
+  subtitle_contains?: Maybe<String>;
+  subtitle_not_contains?: Maybe<String>;
+  subtitle_starts_with?: Maybe<String>;
+  subtitle_not_starts_with?: Maybe<String>;
+  subtitle_ends_with?: Maybe<String>;
+  subtitle_not_ends_with?: Maybe<String>;
+  openingDate?: Maybe<DateTimeInput>;
+  openingDate_not?: Maybe<DateTimeInput>;
+  openingDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  openingDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  openingDate_lt?: Maybe<DateTimeInput>;
+  openingDate_lte?: Maybe<DateTimeInput>;
+  openingDate_gt?: Maybe<DateTimeInput>;
+  openingDate_gte?: Maybe<DateTimeInput>;
+  closingDate?: Maybe<DateTimeInput>;
+  closingDate_not?: Maybe<DateTimeInput>;
+  closingDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  closingDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  closingDate_lt?: Maybe<DateTimeInput>;
+  closingDate_lte?: Maybe<DateTimeInput>;
+  closingDate_gt?: Maybe<DateTimeInput>;
+  closingDate_gte?: Maybe<DateTimeInput>;
+  openingTime?: Maybe<DateTimeInput>;
+  openingTime_not?: Maybe<DateTimeInput>;
+  openingTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  openingTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  openingTime_lt?: Maybe<DateTimeInput>;
+  openingTime_lte?: Maybe<DateTimeInput>;
+  openingTime_gt?: Maybe<DateTimeInput>;
+  openingTime_gte?: Maybe<DateTimeInput>;
+  closingTime?: Maybe<DateTimeInput>;
+  closingTime_not?: Maybe<DateTimeInput>;
+  closingTime_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  closingTime_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  closingTime_lt?: Maybe<DateTimeInput>;
+  closingTime_lte?: Maybe<DateTimeInput>;
+  closingTime_gt?: Maybe<DateTimeInput>;
+  closingTime_gte?: Maybe<DateTimeInput>;
+  courses_every?: Maybe<CourseWhereInput>;
+  courses_some?: Maybe<CourseWhereInput>;
+  courses_none?: Maybe<CourseWhereInput>;
+  AND?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+  OR?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+  NOT?: Maybe<CategoryWhereInput[] | CategoryWhereInput>;
+}
+
+export interface FundingScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1082,7 +1527,6 @@ export interface FundingWhereInput {
   emoji_not_starts_with?: Maybe<String>;
   emoji_ends_with?: Maybe<String>;
   emoji_not_ends_with?: Maybe<String>;
-  author?: Maybe<UserWhereInput>;
   content?: Maybe<String>;
   content_not?: Maybe<String>;
   content_in?: Maybe<String[] | String>;
@@ -1113,17 +1557,78 @@ export interface FundingWhereInput {
   deadline_lte?: Maybe<DateTimeInput>;
   deadline_gt?: Maybe<DateTimeInput>;
   deadline_gte?: Maybe<DateTimeInput>;
-  investors_every?: Maybe<UserWhereInput>;
-  investors_some?: Maybe<UserWhereInput>;
-  investors_none?: Maybe<UserWhereInput>;
-  AND?: Maybe<FundingWhereInput[] | FundingWhereInput>;
-  OR?: Maybe<FundingWhereInput[] | FundingWhereInput>;
-  NOT?: Maybe<FundingWhereInput[] | FundingWhereInput>;
+  AND?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
+  OR?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
+  NOT?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
 }
 
-export interface UserUpdateWithWhereUniqueWithoutFundingInvestInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutFundingInvestDataInput;
+export interface UserUpsertWithoutReviewsInput {
+  update: UserUpdateWithoutReviewsDataInput;
+  create: UserCreateWithoutReviewsInput;
+}
+
+export interface FundingUpdateManyWithWhereNestedInput {
+  where: FundingScalarWhereInput;
+  data: FundingUpdateManyDataInput;
+}
+
+export interface ReviewCreateInput {
+  id?: Maybe<ID_Input>;
+  image?: Maybe<String>;
+  author: UserCreateOneWithoutReviewsInput;
+}
+
+export interface FundingUpdateManyDataInput {
+  title?: Maybe<String>;
+  emoji?: Maybe<String>;
+  content?: Maybe<String>;
+  deadline?: Maybe<DateTimeInput>;
+}
+
+export interface CategoryCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  subtitle: String;
+  openingDate: DateTimeInput;
+  closingDate: DateTimeInput;
+  openingTime: DateTimeInput;
+  closingTime: DateTimeInput;
+  courses?: Maybe<CourseCreateManyInput>;
+}
+
+export interface FundingUpdateManyWithoutInvestorsInput {
+  create?: Maybe<
+    FundingCreateWithoutInvestorsInput[] | FundingCreateWithoutInvestorsInput
+  >;
+  delete?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
+  connect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
+  set?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
+  disconnect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
+  update?: Maybe<
+    | FundingUpdateWithWhereUniqueWithoutInvestorsInput[]
+    | FundingUpdateWithWhereUniqueWithoutInvestorsInput
+  >;
+  upsert?: Maybe<
+    | FundingUpsertWithWhereUniqueWithoutInvestorsInput[]
+    | FundingUpsertWithWhereUniqueWithoutInvestorsInput
+  >;
+  deleteMany?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
+  updateMany?: Maybe<
+    | FundingUpdateManyWithWhereNestedInput[]
+    | FundingUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface FundingCreateManyWithoutAuthorInput {
+  create?: Maybe<
+    FundingCreateWithoutAuthorInput[] | FundingCreateWithoutAuthorInput
+  >;
+  connect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
+}
+
+export interface FundingUpdateWithWhereUniqueWithoutInvestorsInput {
+  where: FundingWhereUniqueInput;
+  data: FundingUpdateWithoutInvestorsDataInput;
 }
 
 export interface CourseWhereInput {
@@ -1255,497 +1760,90 @@ export interface CourseWhereInput {
   departureArea_not_starts_with?: Maybe<String>;
   departureArea_ends_with?: Maybe<String>;
   departureArea_not_ends_with?: Maybe<String>;
+  capacity?: Maybe<Int>;
+  capacity_not?: Maybe<Int>;
+  capacity_in?: Maybe<Int[] | Int>;
+  capacity_not_in?: Maybe<Int[] | Int>;
+  capacity_lt?: Maybe<Int>;
+  capacity_lte?: Maybe<Int>;
+  capacity_gt?: Maybe<Int>;
+  capacity_gte?: Maybe<Int>;
+  bookingUsers_every?: Maybe<UserWhereInput>;
+  bookingUsers_some?: Maybe<UserWhereInput>;
+  bookingUsers_none?: Maybe<UserWhereInput>;
   AND?: Maybe<CourseWhereInput[] | CourseWhereInput>;
   OR?: Maybe<CourseWhereInput[] | CourseWhereInput>;
   NOT?: Maybe<CourseWhereInput[] | CourseWhereInput>;
 }
 
-export interface UserUpdateWithoutFundingInvestDataInput {
-  email?: Maybe<String>;
-  name?: Maybe<String>;
-  phone?: Maybe<String>;
-  reviews?: Maybe<ReviewUpdateManyWithoutAuthorInput>;
-  myFundings?: Maybe<FundingUpdateManyWithoutAuthorInput>;
+export interface UserUpsertWithoutFundingAuthorInput {
+  update: UserUpdateWithoutFundingAuthorDataInput;
+  create: UserCreateWithoutFundingAuthorInput;
 }
 
-export interface CourseSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<CourseWhereInput>;
-  AND?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
-  OR?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
-  NOT?: Maybe<CourseSubscriptionWhereInput[] | CourseSubscriptionWhereInput>;
-}
-
-export interface UserUpsertWithWhereUniqueWithoutFundingInvestInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateWithoutFundingInvestDataInput;
-  create: UserCreateWithoutFundingInvestInput;
-}
-
-export interface ReviewUpdateManyMutationInput {
-  image?: Maybe<String>;
-}
-
-export interface UserScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  phone?: Maybe<String>;
-  phone_not?: Maybe<String>;
-  phone_in?: Maybe<String[] | String>;
-  phone_not_in?: Maybe<String[] | String>;
-  phone_lt?: Maybe<String>;
-  phone_lte?: Maybe<String>;
-  phone_gt?: Maybe<String>;
-  phone_gte?: Maybe<String>;
-  phone_contains?: Maybe<String>;
-  phone_not_contains?: Maybe<String>;
-  phone_starts_with?: Maybe<String>;
-  phone_not_starts_with?: Maybe<String>;
-  phone_ends_with?: Maybe<String>;
-  phone_not_ends_with?: Maybe<String>;
-  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-}
-
-export interface UserUpdateOneRequiredWithoutReviewsInput {
-  create?: Maybe<UserCreateWithoutReviewsInput>;
-  update?: Maybe<UserUpdateWithoutReviewsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutReviewsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
-}
-
-export interface UserCreateOneWithoutReviewsInput {
-  create?: Maybe<UserCreateWithoutReviewsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserUpdateManyDataInput {
-  email?: Maybe<String>;
-  name?: Maybe<String>;
-  phone?: Maybe<String>;
-}
-
-export interface ImageWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  image?: Maybe<String>;
-  image_not?: Maybe<String>;
-  image_in?: Maybe<String[] | String>;
-  image_not_in?: Maybe<String[] | String>;
-  image_lt?: Maybe<String>;
-  image_lte?: Maybe<String>;
-  image_gt?: Maybe<String>;
-  image_gte?: Maybe<String>;
-  image_contains?: Maybe<String>;
-  image_not_contains?: Maybe<String>;
-  image_starts_with?: Maybe<String>;
-  image_not_starts_with?: Maybe<String>;
-  image_ends_with?: Maybe<String>;
-  image_not_ends_with?: Maybe<String>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<ImageWhereInput[] | ImageWhereInput>;
-  OR?: Maybe<ImageWhereInput[] | ImageWhereInput>;
-  NOT?: Maybe<ImageWhereInput[] | ImageWhereInput>;
-}
-
-export interface FundingUpsertWithWhereUniqueWithoutAuthorInput {
-  where: FundingWhereUniqueInput;
-  update: FundingUpdateWithoutAuthorDataInput;
-  create: FundingCreateWithoutAuthorInput;
-}
-
-export interface FundingUpdateManyMutationInput {
-  title?: Maybe<String>;
-  emoji?: Maybe<String>;
-  content?: Maybe<String>;
-  deadline?: Maybe<DateTimeInput>;
-}
-
-export interface FundingScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
-  emoji?: Maybe<String>;
-  emoji_not?: Maybe<String>;
-  emoji_in?: Maybe<String[] | String>;
-  emoji_not_in?: Maybe<String[] | String>;
-  emoji_lt?: Maybe<String>;
-  emoji_lte?: Maybe<String>;
-  emoji_gt?: Maybe<String>;
-  emoji_gte?: Maybe<String>;
-  emoji_contains?: Maybe<String>;
-  emoji_not_contains?: Maybe<String>;
-  emoji_starts_with?: Maybe<String>;
-  emoji_not_starts_with?: Maybe<String>;
-  emoji_ends_with?: Maybe<String>;
-  emoji_not_ends_with?: Maybe<String>;
-  content?: Maybe<String>;
-  content_not?: Maybe<String>;
-  content_in?: Maybe<String[] | String>;
-  content_not_in?: Maybe<String[] | String>;
-  content_lt?: Maybe<String>;
-  content_lte?: Maybe<String>;
-  content_gt?: Maybe<String>;
-  content_gte?: Maybe<String>;
-  content_contains?: Maybe<String>;
-  content_not_contains?: Maybe<String>;
-  content_starts_with?: Maybe<String>;
-  content_not_starts_with?: Maybe<String>;
-  content_ends_with?: Maybe<String>;
-  content_not_ends_with?: Maybe<String>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
-  deadline?: Maybe<DateTimeInput>;
-  deadline_not?: Maybe<DateTimeInput>;
-  deadline_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  deadline_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  deadline_lt?: Maybe<DateTimeInput>;
-  deadline_lte?: Maybe<DateTimeInput>;
-  deadline_gt?: Maybe<DateTimeInput>;
-  deadline_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
-  OR?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
-  NOT?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
-}
-
-export interface CourseUpdateManyMutationInput {
-  title?: Maybe<String>;
-  subtitle?: Maybe<String>;
-  images?: Maybe<String>;
-  number?: Maybe<Int>;
-  prevStation?: Maybe<String>;
-  departureStation?: Maybe<String>;
-  nextStation?: Maybe<String>;
-  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
-  departureTime?: Maybe<DateTimeInput>;
-  departureArea?: Maybe<String>;
-}
-
-export interface FundingUpdateManyWithWhereNestedInput {
-  where: FundingScalarWhereInput;
-  data: FundingUpdateManyDataInput;
-}
-
-export interface CourseUpdateManyWithWhereNestedInput {
-  where: CourseScalarWhereInput;
-  data: CourseUpdateManyDataInput;
-}
-
-export interface FundingUpdateManyDataInput {
-  title?: Maybe<String>;
-  emoji?: Maybe<String>;
-  content?: Maybe<String>;
-  deadline?: Maybe<DateTimeInput>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  email: String;
-  name: String;
-  phone: String;
-  reviews?: Maybe<ReviewCreateManyWithoutAuthorInput>;
-  myFundings?: Maybe<FundingCreateManyWithoutAuthorInput>;
-  fundingInvest?: Maybe<FundingCreateManyWithoutInvestorsInput>;
-}
-
-export interface FundingUpdateManyWithoutInvestorsInput {
-  create?: Maybe<
-    FundingCreateWithoutInvestorsInput[] | FundingCreateWithoutInvestorsInput
-  >;
-  delete?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-  connect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-  set?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-  disconnect?: Maybe<FundingWhereUniqueInput[] | FundingWhereUniqueInput>;
-  update?: Maybe<
-    | FundingUpdateWithWhereUniqueWithoutInvestorsInput[]
-    | FundingUpdateWithWhereUniqueWithoutInvestorsInput
-  >;
-  upsert?: Maybe<
-    | FundingUpsertWithWhereUniqueWithoutInvestorsInput[]
-    | FundingUpsertWithWhereUniqueWithoutInvestorsInput
-  >;
-  deleteMany?: Maybe<FundingScalarWhereInput[] | FundingScalarWhereInput>;
-  updateMany?: Maybe<
-    | FundingUpdateManyWithWhereNestedInput[]
-    | FundingUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface FundingCreateWithoutAuthorInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  emoji?: Maybe<String>;
-  content: String;
-  deadline: DateTimeInput;
-  investors?: Maybe<UserCreateManyWithoutFundingInvestInput>;
-}
-
-export interface FundingUpdateWithWhereUniqueWithoutInvestorsInput {
-  where: FundingWhereUniqueInput;
-  data: FundingUpdateWithoutInvestorsDataInput;
-}
-
-export interface FundingSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<FundingWhereInput>;
-  AND?: Maybe<FundingSubscriptionWhereInput[] | FundingSubscriptionWhereInput>;
-  OR?: Maybe<FundingSubscriptionWhereInput[] | FundingSubscriptionWhereInput>;
-  NOT?: Maybe<FundingSubscriptionWhereInput[] | FundingSubscriptionWhereInput>;
-}
-
-export interface FundingUpdateWithoutInvestorsDataInput {
-  title?: Maybe<String>;
-  emoji?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredWithoutMyFundingsInput>;
-  content?: Maybe<String>;
-  deadline?: Maybe<DateTimeInput>;
-}
-
-export type CourseWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface UserUpdateOneRequiredWithoutMyFundingsInput {
-  create?: Maybe<UserCreateWithoutMyFundingsInput>;
-  update?: Maybe<UserUpdateWithoutMyFundingsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutMyFundingsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export type ImageWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface UserUpdateWithoutMyFundingsDataInput {
+export interface UserUpdateWithoutFundingAuthorDataInput {
   email?: Maybe<String>;
   name?: Maybe<String>;
   phone?: Maybe<String>;
   reviews?: Maybe<ReviewUpdateManyWithoutAuthorInput>;
   fundingInvest?: Maybe<FundingUpdateManyWithoutInvestorsInput>;
+  bookingCourse?: Maybe<CourseUpdateManyWithoutBookingUsersInput>;
 }
 
-export interface FundingUpdateInput {
+export interface UserUpdateOneRequiredWithoutFundingAuthorInput {
+  create?: Maybe<UserCreateWithoutFundingAuthorInput>;
+  update?: Maybe<UserUpdateWithoutFundingAuthorDataInput>;
+  upsert?: Maybe<UserUpsertWithoutFundingAuthorInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface FundingUpdateWithoutInvestorsDataInput {
   title?: Maybe<String>;
   emoji?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredWithoutMyFundingsInput>;
+  author?: Maybe<UserUpdateOneRequiredWithoutFundingAuthorInput>;
   content?: Maybe<String>;
   deadline?: Maybe<DateTimeInput>;
-  investors?: Maybe<UserUpdateManyWithoutFundingInvestInput>;
 }
 
-export interface UserUpsertWithoutMyFundingsInput {
-  update: UserUpdateWithoutMyFundingsDataInput;
-  create: UserCreateWithoutMyFundingsInput;
-}
-
-export interface BookingCreateInput {
-  id?: Maybe<ID_Input>;
-  user?: Maybe<UserCreateManyInput>;
-  course?: Maybe<CourseCreateManyInput>;
-}
-
-export interface FundingUpsertWithWhereUniqueWithoutInvestorsInput {
-  where: FundingWhereUniqueInput;
-  update: FundingUpdateWithoutInvestorsDataInput;
-  create: FundingCreateWithoutInvestorsInput;
-}
-
-export interface ReviewSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<ReviewWhereInput>;
-  AND?: Maybe<ReviewSubscriptionWhereInput[] | ReviewSubscriptionWhereInput>;
-  OR?: Maybe<ReviewSubscriptionWhereInput[] | ReviewSubscriptionWhereInput>;
-  NOT?: Maybe<ReviewSubscriptionWhereInput[] | ReviewSubscriptionWhereInput>;
-}
-
-export interface CourseUpdateDataInput {
-  title?: Maybe<String>;
-  subtitle?: Maybe<String>;
-  images?: Maybe<String>;
-  number?: Maybe<Int>;
-  prevStation?: Maybe<String>;
-  departureStation?: Maybe<String>;
-  nextStation?: Maybe<String>;
-  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
-  departureTime?: Maybe<DateTimeInput>;
-  departureArea?: Maybe<String>;
-}
-
-export interface CourseUpdateWithWhereUniqueNestedInput {
-  where: CourseWhereUniqueInput;
-  data: CourseUpdateDataInput;
-}
-
-export interface CourseUpdateManyInput {
-  create?: Maybe<CourseCreateInput[] | CourseCreateInput>;
-  update?: Maybe<
-    | CourseUpdateWithWhereUniqueNestedInput[]
-    | CourseUpdateWithWhereUniqueNestedInput
-  >;
-  upsert?: Maybe<
-    | CourseUpsertWithWhereUniqueNestedInput[]
-    | CourseUpsertWithWhereUniqueNestedInput
-  >;
-  delete?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
-  connect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
-  set?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
-  disconnect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
-  deleteMany?: Maybe<CourseScalarWhereInput[] | CourseScalarWhereInput>;
-  updateMany?: Maybe<
-    | CourseUpdateManyWithWhereNestedInput[]
-    | CourseUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface UserUpsertWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput;
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
-}
-
-export interface UserUpdateManyMutationInput {
+export interface UserUpdateInput {
   email?: Maybe<String>;
   name?: Maybe<String>;
   phone?: Maybe<String>;
+  reviews?: Maybe<ReviewUpdateManyWithoutAuthorInput>;
+  fundingAuthor?: Maybe<FundingUpdateManyWithoutAuthorInput>;
+  fundingInvest?: Maybe<FundingUpdateManyWithoutInvestorsInput>;
+  bookingCourse?: Maybe<CourseUpdateManyWithoutBookingUsersInput>;
 }
 
-export interface ReviewCreateWithoutAuthorInput {
+export interface CourseCreateManyWithoutBookingUsersInput {
+  create?: Maybe<
+    | CourseCreateWithoutBookingUsersInput[]
+    | CourseCreateWithoutBookingUsersInput
+  >;
+  connect?: Maybe<CourseWhereUniqueInput[] | CourseWhereUniqueInput>;
+}
+
+export interface UserCreateManyWithoutBookingCourseInput {
+  create?: Maybe<
+    UserCreateWithoutBookingCourseInput[] | UserCreateWithoutBookingCourseInput
+  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface FundingCreateInput {
   id?: Maybe<ID_Input>;
+  title: String;
+  emoji?: Maybe<String>;
+  author: UserCreateOneWithoutFundingAuthorInput;
+  content: String;
+  deadline: DateTimeInput;
+  investors?: Maybe<UserCreateManyWithoutFundingInvestInput>;
+}
+
+export interface ReviewUpdateInput {
   image?: Maybe<String>;
+  author?: Maybe<UserUpdateOneRequiredWithoutReviewsInput>;
 }
-
-export interface CourseUpdateInput {
-  title?: Maybe<String>;
-  subtitle?: Maybe<String>;
-  images?: Maybe<String>;
-  number?: Maybe<Int>;
-  prevStation?: Maybe<String>;
-  departureStation?: Maybe<String>;
-  nextStation?: Maybe<String>;
-  courseRoute?: Maybe<CourseUpdatecourseRouteInput>;
-  departureTime?: Maybe<DateTimeInput>;
-  departureArea?: Maybe<String>;
-}
-
-export interface ImageUpdateInput {
-  image?: Maybe<String>;
-  name?: Maybe<String>;
-}
-
-export type FundingWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
 
 export interface NodeNode {
   id: ID_Output;
@@ -1776,20 +1874,22 @@ export interface UserPreviousValuesSubscription
   phone: () => Promise<AsyncIterator<String>>;
 }
 
-export interface BookingEdge {
-  node: Booking;
+export interface CategoryEdge {
+  node: Category;
   cursor: String;
 }
 
-export interface BookingEdgePromise extends Promise<BookingEdge>, Fragmentable {
-  node: <T = BookingPromise>() => T;
+export interface CategoryEdgePromise
+  extends Promise<CategoryEdge>,
+    Fragmentable {
+  node: <T = CategoryPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface BookingEdgeSubscription
-  extends Promise<AsyncIterator<BookingEdge>>,
+export interface CategoryEdgeSubscription
+  extends Promise<AsyncIterator<CategoryEdge>>,
     Fragmentable {
-  node: <T = BookingSubscription>() => T;
+  node: <T = CategorySubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -1814,7 +1914,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
-  myFundings: <T = FragmentableArray<Funding>>(args?: {
+  fundingAuthor: <T = FragmentableArray<Funding>>(args?: {
     where?: FundingWhereInput;
     orderBy?: FundingOrderByInput;
     skip?: Int;
@@ -1826,6 +1926,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   fundingInvest: <T = FragmentableArray<Funding>>(args?: {
     where?: FundingWhereInput;
     orderBy?: FundingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  bookingCourse: <T = FragmentableArray<Course>>(args?: {
+    where?: CourseWhereInput;
+    orderBy?: CourseOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1850,7 +1959,7 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
-  myFundings: <T = Promise<AsyncIterator<FundingSubscription>>>(args?: {
+  fundingAuthor: <T = Promise<AsyncIterator<FundingSubscription>>>(args?: {
     where?: FundingWhereInput;
     orderBy?: FundingOrderByInput;
     skip?: Int;
@@ -1862,6 +1971,15 @@ export interface UserSubscription
   fundingInvest: <T = Promise<AsyncIterator<FundingSubscription>>>(args?: {
     where?: FundingWhereInput;
     orderBy?: FundingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  bookingCourse: <T = Promise<AsyncIterator<CourseSubscription>>>(args?: {
+    where?: CourseWhereInput;
+    orderBy?: CourseOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1886,7 +2004,7 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
-  myFundings: <T = FragmentableArray<Funding>>(args?: {
+  fundingAuthor: <T = FragmentableArray<Funding>>(args?: {
     where?: FundingWhereInput;
     orderBy?: FundingOrderByInput;
     skip?: Int;
@@ -1904,22 +2022,106 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  bookingCourse: <T = FragmentableArray<Course>>(args?: {
+    where?: CourseWhereInput;
+    orderBy?: CourseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface AggregateBooking {
-  count: Int;
+export interface Course {
+  id: ID_Output;
+  title: String;
+  subtitle: String;
+  images?: String;
+  number: Int;
+  prevStation: String;
+  departureStation: String;
+  nextStation: String;
+  courseRoute: String[];
+  departureTime: DateTimeOutput;
+  departureArea: String;
+  capacity: Int;
 }
 
-export interface AggregateBookingPromise
-  extends Promise<AggregateBooking>,
+export interface CoursePromise extends Promise<Course>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  subtitle: () => Promise<String>;
+  images: () => Promise<String>;
+  number: () => Promise<Int>;
+  prevStation: () => Promise<String>;
+  departureStation: () => Promise<String>;
+  nextStation: () => Promise<String>;
+  courseRoute: () => Promise<String[]>;
+  departureTime: () => Promise<DateTimeOutput>;
+  departureArea: () => Promise<String>;
+  capacity: () => Promise<Int>;
+  bookingUsers: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CourseSubscription
+  extends Promise<AsyncIterator<Course>>,
     Fragmentable {
-  count: () => Promise<Int>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  subtitle: () => Promise<AsyncIterator<String>>;
+  images: () => Promise<AsyncIterator<String>>;
+  number: () => Promise<AsyncIterator<Int>>;
+  prevStation: () => Promise<AsyncIterator<String>>;
+  departureStation: () => Promise<AsyncIterator<String>>;
+  nextStation: () => Promise<AsyncIterator<String>>;
+  courseRoute: () => Promise<AsyncIterator<String[]>>;
+  departureTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  departureArea: () => Promise<AsyncIterator<String>>;
+  capacity: () => Promise<AsyncIterator<Int>>;
+  bookingUsers: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface AggregateBookingSubscription
-  extends Promise<AsyncIterator<AggregateBooking>>,
+export interface CourseNullablePromise
+  extends Promise<Course | null>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  subtitle: () => Promise<String>;
+  images: () => Promise<String>;
+  number: () => Promise<Int>;
+  prevStation: () => Promise<String>;
+  departureStation: () => Promise<String>;
+  nextStation: () => Promise<String>;
+  courseRoute: () => Promise<String[]>;
+  departureTime: () => Promise<DateTimeOutput>;
+  departureArea: () => Promise<String>;
+  capacity: () => Promise<Int>;
+  bookingUsers: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface ReviewSubscriptionPayload {
@@ -1945,6 +2147,304 @@ export interface ReviewSubscriptionPayloadSubscription
   node: <T = ReviewSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
   previousValues: <T = ReviewPreviousValuesSubscription>() => T;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface CategoryConnection {
+  pageInfo: PageInfo;
+  edges: CategoryEdge[];
+}
+
+export interface CategoryConnectionPromise
+  extends Promise<CategoryConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CategoryEdge>>() => T;
+  aggregate: <T = AggregateCategoryPromise>() => T;
+}
+
+export interface CategoryConnectionSubscription
+  extends Promise<AsyncIterator<CategoryConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CategoryEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCategorySubscription>() => T;
+}
+
+export interface ReviewEdge {
+  node: Review;
+  cursor: String;
+}
+
+export interface ReviewEdgePromise extends Promise<ReviewEdge>, Fragmentable {
+  node: <T = ReviewPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ReviewEdgeSubscription
+  extends Promise<AsyncIterator<ReviewEdge>>,
+    Fragmentable {
+  node: <T = ReviewSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Category {
+  id: ID_Output;
+  title: String;
+  subtitle: String;
+  openingDate: DateTimeOutput;
+  closingDate: DateTimeOutput;
+  openingTime: DateTimeOutput;
+  closingTime: DateTimeOutput;
+}
+
+export interface CategoryPromise extends Promise<Category>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  subtitle: () => Promise<String>;
+  openingDate: () => Promise<DateTimeOutput>;
+  closingDate: () => Promise<DateTimeOutput>;
+  openingTime: () => Promise<DateTimeOutput>;
+  closingTime: () => Promise<DateTimeOutput>;
+  courses: <T = FragmentableArray<Course>>(args?: {
+    where?: CourseWhereInput;
+    orderBy?: CourseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CategorySubscription
+  extends Promise<AsyncIterator<Category>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  subtitle: () => Promise<AsyncIterator<String>>;
+  openingDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  closingDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  openingTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  closingTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  courses: <T = Promise<AsyncIterator<CourseSubscription>>>(args?: {
+    where?: CourseWhereInput;
+    orderBy?: CourseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface CategoryNullablePromise
+  extends Promise<Category | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  subtitle: () => Promise<String>;
+  openingDate: () => Promise<DateTimeOutput>;
+  closingDate: () => Promise<DateTimeOutput>;
+  openingTime: () => Promise<DateTimeOutput>;
+  closingTime: () => Promise<DateTimeOutput>;
+  courses: <T = FragmentableArray<Course>>(args?: {
+    where?: CourseWhereInput;
+    orderBy?: CourseOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface AggregateFunding {
+  count: Int;
+}
+
+export interface AggregateFundingPromise
+  extends Promise<AggregateFunding>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateFundingSubscription
+  extends Promise<AsyncIterator<AggregateFunding>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CategorySubscriptionPayload {
+  mutation: MutationType;
+  node: Category;
+  updatedFields: String[];
+  previousValues: CategoryPreviousValues;
+}
+
+export interface CategorySubscriptionPayloadPromise
+  extends Promise<CategorySubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CategoryPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CategoryPreviousValuesPromise>() => T;
+}
+
+export interface CategorySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CategorySubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CategorySubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CategoryPreviousValuesSubscription>() => T;
+}
+
+export interface FundingConnection {
+  pageInfo: PageInfo;
+  edges: FundingEdge[];
+}
+
+export interface FundingConnectionPromise
+  extends Promise<FundingConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<FundingEdge>>() => T;
+  aggregate: <T = AggregateFundingPromise>() => T;
+}
+
+export interface FundingConnectionSubscription
+  extends Promise<AsyncIterator<FundingConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<FundingEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateFundingSubscription>() => T;
+}
+
+export interface CategoryPreviousValues {
+  id: ID_Output;
+  title: String;
+  subtitle: String;
+  openingDate: DateTimeOutput;
+  closingDate: DateTimeOutput;
+  openingTime: DateTimeOutput;
+  closingTime: DateTimeOutput;
+}
+
+export interface CategoryPreviousValuesPromise
+  extends Promise<CategoryPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  subtitle: () => Promise<String>;
+  openingDate: () => Promise<DateTimeOutput>;
+  closingDate: () => Promise<DateTimeOutput>;
+  openingTime: () => Promise<DateTimeOutput>;
+  closingTime: () => Promise<DateTimeOutput>;
+}
+
+export interface CategoryPreviousValuesSubscription
+  extends Promise<AsyncIterator<CategoryPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  subtitle: () => Promise<AsyncIterator<String>>;
+  openingDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  closingDate: () => Promise<AsyncIterator<DateTimeOutput>>;
+  openingTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+  closingTime: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CourseEdge {
+  node: Course;
+  cursor: String;
+}
+
+export interface CourseEdgePromise extends Promise<CourseEdge>, Fragmentable {
+  node: <T = CoursePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CourseEdgeSubscription
+  extends Promise<AsyncIterator<CourseEdge>>,
+    Fragmentable {
+  node: <T = CourseSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface Review {
@@ -1978,356 +2478,18 @@ export interface ReviewNullablePromise
   author: <T = UserPromise>() => T;
 }
 
-export interface AggregateUser {
+export interface AggregateCategory {
   count: Int;
 }
 
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
+export interface AggregateCategoryPromise
+  extends Promise<AggregateCategory>,
     Fragmentable {
   count: () => Promise<Int>;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
-}
-
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateReview {
-  count: Int;
-}
-
-export interface AggregateReviewPromise
-  extends Promise<AggregateReview>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateReviewSubscription
-  extends Promise<AsyncIterator<AggregateReview>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface BookingConnection {
-  pageInfo: PageInfo;
-  edges: BookingEdge[];
-}
-
-export interface BookingConnectionPromise
-  extends Promise<BookingConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<BookingEdge>>() => T;
-  aggregate: <T = AggregateBookingPromise>() => T;
-}
-
-export interface BookingConnectionSubscription
-  extends Promise<AsyncIterator<BookingConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<BookingEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateBookingSubscription>() => T;
-}
-
-export interface ReviewConnection {
-  pageInfo: PageInfo;
-  edges: ReviewEdge[];
-}
-
-export interface ReviewConnectionPromise
-  extends Promise<ReviewConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ReviewEdge>>() => T;
-  aggregate: <T = AggregateReviewPromise>() => T;
-}
-
-export interface ReviewConnectionSubscription
-  extends Promise<AsyncIterator<ReviewConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ReviewEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateReviewSubscription>() => T;
-}
-
-export interface Booking {
-  id: ID_Output;
-}
-
-export interface BookingPromise extends Promise<Booking>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  user: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  course: <T = FragmentableArray<Course>>(args?: {
-    where?: CourseWhereInput;
-    orderBy?: CourseOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface BookingSubscription
-  extends Promise<AsyncIterator<Booking>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  user: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  course: <T = Promise<AsyncIterator<CourseSubscription>>>(args?: {
-    where?: CourseWhereInput;
-    orderBy?: CourseOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface BookingNullablePromise
-  extends Promise<Booking | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  user: <T = FragmentableArray<User>>(args?: {
-    where?: UserWhereInput;
-    orderBy?: UserOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-  course: <T = FragmentableArray<Course>>(args?: {
-    where?: CourseWhereInput;
-    orderBy?: CourseOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface ImageEdge {
-  node: Image;
-  cursor: String;
-}
-
-export interface ImageEdgePromise extends Promise<ImageEdge>, Fragmentable {
-  node: <T = ImagePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface ImageEdgeSubscription
-  extends Promise<AsyncIterator<ImageEdge>>,
-    Fragmentable {
-  node: <T = ImageSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface BookingSubscriptionPayload {
-  mutation: MutationType;
-  node: Booking;
-  updatedFields: String[];
-  previousValues: BookingPreviousValues;
-}
-
-export interface BookingSubscriptionPayloadPromise
-  extends Promise<BookingSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = BookingPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = BookingPreviousValuesPromise>() => T;
-}
-
-export interface BookingSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<BookingSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = BookingSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = BookingPreviousValuesSubscription>() => T;
-}
-
-export interface Image {
-  id: ID_Output;
-  image: String;
-  name: String;
-}
-
-export interface ImagePromise extends Promise<Image>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  image: () => Promise<String>;
-  name: () => Promise<String>;
-}
-
-export interface ImageSubscription
-  extends Promise<AsyncIterator<Image>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  image: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ImageNullablePromise
-  extends Promise<Image | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  image: () => Promise<String>;
-  name: () => Promise<String>;
-}
-
-export interface BookingPreviousValues {
-  id: ID_Output;
-}
-
-export interface BookingPreviousValuesPromise
-  extends Promise<BookingPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-}
-
-export interface BookingPreviousValuesSubscription
-  extends Promise<AsyncIterator<BookingPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-}
-
-export interface FundingEdge {
-  node: Funding;
-  cursor: String;
-}
-
-export interface FundingEdgePromise extends Promise<FundingEdge>, Fragmentable {
-  node: <T = FundingPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface FundingEdgeSubscription
-  extends Promise<AsyncIterator<FundingEdge>>,
-    Fragmentable {
-  node: <T = FundingSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ReviewPreviousValues {
-  id: ID_Output;
-  createdAt: DateTimeOutput;
-  image?: String;
-}
-
-export interface ReviewPreviousValuesPromise
-  extends Promise<ReviewPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  image: () => Promise<String>;
-}
-
-export interface ReviewPreviousValuesSubscription
-  extends Promise<AsyncIterator<ReviewPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  image: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateCourse {
-  count: Int;
-}
-
-export interface AggregateCoursePromise
-  extends Promise<AggregateCourse>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateCourseSubscription
-  extends Promise<AsyncIterator<AggregateCourse>>,
+export interface AggregateCategorySubscription
+  extends Promise<AsyncIterator<AggregateCategory>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2357,25 +2519,21 @@ export interface CourseSubscriptionPayloadSubscription
   previousValues: <T = CoursePreviousValuesSubscription>() => T;
 }
 
-export interface CourseConnection {
-  pageInfo: PageInfo;
-  edges: CourseEdge[];
+export interface UserEdge {
+  node: User;
+  cursor: String;
 }
 
-export interface CourseConnectionPromise
-  extends Promise<CourseConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<CourseEdge>>() => T;
-  aggregate: <T = AggregateCoursePromise>() => T;
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
 }
 
-export interface CourseConnectionSubscription
-  extends Promise<AsyncIterator<CourseConnection>>,
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<CourseEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateCourseSubscription>() => T;
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CoursePreviousValues {
@@ -2390,6 +2548,7 @@ export interface CoursePreviousValues {
   courseRoute: String[];
   departureTime: DateTimeOutput;
   departureArea: String;
+  capacity: Int;
 }
 
 export interface CoursePreviousValuesPromise
@@ -2406,6 +2565,7 @@ export interface CoursePreviousValuesPromise
   courseRoute: () => Promise<String[]>;
   departureTime: () => Promise<DateTimeOutput>;
   departureArea: () => Promise<String>;
+  capacity: () => Promise<Int>;
 }
 
 export interface CoursePreviousValuesSubscription
@@ -2422,103 +2582,81 @@ export interface CoursePreviousValuesSubscription
   courseRoute: () => Promise<AsyncIterator<String[]>>;
   departureTime: () => Promise<AsyncIterator<DateTimeOutput>>;
   departureArea: () => Promise<AsyncIterator<String>>;
+  capacity: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface UserConnection {
+export interface ReviewConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: ReviewEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface ReviewConnectionPromise
+  extends Promise<ReviewConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<ReviewEdge>>() => T;
+  aggregate: <T = AggregateReviewPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface ReviewConnectionSubscription
+  extends Promise<AsyncIterator<ReviewConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ReviewEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateReviewSubscription>() => T;
 }
 
-export interface Course {
+export interface ReviewPreviousValues {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  image?: String;
+}
+
+export interface ReviewPreviousValuesPromise
+  extends Promise<ReviewPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  image: () => Promise<String>;
+}
+
+export interface ReviewPreviousValuesSubscription
+  extends Promise<AsyncIterator<ReviewPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  image: () => Promise<AsyncIterator<String>>;
+}
+
+export interface FundingPreviousValues {
   id: ID_Output;
   title: String;
-  subtitle: String;
-  images?: String;
-  number: Int;
-  prevStation: String;
-  departureStation: String;
-  nextStation: String;
-  courseRoute: String[];
-  departureTime: DateTimeOutput;
-  departureArea: String;
+  emoji?: String;
+  content: String;
+  createdAt: DateTimeOutput;
+  deadline: DateTimeOutput;
 }
 
-export interface CoursePromise extends Promise<Course>, Fragmentable {
+export interface FundingPreviousValuesPromise
+  extends Promise<FundingPreviousValues>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
-  subtitle: () => Promise<String>;
-  images: () => Promise<String>;
-  number: () => Promise<Int>;
-  prevStation: () => Promise<String>;
-  departureStation: () => Promise<String>;
-  nextStation: () => Promise<String>;
-  courseRoute: () => Promise<String[]>;
-  departureTime: () => Promise<DateTimeOutput>;
-  departureArea: () => Promise<String>;
+  emoji: () => Promise<String>;
+  content: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  deadline: () => Promise<DateTimeOutput>;
 }
 
-export interface CourseSubscription
-  extends Promise<AsyncIterator<Course>>,
+export interface FundingPreviousValuesSubscription
+  extends Promise<AsyncIterator<FundingPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
-  subtitle: () => Promise<AsyncIterator<String>>;
-  images: () => Promise<AsyncIterator<String>>;
-  number: () => Promise<AsyncIterator<Int>>;
-  prevStation: () => Promise<AsyncIterator<String>>;
-  departureStation: () => Promise<AsyncIterator<String>>;
-  nextStation: () => Promise<AsyncIterator<String>>;
-  courseRoute: () => Promise<AsyncIterator<String[]>>;
-  departureTime: () => Promise<AsyncIterator<DateTimeOutput>>;
-  departureArea: () => Promise<AsyncIterator<String>>;
-}
-
-export interface CourseNullablePromise
-  extends Promise<Course | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  subtitle: () => Promise<String>;
-  images: () => Promise<String>;
-  number: () => Promise<Int>;
-  prevStation: () => Promise<String>;
-  departureStation: () => Promise<String>;
-  nextStation: () => Promise<String>;
-  courseRoute: () => Promise<String[]>;
-  departureTime: () => Promise<DateTimeOutput>;
-  departureArea: () => Promise<String>;
-}
-
-export interface AggregateImage {
-  count: Int;
-}
-
-export interface AggregateImagePromise
-  extends Promise<AggregateImage>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateImageSubscription
-  extends Promise<AsyncIterator<AggregateImage>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  emoji: () => Promise<AsyncIterator<String>>;
+  content: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  deadline: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface FundingSubscriptionPayload {
@@ -2544,86 +2682,6 @@ export interface FundingSubscriptionPayloadSubscription
   node: <T = FundingSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
   previousValues: <T = FundingPreviousValuesSubscription>() => T;
-}
-
-export interface AggregateFunding {
-  count: Int;
-}
-
-export interface AggregateFundingPromise
-  extends Promise<AggregateFunding>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateFundingSubscription
-  extends Promise<AsyncIterator<AggregateFunding>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface CourseEdge {
-  node: Course;
-  cursor: String;
-}
-
-export interface CourseEdgePromise extends Promise<CourseEdge>, Fragmentable {
-  node: <T = CoursePromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CourseEdgeSubscription
-  extends Promise<AsyncIterator<CourseEdge>>,
-    Fragmentable {
-  node: <T = CourseSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ImagePreviousValues {
-  id: ID_Output;
-  image: String;
-  name: String;
-}
-
-export interface ImagePreviousValuesPromise
-  extends Promise<ImagePreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  image: () => Promise<String>;
-  name: () => Promise<String>;
-}
-
-export interface ImagePreviousValuesSubscription
-  extends Promise<AsyncIterator<ImagePreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  image: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface ImageSubscriptionPayload {
-  mutation: MutationType;
-  node: Image;
-  updatedFields: String[];
-  previousValues: ImagePreviousValues;
-}
-
-export interface ImageSubscriptionPayloadPromise
-  extends Promise<ImageSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = ImagePromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = ImagePreviousValuesPromise>() => T;
-}
-
-export interface ImageSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<ImageSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = ImageSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = ImagePreviousValuesSubscription>() => T;
 }
 
 export interface Funding {
@@ -2696,110 +2754,99 @@ export interface FundingNullablePromise
   }) => T;
 }
 
-export interface FundingPreviousValues {
-  id: ID_Output;
-  title: String;
-  emoji?: String;
-  content: String;
-  createdAt: DateTimeOutput;
-  deadline: DateTimeOutput;
-}
-
-export interface FundingPreviousValuesPromise
-  extends Promise<FundingPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  emoji: () => Promise<String>;
-  content: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
-  deadline: () => Promise<DateTimeOutput>;
-}
-
-export interface FundingPreviousValuesSubscription
-  extends Promise<AsyncIterator<FundingPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  emoji: () => Promise<AsyncIterator<String>>;
-  content: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  deadline: () => Promise<AsyncIterator<DateTimeOutput>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface FundingConnection {
-  pageInfo: PageInfo;
-  edges: FundingEdge[];
-}
-
-export interface FundingConnectionPromise
-  extends Promise<FundingConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<FundingEdge>>() => T;
-  aggregate: <T = AggregateFundingPromise>() => T;
-}
-
-export interface FundingConnectionSubscription
-  extends Promise<AsyncIterator<FundingConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<FundingEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateFundingSubscription>() => T;
-}
-
-export interface ImageConnection {
-  pageInfo: PageInfo;
-  edges: ImageEdge[];
-}
-
-export interface ImageConnectionPromise
-  extends Promise<ImageConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<ImageEdge>>() => T;
-  aggregate: <T = AggregateImagePromise>() => T;
-}
-
-export interface ImageConnectionSubscription
-  extends Promise<AsyncIterator<ImageConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<ImageEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateImageSubscription>() => T;
-}
-
-export interface ReviewEdge {
-  node: Review;
+export interface FundingEdge {
+  node: Funding;
   cursor: String;
 }
 
-export interface ReviewEdgePromise extends Promise<ReviewEdge>, Fragmentable {
-  node: <T = ReviewPromise>() => T;
+export interface FundingEdgePromise extends Promise<FundingEdge>, Fragmentable {
+  node: <T = FundingPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface ReviewEdgeSubscription
-  extends Promise<AsyncIterator<ReviewEdge>>,
+export interface FundingEdgeSubscription
+  extends Promise<AsyncIterator<FundingEdge>>,
     Fragmentable {
-  node: <T = ReviewSubscription>() => T;
+  node: <T = FundingSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateReview {
+  count: Int;
+}
+
+export interface AggregateReviewPromise
+  extends Promise<AggregateReview>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateReviewSubscription
+  extends Promise<AsyncIterator<AggregateReview>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface CourseConnection {
+  pageInfo: PageInfo;
+  edges: CourseEdge[];
+}
+
+export interface CourseConnectionPromise
+  extends Promise<CourseConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CourseEdge>>() => T;
+  aggregate: <T = AggregateCoursePromise>() => T;
+}
+
+export interface CourseConnectionSubscription
+  extends Promise<AsyncIterator<CourseConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CourseEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCourseSubscription>() => T;
+}
+
+export interface AggregateCourse {
+  count: Int;
+}
+
+export interface AggregateCoursePromise
+  extends Promise<AggregateCourse>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCourseSubscription
+  extends Promise<AsyncIterator<AggregateCourse>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 /*
@@ -2812,13 +2859,13 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 */
 export type Int = number;
 
-export type Long = string;
-
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
+
+export type Long = string;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -2845,11 +2892,7 @@ export const models: Model[] = [
     embedded: false
   },
   {
-    name: "Image",
-    embedded: false
-  },
-  {
-    name: "Booking",
+    name: "Category",
     embedded: false
   },
   {

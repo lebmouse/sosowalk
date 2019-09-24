@@ -9,11 +9,7 @@ var models = [
     embedded: false
   },
   {
-    name: "Image",
-    embedded: false
-  },
-  {
-    name: "Booking",
+    name: "Category",
     embedded: false
   },
   {

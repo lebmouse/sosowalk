@@ -4,20 +4,22 @@ type User {
   name: String!
   phone: String! @unique
   reviews: [Review!]! @relation(name: "ReviewAuthor", onDelete: SET_NULL)
-  myFundings: [Funding!]! @relation(name: "FundingAuthor", onDelete: SET_NULL)
-  fundingInvest: [Funding!]! @relation(name: "FundingInvestor", onDelete: SET_NULL)
+  fundingAuthor: [Funding!]!
+    @relation(name: "FundingAuthor", onDelete: SET_NULL)
+  fundingInvest: [Funding!]!
+    @relation(name: "FundingInvestor", onDelete: SET_NULL)
+  bookingCourse: [Course!]! @relation(name: "BookingUser", onDelete: SET_NULL)
 }
 
-type Image {
+type Category {
   id: ID! @id
-  image: String!
-  name: String!
-}
-
-type Booking {
-  id: ID! @id
-  user: [User!]! @relation(name: "UserBooking", onDelete: SET_NULL)
-  course: [Course!]! @relation(name: "CourseBooking", onDelete: SET_NULL)
+  title: String!
+  subtitle: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
+  openingTime: DateTime!
+  closingTime: DateTime!
+  courses: [Course!]! @relation(name: "CourseCategory", onDelete: SET_NULL)
 }
 
 type Course {
@@ -32,6 +34,8 @@ type Course {
   courseRoute: [String!]! @scalarList(strategy: RELATION)
   departureTime: DateTime!
   departureArea: String!
+  capacity: Int!
+  bookingUsers: [User!]! @relation(name: "BookingUser", onDelete: SET_NULL)
 }
 
 type Review {

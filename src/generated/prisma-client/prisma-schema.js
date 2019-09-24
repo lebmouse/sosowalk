@@ -3,7 +3,7 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateBooking {
+/* GraphQL */ `type AggregateCategory {
   count: Int!
 }
 
@@ -12,10 +12,6 @@ type AggregateCourse {
 }
 
 type AggregateFunding {
-  count: Int!
-}
-
-type AggregateImage {
   count: Int!
 }
 
@@ -31,62 +27,104 @@ type BatchPayload {
   count: Long!
 }
 
-type Booking {
+type Category {
   id: ID!
-  user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  course(where: CourseWhereInput, orderBy: CourseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Course!]
+  title: String!
+  subtitle: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
+  openingTime: DateTime!
+  closingTime: DateTime!
+  courses(where: CourseWhereInput, orderBy: CourseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Course!]
 }
 
-type BookingConnection {
+type CategoryConnection {
   pageInfo: PageInfo!
-  edges: [BookingEdge]!
-  aggregate: AggregateBooking!
+  edges: [CategoryEdge]!
+  aggregate: AggregateCategory!
 }
 
-input BookingCreateInput {
+input CategoryCreateInput {
   id: ID
-  user: UserCreateManyInput
-  course: CourseCreateManyInput
+  title: String!
+  subtitle: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
+  openingTime: DateTime!
+  closingTime: DateTime!
+  courses: CourseCreateManyInput
 }
 
-type BookingEdge {
-  node: Booking!
+type CategoryEdge {
+  node: Category!
   cursor: String!
 }
 
-enum BookingOrderByInput {
+enum CategoryOrderByInput {
   id_ASC
   id_DESC
+  title_ASC
+  title_DESC
+  subtitle_ASC
+  subtitle_DESC
+  openingDate_ASC
+  openingDate_DESC
+  closingDate_ASC
+  closingDate_DESC
+  openingTime_ASC
+  openingTime_DESC
+  closingTime_ASC
+  closingTime_DESC
 }
 
-type BookingPreviousValues {
+type CategoryPreviousValues {
   id: ID!
+  title: String!
+  subtitle: String!
+  openingDate: DateTime!
+  closingDate: DateTime!
+  openingTime: DateTime!
+  closingTime: DateTime!
 }
 
-type BookingSubscriptionPayload {
+type CategorySubscriptionPayload {
   mutation: MutationType!
-  node: Booking
+  node: Category
   updatedFields: [String!]
-  previousValues: BookingPreviousValues
+  previousValues: CategoryPreviousValues
 }
 
-input BookingSubscriptionWhereInput {
+input CategorySubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: BookingWhereInput
-  AND: [BookingSubscriptionWhereInput!]
-  OR: [BookingSubscriptionWhereInput!]
-  NOT: [BookingSubscriptionWhereInput!]
+  node: CategoryWhereInput
+  AND: [CategorySubscriptionWhereInput!]
+  OR: [CategorySubscriptionWhereInput!]
+  NOT: [CategorySubscriptionWhereInput!]
 }
 
-input BookingUpdateInput {
-  user: UserUpdateManyInput
-  course: CourseUpdateManyInput
+input CategoryUpdateInput {
+  title: String
+  subtitle: String
+  openingDate: DateTime
+  closingDate: DateTime
+  openingTime: DateTime
+  closingTime: DateTime
+  courses: CourseUpdateManyInput
 }
 
-input BookingWhereInput {
+input CategoryUpdateManyMutationInput {
+  title: String
+  subtitle: String
+  openingDate: DateTime
+  closingDate: DateTime
+  openingTime: DateTime
+  closingTime: DateTime
+}
+
+input CategoryWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -101,18 +139,75 @@ input BookingWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  user_every: UserWhereInput
-  user_some: UserWhereInput
-  user_none: UserWhereInput
-  course_every: CourseWhereInput
-  course_some: CourseWhereInput
-  course_none: CourseWhereInput
-  AND: [BookingWhereInput!]
-  OR: [BookingWhereInput!]
-  NOT: [BookingWhereInput!]
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  subtitle: String
+  subtitle_not: String
+  subtitle_in: [String!]
+  subtitle_not_in: [String!]
+  subtitle_lt: String
+  subtitle_lte: String
+  subtitle_gt: String
+  subtitle_gte: String
+  subtitle_contains: String
+  subtitle_not_contains: String
+  subtitle_starts_with: String
+  subtitle_not_starts_with: String
+  subtitle_ends_with: String
+  subtitle_not_ends_with: String
+  openingDate: DateTime
+  openingDate_not: DateTime
+  openingDate_in: [DateTime!]
+  openingDate_not_in: [DateTime!]
+  openingDate_lt: DateTime
+  openingDate_lte: DateTime
+  openingDate_gt: DateTime
+  openingDate_gte: DateTime
+  closingDate: DateTime
+  closingDate_not: DateTime
+  closingDate_in: [DateTime!]
+  closingDate_not_in: [DateTime!]
+  closingDate_lt: DateTime
+  closingDate_lte: DateTime
+  closingDate_gt: DateTime
+  closingDate_gte: DateTime
+  openingTime: DateTime
+  openingTime_not: DateTime
+  openingTime_in: [DateTime!]
+  openingTime_not_in: [DateTime!]
+  openingTime_lt: DateTime
+  openingTime_lte: DateTime
+  openingTime_gt: DateTime
+  openingTime_gte: DateTime
+  closingTime: DateTime
+  closingTime_not: DateTime
+  closingTime_in: [DateTime!]
+  closingTime_not_in: [DateTime!]
+  closingTime_lt: DateTime
+  closingTime_lte: DateTime
+  closingTime_gt: DateTime
+  closingTime_gte: DateTime
+  courses_every: CourseWhereInput
+  courses_some: CourseWhereInput
+  courses_none: CourseWhereInput
+  AND: [CategoryWhereInput!]
+  OR: [CategoryWhereInput!]
+  NOT: [CategoryWhereInput!]
 }
 
-input BookingWhereUniqueInput {
+input CategoryWhereUniqueInput {
   id: ID
 }
 
@@ -128,6 +223,8 @@ type Course {
   courseRoute: [String!]!
   departureTime: DateTime!
   departureArea: String!
+  capacity: Int!
+  bookingUsers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 type CourseConnection {
@@ -152,11 +249,33 @@ input CourseCreateInput {
   courseRoute: CourseCreatecourseRouteInput
   departureTime: DateTime!
   departureArea: String!
+  capacity: Int!
+  bookingUsers: UserCreateManyWithoutBookingCourseInput
 }
 
 input CourseCreateManyInput {
   create: [CourseCreateInput!]
   connect: [CourseWhereUniqueInput!]
+}
+
+input CourseCreateManyWithoutBookingUsersInput {
+  create: [CourseCreateWithoutBookingUsersInput!]
+  connect: [CourseWhereUniqueInput!]
+}
+
+input CourseCreateWithoutBookingUsersInput {
+  id: ID
+  title: String!
+  subtitle: String!
+  images: String
+  number: Int!
+  prevStation: String!
+  departureStation: String!
+  nextStation: String!
+  courseRoute: CourseCreatecourseRouteInput
+  departureTime: DateTime!
+  departureArea: String!
+  capacity: Int!
 }
 
 type CourseEdge {
@@ -185,6 +304,8 @@ enum CourseOrderByInput {
   departureTime_DESC
   departureArea_ASC
   departureArea_DESC
+  capacity_ASC
+  capacity_DESC
 }
 
 type CoursePreviousValues {
@@ -199,6 +320,7 @@ type CoursePreviousValues {
   courseRoute: [String!]!
   departureTime: DateTime!
   departureArea: String!
+  capacity: Int!
 }
 
 input CourseScalarWhereInput {
@@ -330,6 +452,14 @@ input CourseScalarWhereInput {
   departureArea_not_starts_with: String
   departureArea_ends_with: String
   departureArea_not_ends_with: String
+  capacity: Int
+  capacity_not: Int
+  capacity_in: [Int!]
+  capacity_not_in: [Int!]
+  capacity_lt: Int
+  capacity_lte: Int
+  capacity_gt: Int
+  capacity_gte: Int
   AND: [CourseScalarWhereInput!]
   OR: [CourseScalarWhereInput!]
   NOT: [CourseScalarWhereInput!]
@@ -368,6 +498,8 @@ input CourseUpdateDataInput {
   courseRoute: CourseUpdatecourseRouteInput
   departureTime: DateTime
   departureArea: String
+  capacity: Int
+  bookingUsers: UserUpdateManyWithoutBookingCourseInput
 }
 
 input CourseUpdateInput {
@@ -381,6 +513,8 @@ input CourseUpdateInput {
   courseRoute: CourseUpdatecourseRouteInput
   departureTime: DateTime
   departureArea: String
+  capacity: Int
+  bookingUsers: UserUpdateManyWithoutBookingCourseInput
 }
 
 input CourseUpdateManyDataInput {
@@ -394,6 +528,7 @@ input CourseUpdateManyDataInput {
   courseRoute: CourseUpdatecourseRouteInput
   departureTime: DateTime
   departureArea: String
+  capacity: Int
 }
 
 input CourseUpdateManyInput {
@@ -419,6 +554,19 @@ input CourseUpdateManyMutationInput {
   courseRoute: CourseUpdatecourseRouteInput
   departureTime: DateTime
   departureArea: String
+  capacity: Int
+}
+
+input CourseUpdateManyWithoutBookingUsersInput {
+  create: [CourseCreateWithoutBookingUsersInput!]
+  delete: [CourseWhereUniqueInput!]
+  connect: [CourseWhereUniqueInput!]
+  set: [CourseWhereUniqueInput!]
+  disconnect: [CourseWhereUniqueInput!]
+  update: [CourseUpdateWithWhereUniqueWithoutBookingUsersInput!]
+  upsert: [CourseUpsertWithWhereUniqueWithoutBookingUsersInput!]
+  deleteMany: [CourseScalarWhereInput!]
+  updateMany: [CourseUpdateManyWithWhereNestedInput!]
 }
 
 input CourseUpdateManyWithWhereNestedInput {
@@ -426,15 +574,40 @@ input CourseUpdateManyWithWhereNestedInput {
   data: CourseUpdateManyDataInput!
 }
 
+input CourseUpdateWithoutBookingUsersDataInput {
+  title: String
+  subtitle: String
+  images: String
+  number: Int
+  prevStation: String
+  departureStation: String
+  nextStation: String
+  courseRoute: CourseUpdatecourseRouteInput
+  departureTime: DateTime
+  departureArea: String
+  capacity: Int
+}
+
 input CourseUpdateWithWhereUniqueNestedInput {
   where: CourseWhereUniqueInput!
   data: CourseUpdateDataInput!
+}
+
+input CourseUpdateWithWhereUniqueWithoutBookingUsersInput {
+  where: CourseWhereUniqueInput!
+  data: CourseUpdateWithoutBookingUsersDataInput!
 }
 
 input CourseUpsertWithWhereUniqueNestedInput {
   where: CourseWhereUniqueInput!
   update: CourseUpdateDataInput!
   create: CourseCreateInput!
+}
+
+input CourseUpsertWithWhereUniqueWithoutBookingUsersInput {
+  where: CourseWhereUniqueInput!
+  update: CourseUpdateWithoutBookingUsersDataInput!
+  create: CourseCreateWithoutBookingUsersInput!
 }
 
 input CourseWhereInput {
@@ -566,6 +739,17 @@ input CourseWhereInput {
   departureArea_not_starts_with: String
   departureArea_ends_with: String
   departureArea_not_ends_with: String
+  capacity: Int
+  capacity_not: Int
+  capacity_in: [Int!]
+  capacity_not_in: [Int!]
+  capacity_lt: Int
+  capacity_lte: Int
+  capacity_gt: Int
+  capacity_gte: Int
+  bookingUsers_every: UserWhereInput
+  bookingUsers_some: UserWhereInput
+  bookingUsers_none: UserWhereInput
   AND: [CourseWhereInput!]
   OR: [CourseWhereInput!]
   NOT: [CourseWhereInput!]
@@ -598,7 +782,7 @@ input FundingCreateInput {
   id: ID
   title: String!
   emoji: String
-  author: UserCreateOneWithoutMyFundingsInput!
+  author: UserCreateOneWithoutFundingAuthorInput!
   content: String!
   deadline: DateTime!
   investors: UserCreateManyWithoutFundingInvestInput
@@ -627,7 +811,7 @@ input FundingCreateWithoutInvestorsInput {
   id: ID
   title: String!
   emoji: String
-  author: UserCreateOneWithoutMyFundingsInput!
+  author: UserCreateOneWithoutFundingAuthorInput!
   content: String!
   deadline: DateTime!
 }
@@ -760,7 +944,7 @@ input FundingSubscriptionWhereInput {
 input FundingUpdateInput {
   title: String
   emoji: String
-  author: UserUpdateOneRequiredWithoutMyFundingsInput
+  author: UserUpdateOneRequiredWithoutFundingAuthorInput
   content: String
   deadline: DateTime
   investors: UserUpdateManyWithoutFundingInvestInput
@@ -820,7 +1004,7 @@ input FundingUpdateWithoutAuthorDataInput {
 input FundingUpdateWithoutInvestorsDataInput {
   title: String
   emoji: String
-  author: UserUpdateOneRequiredWithoutMyFundingsInput
+  author: UserUpdateOneRequiredWithoutFundingAuthorInput
   content: String
   deadline: DateTime
 }
@@ -933,132 +1117,15 @@ input FundingWhereUniqueInput {
   id: ID
 }
 
-type Image {
-  id: ID!
-  image: String!
-  name: String!
-}
-
-type ImageConnection {
-  pageInfo: PageInfo!
-  edges: [ImageEdge]!
-  aggregate: AggregateImage!
-}
-
-input ImageCreateInput {
-  id: ID
-  image: String!
-  name: String!
-}
-
-type ImageEdge {
-  node: Image!
-  cursor: String!
-}
-
-enum ImageOrderByInput {
-  id_ASC
-  id_DESC
-  image_ASC
-  image_DESC
-  name_ASC
-  name_DESC
-}
-
-type ImagePreviousValues {
-  id: ID!
-  image: String!
-  name: String!
-}
-
-type ImageSubscriptionPayload {
-  mutation: MutationType!
-  node: Image
-  updatedFields: [String!]
-  previousValues: ImagePreviousValues
-}
-
-input ImageSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: ImageWhereInput
-  AND: [ImageSubscriptionWhereInput!]
-  OR: [ImageSubscriptionWhereInput!]
-  NOT: [ImageSubscriptionWhereInput!]
-}
-
-input ImageUpdateInput {
-  image: String
-  name: String
-}
-
-input ImageUpdateManyMutationInput {
-  image: String
-  name: String
-}
-
-input ImageWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  image: String
-  image_not: String
-  image_in: [String!]
-  image_not_in: [String!]
-  image_lt: String
-  image_lte: String
-  image_gt: String
-  image_gte: String
-  image_contains: String
-  image_not_contains: String
-  image_starts_with: String
-  image_not_starts_with: String
-  image_ends_with: String
-  image_not_ends_with: String
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
-  AND: [ImageWhereInput!]
-  OR: [ImageWhereInput!]
-  NOT: [ImageWhereInput!]
-}
-
-input ImageWhereUniqueInput {
-  id: ID
-}
-
 scalar Long
 
 type Mutation {
-  createBooking(data: BookingCreateInput!): Booking!
-  updateBooking(data: BookingUpdateInput!, where: BookingWhereUniqueInput!): Booking
-  upsertBooking(where: BookingWhereUniqueInput!, create: BookingCreateInput!, update: BookingUpdateInput!): Booking!
-  deleteBooking(where: BookingWhereUniqueInput!): Booking
-  deleteManyBookings(where: BookingWhereInput): BatchPayload!
+  createCategory(data: CategoryCreateInput!): Category!
+  updateCategory(data: CategoryUpdateInput!, where: CategoryWhereUniqueInput!): Category
+  updateManyCategories(data: CategoryUpdateManyMutationInput!, where: CategoryWhereInput): BatchPayload!
+  upsertCategory(where: CategoryWhereUniqueInput!, create: CategoryCreateInput!, update: CategoryUpdateInput!): Category!
+  deleteCategory(where: CategoryWhereUniqueInput!): Category
+  deleteManyCategories(where: CategoryWhereInput): BatchPayload!
   createCourse(data: CourseCreateInput!): Course!
   updateCourse(data: CourseUpdateInput!, where: CourseWhereUniqueInput!): Course
   updateManyCourses(data: CourseUpdateManyMutationInput!, where: CourseWhereInput): BatchPayload!
@@ -1071,12 +1138,6 @@ type Mutation {
   upsertFunding(where: FundingWhereUniqueInput!, create: FundingCreateInput!, update: FundingUpdateInput!): Funding!
   deleteFunding(where: FundingWhereUniqueInput!): Funding
   deleteManyFundings(where: FundingWhereInput): BatchPayload!
-  createImage(data: ImageCreateInput!): Image!
-  updateImage(data: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image
-  updateManyImages(data: ImageUpdateManyMutationInput!, where: ImageWhereInput): BatchPayload!
-  upsertImage(where: ImageWhereUniqueInput!, create: ImageCreateInput!, update: ImageUpdateInput!): Image!
-  deleteImage(where: ImageWhereUniqueInput!): Image
-  deleteManyImages(where: ImageWhereInput): BatchPayload!
   createReview(data: ReviewCreateInput!): Review!
   updateReview(data: ReviewUpdateInput!, where: ReviewWhereUniqueInput!): Review
   updateManyReviews(data: ReviewUpdateManyMutationInput!, where: ReviewWhereInput): BatchPayload!
@@ -1109,18 +1170,15 @@ type PageInfo {
 }
 
 type Query {
-  booking(where: BookingWhereUniqueInput!): Booking
-  bookings(where: BookingWhereInput, orderBy: BookingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Booking]!
-  bookingsConnection(where: BookingWhereInput, orderBy: BookingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BookingConnection!
+  category(where: CategoryWhereUniqueInput!): Category
+  categories(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Category]!
+  categoriesConnection(where: CategoryWhereInput, orderBy: CategoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CategoryConnection!
   course(where: CourseWhereUniqueInput!): Course
   courses(where: CourseWhereInput, orderBy: CourseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Course]!
   coursesConnection(where: CourseWhereInput, orderBy: CourseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CourseConnection!
   funding(where: FundingWhereUniqueInput!): Funding
   fundings(where: FundingWhereInput, orderBy: FundingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Funding]!
   fundingsConnection(where: FundingWhereInput, orderBy: FundingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FundingConnection!
-  image(where: ImageWhereUniqueInput!): Image
-  images(where: ImageWhereInput, orderBy: ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Image]!
-  imagesConnection(where: ImageWhereInput, orderBy: ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ImageConnection!
   review(where: ReviewWhereUniqueInput!): Review
   reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review]!
   reviewsConnection(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReviewConnection!
@@ -1332,10 +1390,9 @@ input ReviewWhereUniqueInput {
 }
 
 type Subscription {
-  booking(where: BookingSubscriptionWhereInput): BookingSubscriptionPayload
+  category(where: CategorySubscriptionWhereInput): CategorySubscriptionPayload
   course(where: CourseSubscriptionWhereInput): CourseSubscriptionPayload
   funding(where: FundingSubscriptionWhereInput): FundingSubscriptionPayload
-  image(where: ImageSubscriptionWhereInput): ImageSubscriptionPayload
   review(where: ReviewSubscriptionWhereInput): ReviewSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
@@ -1346,8 +1403,9 @@ type User {
   name: String!
   phone: String!
   reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
-  myFundings(where: FundingWhereInput, orderBy: FundingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Funding!]
+  fundingAuthor(where: FundingWhereInput, orderBy: FundingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Funding!]
   fundingInvest(where: FundingWhereInput, orderBy: FundingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Funding!]
+  bookingCourse(where: CourseWhereInput, orderBy: CourseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Course!]
 }
 
 type UserConnection {
@@ -1362,12 +1420,13 @@ input UserCreateInput {
   name: String!
   phone: String!
   reviews: ReviewCreateManyWithoutAuthorInput
-  myFundings: FundingCreateManyWithoutAuthorInput
+  fundingAuthor: FundingCreateManyWithoutAuthorInput
   fundingInvest: FundingCreateManyWithoutInvestorsInput
+  bookingCourse: CourseCreateManyWithoutBookingUsersInput
 }
 
-input UserCreateManyInput {
-  create: [UserCreateInput!]
+input UserCreateManyWithoutBookingCourseInput {
+  create: [UserCreateWithoutBookingCourseInput!]
   connect: [UserWhereUniqueInput!]
 }
 
@@ -1376,8 +1435,8 @@ input UserCreateManyWithoutFundingInvestInput {
   connect: [UserWhereUniqueInput!]
 }
 
-input UserCreateOneWithoutMyFundingsInput {
-  create: UserCreateWithoutMyFundingsInput
+input UserCreateOneWithoutFundingAuthorInput {
+  create: UserCreateWithoutFundingAuthorInput
   connect: UserWhereUniqueInput
 }
 
@@ -1386,22 +1445,34 @@ input UserCreateOneWithoutReviewsInput {
   connect: UserWhereUniqueInput
 }
 
-input UserCreateWithoutFundingInvestInput {
+input UserCreateWithoutBookingCourseInput {
   id: ID
   email: String!
   name: String!
   phone: String!
   reviews: ReviewCreateManyWithoutAuthorInput
-  myFundings: FundingCreateManyWithoutAuthorInput
+  fundingAuthor: FundingCreateManyWithoutAuthorInput
+  fundingInvest: FundingCreateManyWithoutInvestorsInput
 }
 
-input UserCreateWithoutMyFundingsInput {
+input UserCreateWithoutFundingAuthorInput {
   id: ID
   email: String!
   name: String!
   phone: String!
   reviews: ReviewCreateManyWithoutAuthorInput
   fundingInvest: FundingCreateManyWithoutInvestorsInput
+  bookingCourse: CourseCreateManyWithoutBookingUsersInput
+}
+
+input UserCreateWithoutFundingInvestInput {
+  id: ID
+  email: String!
+  name: String!
+  phone: String!
+  reviews: ReviewCreateManyWithoutAuthorInput
+  fundingAuthor: FundingCreateManyWithoutAuthorInput
+  bookingCourse: CourseCreateManyWithoutBookingUsersInput
 }
 
 input UserCreateWithoutReviewsInput {
@@ -1409,8 +1480,9 @@ input UserCreateWithoutReviewsInput {
   email: String!
   name: String!
   phone: String!
-  myFundings: FundingCreateManyWithoutAuthorInput
+  fundingAuthor: FundingCreateManyWithoutAuthorInput
   fundingInvest: FundingCreateManyWithoutInvestorsInput
+  bookingCourse: CourseCreateManyWithoutBookingUsersInput
 }
 
 type UserEdge {
@@ -1516,22 +1588,14 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  email: String
-  name: String
-  phone: String
-  reviews: ReviewUpdateManyWithoutAuthorInput
-  myFundings: FundingUpdateManyWithoutAuthorInput
-  fundingInvest: FundingUpdateManyWithoutInvestorsInput
-}
-
 input UserUpdateInput {
   email: String
   name: String
   phone: String
   reviews: ReviewUpdateManyWithoutAuthorInput
-  myFundings: FundingUpdateManyWithoutAuthorInput
+  fundingAuthor: FundingUpdateManyWithoutAuthorInput
   fundingInvest: FundingUpdateManyWithoutInvestorsInput
+  bookingCourse: CourseUpdateManyWithoutBookingUsersInput
 }
 
 input UserUpdateManyDataInput {
@@ -1540,22 +1604,22 @@ input UserUpdateManyDataInput {
   phone: String
 }
 
-input UserUpdateManyInput {
-  create: [UserCreateInput!]
-  update: [UserUpdateWithWhereUniqueNestedInput!]
-  upsert: [UserUpsertWithWhereUniqueNestedInput!]
-  delete: [UserWhereUniqueInput!]
-  connect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  disconnect: [UserWhereUniqueInput!]
-  deleteMany: [UserScalarWhereInput!]
-  updateMany: [UserUpdateManyWithWhereNestedInput!]
-}
-
 input UserUpdateManyMutationInput {
   email: String
   name: String
   phone: String
+}
+
+input UserUpdateManyWithoutBookingCourseInput {
+  create: [UserCreateWithoutBookingCourseInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutBookingCourseInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutBookingCourseInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
 
 input UserUpdateManyWithoutFundingInvestInput {
@@ -1575,10 +1639,10 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdateOneRequiredWithoutMyFundingsInput {
-  create: UserCreateWithoutMyFundingsInput
-  update: UserUpdateWithoutMyFundingsDataInput
-  upsert: UserUpsertWithoutMyFundingsInput
+input UserUpdateOneRequiredWithoutFundingAuthorInput {
+  create: UserCreateWithoutFundingAuthorInput
+  update: UserUpdateWithoutFundingAuthorDataInput
+  upsert: UserUpsertWithoutFundingAuthorInput
   connect: UserWhereUniqueInput
 }
 
@@ -1589,33 +1653,45 @@ input UserUpdateOneRequiredWithoutReviewsInput {
   connect: UserWhereUniqueInput
 }
 
-input UserUpdateWithoutFundingInvestDataInput {
+input UserUpdateWithoutBookingCourseDataInput {
   email: String
   name: String
   phone: String
   reviews: ReviewUpdateManyWithoutAuthorInput
-  myFundings: FundingUpdateManyWithoutAuthorInput
+  fundingAuthor: FundingUpdateManyWithoutAuthorInput
+  fundingInvest: FundingUpdateManyWithoutInvestorsInput
 }
 
-input UserUpdateWithoutMyFundingsDataInput {
+input UserUpdateWithoutFundingAuthorDataInput {
   email: String
   name: String
   phone: String
   reviews: ReviewUpdateManyWithoutAuthorInput
   fundingInvest: FundingUpdateManyWithoutInvestorsInput
+  bookingCourse: CourseUpdateManyWithoutBookingUsersInput
+}
+
+input UserUpdateWithoutFundingInvestDataInput {
+  email: String
+  name: String
+  phone: String
+  reviews: ReviewUpdateManyWithoutAuthorInput
+  fundingAuthor: FundingUpdateManyWithoutAuthorInput
+  bookingCourse: CourseUpdateManyWithoutBookingUsersInput
 }
 
 input UserUpdateWithoutReviewsDataInput {
   email: String
   name: String
   phone: String
-  myFundings: FundingUpdateManyWithoutAuthorInput
+  fundingAuthor: FundingUpdateManyWithoutAuthorInput
   fundingInvest: FundingUpdateManyWithoutInvestorsInput
+  bookingCourse: CourseUpdateManyWithoutBookingUsersInput
 }
 
-input UserUpdateWithWhereUniqueNestedInput {
+input UserUpdateWithWhereUniqueWithoutBookingCourseInput {
   where: UserWhereUniqueInput!
-  data: UserUpdateDataInput!
+  data: UserUpdateWithoutBookingCourseDataInput!
 }
 
 input UserUpdateWithWhereUniqueWithoutFundingInvestInput {
@@ -1623,9 +1699,9 @@ input UserUpdateWithWhereUniqueWithoutFundingInvestInput {
   data: UserUpdateWithoutFundingInvestDataInput!
 }
 
-input UserUpsertWithoutMyFundingsInput {
-  update: UserUpdateWithoutMyFundingsDataInput!
-  create: UserCreateWithoutMyFundingsInput!
+input UserUpsertWithoutFundingAuthorInput {
+  update: UserUpdateWithoutFundingAuthorDataInput!
+  create: UserCreateWithoutFundingAuthorInput!
 }
 
 input UserUpsertWithoutReviewsInput {
@@ -1633,10 +1709,10 @@ input UserUpsertWithoutReviewsInput {
   create: UserCreateWithoutReviewsInput!
 }
 
-input UserUpsertWithWhereUniqueNestedInput {
+input UserUpsertWithWhereUniqueWithoutBookingCourseInput {
   where: UserWhereUniqueInput!
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+  update: UserUpdateWithoutBookingCourseDataInput!
+  create: UserCreateWithoutBookingCourseInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutFundingInvestInput {
@@ -1705,12 +1781,15 @@ input UserWhereInput {
   reviews_every: ReviewWhereInput
   reviews_some: ReviewWhereInput
   reviews_none: ReviewWhereInput
-  myFundings_every: FundingWhereInput
-  myFundings_some: FundingWhereInput
-  myFundings_none: FundingWhereInput
+  fundingAuthor_every: FundingWhereInput
+  fundingAuthor_some: FundingWhereInput
+  fundingAuthor_none: FundingWhereInput
   fundingInvest_every: FundingWhereInput
   fundingInvest_some: FundingWhereInput
   fundingInvest_none: FundingWhereInput
+  bookingCourse_every: CourseWhereInput
+  bookingCourse_some: CourseWhereInput
+  bookingCourse_none: CourseWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
