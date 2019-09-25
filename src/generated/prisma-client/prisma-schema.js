@@ -217,6 +217,7 @@ type Course {
   subtitle: String!
   images: String
   number: Int!
+  courseLength: Float
   prevStation: String!
   departureStation: String!
   nextStation: String!
@@ -225,6 +226,7 @@ type Course {
   departureArea: String!
   capacity: Int!
   bookingUsers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
 }
 
 type CourseConnection {
@@ -243,6 +245,7 @@ input CourseCreateInput {
   subtitle: String!
   images: String
   number: Int!
+  courseLength: Float
   prevStation: String!
   departureStation: String!
   nextStation: String!
@@ -251,6 +254,7 @@ input CourseCreateInput {
   departureArea: String!
   capacity: Int!
   bookingUsers: UserCreateManyWithoutBookingCourseInput
+  reviews: ReviewCreateManyWithoutCourseInput
 }
 
 input CourseCreateManyInput {
@@ -263,12 +267,18 @@ input CourseCreateManyWithoutBookingUsersInput {
   connect: [CourseWhereUniqueInput!]
 }
 
+input CourseCreateOneWithoutReviewsInput {
+  create: CourseCreateWithoutReviewsInput
+  connect: CourseWhereUniqueInput
+}
+
 input CourseCreateWithoutBookingUsersInput {
   id: ID
   title: String!
   subtitle: String!
   images: String
   number: Int!
+  courseLength: Float
   prevStation: String!
   departureStation: String!
   nextStation: String!
@@ -276,6 +286,24 @@ input CourseCreateWithoutBookingUsersInput {
   departureTime: DateTime!
   departureArea: String!
   capacity: Int!
+  reviews: ReviewCreateManyWithoutCourseInput
+}
+
+input CourseCreateWithoutReviewsInput {
+  id: ID
+  title: String!
+  subtitle: String!
+  images: String
+  number: Int!
+  courseLength: Float
+  prevStation: String!
+  departureStation: String!
+  nextStation: String!
+  courseRoute: CourseCreatecourseRouteInput
+  departureTime: DateTime!
+  departureArea: String!
+  capacity: Int!
+  bookingUsers: UserCreateManyWithoutBookingCourseInput
 }
 
 type CourseEdge {
@@ -294,6 +322,8 @@ enum CourseOrderByInput {
   images_DESC
   number_ASC
   number_DESC
+  courseLength_ASC
+  courseLength_DESC
   prevStation_ASC
   prevStation_DESC
   departureStation_ASC
@@ -314,6 +344,7 @@ type CoursePreviousValues {
   subtitle: String!
   images: String
   number: Int!
+  courseLength: Float
   prevStation: String!
   departureStation: String!
   nextStation: String!
@@ -388,6 +419,14 @@ input CourseScalarWhereInput {
   number_lte: Int
   number_gt: Int
   number_gte: Int
+  courseLength: Float
+  courseLength_not: Float
+  courseLength_in: [Float!]
+  courseLength_not_in: [Float!]
+  courseLength_lt: Float
+  courseLength_lte: Float
+  courseLength_gt: Float
+  courseLength_gte: Float
   prevStation: String
   prevStation_not: String
   prevStation_in: [String!]
@@ -492,6 +531,7 @@ input CourseUpdateDataInput {
   subtitle: String
   images: String
   number: Int
+  courseLength: Float
   prevStation: String
   departureStation: String
   nextStation: String
@@ -500,6 +540,7 @@ input CourseUpdateDataInput {
   departureArea: String
   capacity: Int
   bookingUsers: UserUpdateManyWithoutBookingCourseInput
+  reviews: ReviewUpdateManyWithoutCourseInput
 }
 
 input CourseUpdateInput {
@@ -507,6 +548,7 @@ input CourseUpdateInput {
   subtitle: String
   images: String
   number: Int
+  courseLength: Float
   prevStation: String
   departureStation: String
   nextStation: String
@@ -515,6 +557,7 @@ input CourseUpdateInput {
   departureArea: String
   capacity: Int
   bookingUsers: UserUpdateManyWithoutBookingCourseInput
+  reviews: ReviewUpdateManyWithoutCourseInput
 }
 
 input CourseUpdateManyDataInput {
@@ -522,6 +565,7 @@ input CourseUpdateManyDataInput {
   subtitle: String
   images: String
   number: Int
+  courseLength: Float
   prevStation: String
   departureStation: String
   nextStation: String
@@ -548,6 +592,7 @@ input CourseUpdateManyMutationInput {
   subtitle: String
   images: String
   number: Int
+  courseLength: Float
   prevStation: String
   departureStation: String
   nextStation: String
@@ -574,11 +619,19 @@ input CourseUpdateManyWithWhereNestedInput {
   data: CourseUpdateManyDataInput!
 }
 
+input CourseUpdateOneRequiredWithoutReviewsInput {
+  create: CourseCreateWithoutReviewsInput
+  update: CourseUpdateWithoutReviewsDataInput
+  upsert: CourseUpsertWithoutReviewsInput
+  connect: CourseWhereUniqueInput
+}
+
 input CourseUpdateWithoutBookingUsersDataInput {
   title: String
   subtitle: String
   images: String
   number: Int
+  courseLength: Float
   prevStation: String
   departureStation: String
   nextStation: String
@@ -586,6 +639,23 @@ input CourseUpdateWithoutBookingUsersDataInput {
   departureTime: DateTime
   departureArea: String
   capacity: Int
+  reviews: ReviewUpdateManyWithoutCourseInput
+}
+
+input CourseUpdateWithoutReviewsDataInput {
+  title: String
+  subtitle: String
+  images: String
+  number: Int
+  courseLength: Float
+  prevStation: String
+  departureStation: String
+  nextStation: String
+  courseRoute: CourseUpdatecourseRouteInput
+  departureTime: DateTime
+  departureArea: String
+  capacity: Int
+  bookingUsers: UserUpdateManyWithoutBookingCourseInput
 }
 
 input CourseUpdateWithWhereUniqueNestedInput {
@@ -596,6 +666,11 @@ input CourseUpdateWithWhereUniqueNestedInput {
 input CourseUpdateWithWhereUniqueWithoutBookingUsersInput {
   where: CourseWhereUniqueInput!
   data: CourseUpdateWithoutBookingUsersDataInput!
+}
+
+input CourseUpsertWithoutReviewsInput {
+  update: CourseUpdateWithoutReviewsDataInput!
+  create: CourseCreateWithoutReviewsInput!
 }
 
 input CourseUpsertWithWhereUniqueNestedInput {
@@ -675,6 +750,14 @@ input CourseWhereInput {
   number_lte: Int
   number_gt: Int
   number_gte: Int
+  courseLength: Float
+  courseLength_not: Float
+  courseLength_in: [Float!]
+  courseLength_not_in: [Float!]
+  courseLength_lt: Float
+  courseLength_lte: Float
+  courseLength_gt: Float
+  courseLength_gte: Float
   prevStation: String
   prevStation_not: String
   prevStation_in: [String!]
@@ -750,6 +833,9 @@ input CourseWhereInput {
   bookingUsers_every: UserWhereInput
   bookingUsers_some: UserWhereInput
   bookingUsers_none: UserWhereInput
+  reviews_every: ReviewWhereInput
+  reviews_some: ReviewWhereInput
+  reviews_none: ReviewWhereInput
   AND: [CourseWhereInput!]
   OR: [CourseWhereInput!]
   NOT: [CourseWhereInput!]
@@ -1191,7 +1277,9 @@ type Query {
 type Review {
   id: ID!
   createdAt: DateTime!
+  content: String!
   image: String
+  course: Course!
   author: User!
 }
 
@@ -1203,7 +1291,9 @@ type ReviewConnection {
 
 input ReviewCreateInput {
   id: ID
+  content: String!
   image: String
+  course: CourseCreateOneWithoutReviewsInput!
   author: UserCreateOneWithoutReviewsInput!
 }
 
@@ -1212,9 +1302,23 @@ input ReviewCreateManyWithoutAuthorInput {
   connect: [ReviewWhereUniqueInput!]
 }
 
+input ReviewCreateManyWithoutCourseInput {
+  create: [ReviewCreateWithoutCourseInput!]
+  connect: [ReviewWhereUniqueInput!]
+}
+
 input ReviewCreateWithoutAuthorInput {
   id: ID
+  content: String!
   image: String
+  course: CourseCreateOneWithoutReviewsInput!
+}
+
+input ReviewCreateWithoutCourseInput {
+  id: ID
+  content: String!
+  image: String
+  author: UserCreateOneWithoutReviewsInput!
 }
 
 type ReviewEdge {
@@ -1227,6 +1331,8 @@ enum ReviewOrderByInput {
   id_DESC
   createdAt_ASC
   createdAt_DESC
+  content_ASC
+  content_DESC
   image_ASC
   image_DESC
 }
@@ -1234,6 +1340,7 @@ enum ReviewOrderByInput {
 type ReviewPreviousValues {
   id: ID!
   createdAt: DateTime!
+  content: String!
   image: String
 }
 
@@ -1260,6 +1367,20 @@ input ReviewScalarWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
   image: String
   image_not: String
   image_in: [String!]
@@ -1298,15 +1419,19 @@ input ReviewSubscriptionWhereInput {
 }
 
 input ReviewUpdateInput {
+  content: String
   image: String
+  course: CourseUpdateOneRequiredWithoutReviewsInput
   author: UserUpdateOneRequiredWithoutReviewsInput
 }
 
 input ReviewUpdateManyDataInput {
+  content: String
   image: String
 }
 
 input ReviewUpdateManyMutationInput {
+  content: String
   image: String
 }
 
@@ -1322,13 +1447,33 @@ input ReviewUpdateManyWithoutAuthorInput {
   updateMany: [ReviewUpdateManyWithWhereNestedInput!]
 }
 
+input ReviewUpdateManyWithoutCourseInput {
+  create: [ReviewCreateWithoutCourseInput!]
+  delete: [ReviewWhereUniqueInput!]
+  connect: [ReviewWhereUniqueInput!]
+  set: [ReviewWhereUniqueInput!]
+  disconnect: [ReviewWhereUniqueInput!]
+  update: [ReviewUpdateWithWhereUniqueWithoutCourseInput!]
+  upsert: [ReviewUpsertWithWhereUniqueWithoutCourseInput!]
+  deleteMany: [ReviewScalarWhereInput!]
+  updateMany: [ReviewUpdateManyWithWhereNestedInput!]
+}
+
 input ReviewUpdateManyWithWhereNestedInput {
   where: ReviewScalarWhereInput!
   data: ReviewUpdateManyDataInput!
 }
 
 input ReviewUpdateWithoutAuthorDataInput {
+  content: String
   image: String
+  course: CourseUpdateOneRequiredWithoutReviewsInput
+}
+
+input ReviewUpdateWithoutCourseDataInput {
+  content: String
+  image: String
+  author: UserUpdateOneRequiredWithoutReviewsInput
 }
 
 input ReviewUpdateWithWhereUniqueWithoutAuthorInput {
@@ -1336,10 +1481,21 @@ input ReviewUpdateWithWhereUniqueWithoutAuthorInput {
   data: ReviewUpdateWithoutAuthorDataInput!
 }
 
+input ReviewUpdateWithWhereUniqueWithoutCourseInput {
+  where: ReviewWhereUniqueInput!
+  data: ReviewUpdateWithoutCourseDataInput!
+}
+
 input ReviewUpsertWithWhereUniqueWithoutAuthorInput {
   where: ReviewWhereUniqueInput!
   update: ReviewUpdateWithoutAuthorDataInput!
   create: ReviewCreateWithoutAuthorInput!
+}
+
+input ReviewUpsertWithWhereUniqueWithoutCourseInput {
+  where: ReviewWhereUniqueInput!
+  update: ReviewUpdateWithoutCourseDataInput!
+  create: ReviewCreateWithoutCourseInput!
 }
 
 input ReviewWhereInput {
@@ -1365,6 +1521,20 @@ input ReviewWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  content: String
+  content_not: String
+  content_in: [String!]
+  content_not_in: [String!]
+  content_lt: String
+  content_lte: String
+  content_gt: String
+  content_gte: String
+  content_contains: String
+  content_not_contains: String
+  content_starts_with: String
+  content_not_starts_with: String
+  content_ends_with: String
+  content_not_ends_with: String
   image: String
   image_not: String
   image_in: [String!]
@@ -1379,6 +1549,7 @@ input ReviewWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  course: CourseWhereInput
   author: UserWhereInput
   AND: [ReviewWhereInput!]
   OR: [ReviewWhereInput!]

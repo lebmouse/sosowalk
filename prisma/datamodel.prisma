@@ -28,6 +28,7 @@ type Course {
   subtitle: String!
   images: String
   number: Int!
+  courseLength: Float
   prevStation: String!
   departureStation: String!
   nextStation: String!
@@ -36,12 +37,15 @@ type Course {
   departureArea: String!
   capacity: Int!
   bookingUsers: [User!]! @relation(name: "BookingUser", onDelete: SET_NULL)
+  reviews: [Review!]! @relation(name: "CourseReview", onDelete: SET_NULL)
 }
 
 type Review {
   id: ID! @id
   createdAt: DateTime! @createdAt
+  content: String!
   image: String
+  course: Course! @relation(name: "CourseReview", onDelete: SET_NULL)
   author: User! @relation(name: "ReviewAuthor", onDelete: SET_NULL)
 }
 
