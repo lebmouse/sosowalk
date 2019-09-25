@@ -1,6 +1,7 @@
 const port = process.env.PORT || 3000;
 
 const express = require("express");
+const bodyParser = require("body-parser");
 const Multer = require("multer");
 const multerGoogleStorage = require("multer-google-storage");
 const fs = require("fs");
@@ -19,8 +20,8 @@ const upload = Multer({
 });
 
 const app = express();
-app.use(express.json());
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(port, err => {
   if (err) throw err;
   console.log(`> Ready On Server http://localhost:${port}`);
@@ -70,7 +71,7 @@ app.get("/courses/:coursesId", async (req, res) => {
 });
 
 app.post("/courses/:coursesId/reviews", async (req, res) => {
-  const reviews = await prisma.createReview({
+  const newReview = await prisma.createReview({
     content: req.body.content,
     author: {
       connect: { email: req.body.email }
@@ -79,20 +80,22 @@ app.post("/courses/:coursesId/reviews", async (req, res) => {
       connect: { id: req.params.coursesId }
     }
   });
+  res.json(newReview);
 });
 
 app.post("/signin", async (req, res) => {
-  const user = await prisma.user({ email: req.body.email });
-  if (user) {
+  let user = await prisma.user({ email: req.body.email });
+  if (!user) {
     user = await prisma.createUser(req.body);
   }
   res.json(user);
 });
 
-app.get("users/:userId/courses", async (req, res) => {
+app.get("/users/:userId/courses", async (req, res) => {
   const userCourses = await prisma
     .user({ id: req.params.userId })
     .bookingCourse();
+  // console.log(userCourses);
   res.json(userCourses);
 });
 
@@ -102,19 +105,25 @@ app.get("/fundings", async (req, res) => {
 });
 
 app.post("/fundings", async (req, res) => {
-  const newFunding = await prisma.createFunding(req.body);
+  const { authorEmail, ...body } = req.body;
+  const newFunding = await prisma.createFunding({
+    ...body,
+    author: {
+      connect: { email: authorEmail }
+    }
+  });
   res.json(newFunding);
 });
 
 app.post("/fundings/:fundingId/investors", async (req, res) => {
+  
   const newInvestor = await prisma.updateFunding({
+    where: { id: req.params.fundingId },
     data: {
       investors: {
         connect: { email: req.body.email }
       }
-    },
-    where: { id: req.params.fundingId }
+    }
   });
   res.json(newInvestor);
 });
-
