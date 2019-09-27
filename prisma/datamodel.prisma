@@ -58,6 +58,6 @@ type Funding {
   author: User! @relation(name: "FundingAuthor", onDelete: SET_NULL)
   content: String!
   createdAt: DateTime! @createdAt
-  deadline: DateTime!
+  deadline: DateTime
   investors: [User!]! @relation(name: "FundingInvestor", onDelete: SET_NULL)
 }
