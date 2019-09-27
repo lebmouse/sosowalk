@@ -54,11 +54,20 @@ app.get("/courses", async (req, res) => {
     }
   }  
   `);
+
+  const now = new Date();
   allCourse.forEach(category => {
     category.courses.forEach(course => {
       if (course.bookingUsers) {
         course.bookingUsers = course.bookingUsers.length;
       }
+      course.activeCourse =
+        new Date() - new Date(course.departureTime) > 0 ? false : true;
+      course.activeCourse = course.activeCourse
+        ? course.capacity <= course.bookingUsers
+          ? false
+          : true
+        : false;
     });
     if (req.query.order == 2) {
       console.log("order 2");
@@ -98,12 +107,10 @@ app.post("/courses/:coursedId/applicants/:userId", async (req, res) => {
 });
 
 app.get("/courses/:coursesId/reviews", async (req, res) => {
-  const PAGE = req.query.page || 1;
-  const PAGE_SIZE = req.query.pagesize || 6;
   const coursesId = req.params.coursesId;
   const query = `
   query {
-    reviews(where:{course:{id:"${coursesId}"}}, first: ${PAGE_SIZE}, skip: ${PAGE}){
+    reviews(where:{course:{id:"${coursesId}"}}){
       id
       createdAt
       content
