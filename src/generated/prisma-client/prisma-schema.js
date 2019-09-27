@@ -31,6 +31,7 @@ type Category {
   id: ID!
   title: String!
   subtitle: String!
+  bannerImage: String
   openingDate: DateTime!
   closingDate: DateTime!
   openingTime: DateTime!
@@ -48,6 +49,7 @@ input CategoryCreateInput {
   id: ID
   title: String!
   subtitle: String!
+  bannerImage: String
   openingDate: DateTime!
   closingDate: DateTime!
   openingTime: DateTime!
@@ -67,6 +69,8 @@ enum CategoryOrderByInput {
   title_DESC
   subtitle_ASC
   subtitle_DESC
+  bannerImage_ASC
+  bannerImage_DESC
   openingDate_ASC
   openingDate_DESC
   closingDate_ASC
@@ -81,6 +85,7 @@ type CategoryPreviousValues {
   id: ID!
   title: String!
   subtitle: String!
+  bannerImage: String
   openingDate: DateTime!
   closingDate: DateTime!
   openingTime: DateTime!
@@ -108,6 +113,7 @@ input CategorySubscriptionWhereInput {
 input CategoryUpdateInput {
   title: String
   subtitle: String
+  bannerImage: String
   openingDate: DateTime
   closingDate: DateTime
   openingTime: DateTime
@@ -118,6 +124,7 @@ input CategoryUpdateInput {
 input CategoryUpdateManyMutationInput {
   title: String
   subtitle: String
+  bannerImage: String
   openingDate: DateTime
   closingDate: DateTime
   openingTime: DateTime
@@ -167,6 +174,20 @@ input CategoryWhereInput {
   subtitle_not_starts_with: String
   subtitle_ends_with: String
   subtitle_not_ends_with: String
+  bannerImage: String
+  bannerImage_not: String
+  bannerImage_in: [String!]
+  bannerImage_not_in: [String!]
+  bannerImage_lt: String
+  bannerImage_lte: String
+  bannerImage_gt: String
+  bannerImage_gte: String
+  bannerImage_contains: String
+  bannerImage_not_contains: String
+  bannerImage_starts_with: String
+  bannerImage_not_starts_with: String
+  bannerImage_ends_with: String
+  bannerImage_not_ends_with: String
   openingDate: DateTime
   openingDate_not: DateTime
   openingDate_in: [DateTime!]
@@ -213,8 +234,7 @@ input CategoryWhereUniqueInput {
 
 type Course {
   id: ID!
-  title: String!
-  subtitle: String!
+  title: String
   images: String
   number: Int!
   courseLength: Float
@@ -241,8 +261,7 @@ input CourseCreatecourseRouteInput {
 
 input CourseCreateInput {
   id: ID
-  title: String!
-  subtitle: String!
+  title: String
   images: String
   number: Int!
   courseLength: Float
@@ -274,8 +293,7 @@ input CourseCreateOneWithoutReviewsInput {
 
 input CourseCreateWithoutBookingUsersInput {
   id: ID
-  title: String!
-  subtitle: String!
+  title: String
   images: String
   number: Int!
   courseLength: Float
@@ -291,8 +309,7 @@ input CourseCreateWithoutBookingUsersInput {
 
 input CourseCreateWithoutReviewsInput {
   id: ID
-  title: String!
-  subtitle: String!
+  title: String
   images: String
   number: Int!
   courseLength: Float
@@ -316,8 +333,6 @@ enum CourseOrderByInput {
   id_DESC
   title_ASC
   title_DESC
-  subtitle_ASC
-  subtitle_DESC
   images_ASC
   images_DESC
   number_ASC
@@ -340,8 +355,7 @@ enum CourseOrderByInput {
 
 type CoursePreviousValues {
   id: ID!
-  title: String!
-  subtitle: String!
+  title: String
   images: String
   number: Int!
   courseLength: Float
@@ -383,20 +397,6 @@ input CourseScalarWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  subtitle: String
-  subtitle_not: String
-  subtitle_in: [String!]
-  subtitle_not_in: [String!]
-  subtitle_lt: String
-  subtitle_lte: String
-  subtitle_gt: String
-  subtitle_gte: String
-  subtitle_contains: String
-  subtitle_not_contains: String
-  subtitle_starts_with: String
-  subtitle_not_starts_with: String
-  subtitle_ends_with: String
-  subtitle_not_ends_with: String
   images: String
   images_not: String
   images_in: [String!]
@@ -528,7 +528,6 @@ input CourseUpdatecourseRouteInput {
 
 input CourseUpdateDataInput {
   title: String
-  subtitle: String
   images: String
   number: Int
   courseLength: Float
@@ -545,7 +544,6 @@ input CourseUpdateDataInput {
 
 input CourseUpdateInput {
   title: String
-  subtitle: String
   images: String
   number: Int
   courseLength: Float
@@ -562,7 +560,6 @@ input CourseUpdateInput {
 
 input CourseUpdateManyDataInput {
   title: String
-  subtitle: String
   images: String
   number: Int
   courseLength: Float
@@ -589,7 +586,6 @@ input CourseUpdateManyInput {
 
 input CourseUpdateManyMutationInput {
   title: String
-  subtitle: String
   images: String
   number: Int
   courseLength: Float
@@ -628,7 +624,6 @@ input CourseUpdateOneRequiredWithoutReviewsInput {
 
 input CourseUpdateWithoutBookingUsersDataInput {
   title: String
-  subtitle: String
   images: String
   number: Int
   courseLength: Float
@@ -644,7 +639,6 @@ input CourseUpdateWithoutBookingUsersDataInput {
 
 input CourseUpdateWithoutReviewsDataInput {
   title: String
-  subtitle: String
   images: String
   number: Int
   courseLength: Float
@@ -714,20 +708,6 @@ input CourseWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  subtitle: String
-  subtitle_not: String
-  subtitle_in: [String!]
-  subtitle_not_in: [String!]
-  subtitle_lt: String
-  subtitle_lte: String
-  subtitle_gt: String
-  subtitle_gte: String
-  subtitle_contains: String
-  subtitle_not_contains: String
-  subtitle_starts_with: String
-  subtitle_not_starts_with: String
-  subtitle_ends_with: String
-  subtitle_not_ends_with: String
   images: String
   images_not: String
   images_in: [String!]

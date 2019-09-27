@@ -262,8 +262,6 @@ export type CourseOrderByInput =
   | "id_DESC"
   | "title_ASC"
   | "title_DESC"
-  | "subtitle_ASC"
-  | "subtitle_DESC"
   | "images_ASC"
   | "images_DESC"
   | "number_ASC"
@@ -324,6 +322,8 @@ export type CategoryOrderByInput =
   | "title_DESC"
   | "subtitle_ASC"
   | "subtitle_DESC"
+  | "bannerImage_ASC"
+  | "bannerImage_DESC"
   | "openingDate_ASC"
   | "openingDate_DESC"
   | "closingDate_ASC"
@@ -622,20 +622,6 @@ export interface CourseWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
-  subtitle?: Maybe<String>;
-  subtitle_not?: Maybe<String>;
-  subtitle_in?: Maybe<String[] | String>;
-  subtitle_not_in?: Maybe<String[] | String>;
-  subtitle_lt?: Maybe<String>;
-  subtitle_lte?: Maybe<String>;
-  subtitle_gt?: Maybe<String>;
-  subtitle_gte?: Maybe<String>;
-  subtitle_contains?: Maybe<String>;
-  subtitle_not_contains?: Maybe<String>;
-  subtitle_starts_with?: Maybe<String>;
-  subtitle_not_starts_with?: Maybe<String>;
-  subtitle_ends_with?: Maybe<String>;
-  subtitle_not_ends_with?: Maybe<String>;
   images?: Maybe<String>;
   images_not?: Maybe<String>;
   images_in?: Maybe<String[] | String>;
@@ -773,6 +759,7 @@ export interface FundingSubscriptionWhereInput {
 export interface CategoryUpdateInput {
   title?: Maybe<String>;
   subtitle?: Maybe<String>;
+  bannerImage?: Maybe<String>;
   openingDate?: Maybe<DateTimeInput>;
   closingDate?: Maybe<DateTimeInput>;
   openingTime?: Maybe<DateTimeInput>;
@@ -823,6 +810,20 @@ export interface CategoryWhereInput {
   subtitle_not_starts_with?: Maybe<String>;
   subtitle_ends_with?: Maybe<String>;
   subtitle_not_ends_with?: Maybe<String>;
+  bannerImage?: Maybe<String>;
+  bannerImage_not?: Maybe<String>;
+  bannerImage_in?: Maybe<String[] | String>;
+  bannerImage_not_in?: Maybe<String[] | String>;
+  bannerImage_lt?: Maybe<String>;
+  bannerImage_lte?: Maybe<String>;
+  bannerImage_gt?: Maybe<String>;
+  bannerImage_gte?: Maybe<String>;
+  bannerImage_contains?: Maybe<String>;
+  bannerImage_not_contains?: Maybe<String>;
+  bannerImage_starts_with?: Maybe<String>;
+  bannerImage_not_starts_with?: Maybe<String>;
+  bannerImage_ends_with?: Maybe<String>;
+  bannerImage_not_ends_with?: Maybe<String>;
   openingDate?: Maybe<DateTimeInput>;
   openingDate_not?: Maybe<DateTimeInput>;
   openingDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -908,7 +909,6 @@ export interface UserCreateInput {
 
 export interface CourseUpdateDataInput {
   title?: Maybe<String>;
-  subtitle?: Maybe<String>;
   images?: Maybe<String>;
   number?: Maybe<Int>;
   courseLength?: Maybe<Float>;
@@ -999,7 +999,6 @@ export interface UserUpdateWithoutBookingCourseDataInput {
 
 export interface CourseUpdateInput {
   title?: Maybe<String>;
-  subtitle?: Maybe<String>;
   images?: Maybe<String>;
   number?: Maybe<Int>;
   courseLength?: Maybe<Float>;
@@ -1040,6 +1039,7 @@ export interface ReviewUpdateManyWithoutAuthorInput {
 export interface CategoryUpdateManyMutationInput {
   title?: Maybe<String>;
   subtitle?: Maybe<String>;
+  bannerImage?: Maybe<String>;
   openingDate?: Maybe<DateTimeInput>;
   closingDate?: Maybe<DateTimeInput>;
   openingTime?: Maybe<DateTimeInput>;
@@ -1140,7 +1140,6 @@ export interface UserUpdateManyWithWhereNestedInput {
 
 export interface CourseUpdateWithoutReviewsDataInput {
   title?: Maybe<String>;
-  subtitle?: Maybe<String>;
   images?: Maybe<String>;
   number?: Maybe<Int>;
   courseLength?: Maybe<Float>;
@@ -1158,6 +1157,7 @@ export interface CategoryCreateInput {
   id?: Maybe<ID_Input>;
   title: String;
   subtitle: String;
+  bannerImage?: Maybe<String>;
   openingDate: DateTimeInput;
   closingDate: DateTimeInput;
   openingTime: DateTimeInput;
@@ -1225,8 +1225,7 @@ export interface ReviewWhereInput {
 
 export interface CourseCreateInput {
   id?: Maybe<ID_Input>;
-  title: String;
-  subtitle: String;
+  title?: Maybe<String>;
   images?: Maybe<String>;
   number: Int;
   courseLength?: Maybe<Float>;
@@ -1256,7 +1255,6 @@ export interface UserCreateManyWithoutBookingCourseInput {
 
 export interface CourseUpdateManyDataInput {
   title?: Maybe<String>;
-  subtitle?: Maybe<String>;
   images?: Maybe<String>;
   number?: Maybe<Int>;
   courseLength?: Maybe<Float>;
@@ -1464,7 +1462,6 @@ export type CourseWhereUniqueInput = AtLeastOne<{
 
 export interface CourseUpdateWithoutBookingUsersDataInput {
   title?: Maybe<String>;
-  subtitle?: Maybe<String>;
   images?: Maybe<String>;
   number?: Maybe<Int>;
   courseLength?: Maybe<Float>;
@@ -1587,8 +1584,7 @@ export interface FundingUpdateManyWithoutInvestorsInput {
 
 export interface CourseCreateWithoutBookingUsersInput {
   id?: Maybe<ID_Input>;
-  title: String;
-  subtitle: String;
+  title?: Maybe<String>;
   images?: Maybe<String>;
   number: Int;
   courseLength?: Maybe<Float>;
@@ -1687,8 +1683,7 @@ export interface FundingUpsertWithWhereUniqueWithoutInvestorsInput {
 
 export interface CourseCreateWithoutReviewsInput {
   id?: Maybe<ID_Input>;
-  title: String;
-  subtitle: String;
+  title?: Maybe<String>;
   images?: Maybe<String>;
   number: Int;
   courseLength?: Maybe<Float>;
@@ -1839,20 +1834,6 @@ export interface CourseScalarWhereInput {
   title_not_starts_with?: Maybe<String>;
   title_ends_with?: Maybe<String>;
   title_not_ends_with?: Maybe<String>;
-  subtitle?: Maybe<String>;
-  subtitle_not?: Maybe<String>;
-  subtitle_in?: Maybe<String[] | String>;
-  subtitle_not_in?: Maybe<String[] | String>;
-  subtitle_lt?: Maybe<String>;
-  subtitle_lte?: Maybe<String>;
-  subtitle_gt?: Maybe<String>;
-  subtitle_gte?: Maybe<String>;
-  subtitle_contains?: Maybe<String>;
-  subtitle_not_contains?: Maybe<String>;
-  subtitle_starts_with?: Maybe<String>;
-  subtitle_not_starts_with?: Maybe<String>;
-  subtitle_ends_with?: Maybe<String>;
-  subtitle_not_ends_with?: Maybe<String>;
   images?: Maybe<String>;
   images_not?: Maybe<String>;
   images_in?: Maybe<String[] | String>;
@@ -1989,7 +1970,6 @@ export interface UserCreateWithoutBookingCourseInput {
 
 export interface CourseUpdateManyMutationInput {
   title?: Maybe<String>;
-  subtitle?: Maybe<String>;
   images?: Maybe<String>;
   number?: Maybe<Int>;
   courseLength?: Maybe<Float>;
@@ -2122,8 +2102,7 @@ export interface AggregateCategorySubscription
 
 export interface Course {
   id: ID_Output;
-  title: String;
-  subtitle: String;
+  title?: String;
   images?: String;
   number: Int;
   courseLength?: Float;
@@ -2139,7 +2118,6 @@ export interface Course {
 export interface CoursePromise extends Promise<Course>, Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
-  subtitle: () => Promise<String>;
   images: () => Promise<String>;
   number: () => Promise<Int>;
   courseLength: () => Promise<Float>;
@@ -2175,7 +2153,6 @@ export interface CourseSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
-  subtitle: () => Promise<AsyncIterator<String>>;
   images: () => Promise<AsyncIterator<String>>;
   number: () => Promise<AsyncIterator<Int>>;
   courseLength: () => Promise<AsyncIterator<Float>>;
@@ -2211,7 +2188,6 @@ export interface CourseNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
-  subtitle: () => Promise<String>;
   images: () => Promise<String>;
   number: () => Promise<Int>;
   courseLength: () => Promise<Float>;
@@ -2445,6 +2421,7 @@ export interface Category {
   id: ID_Output;
   title: String;
   subtitle: String;
+  bannerImage?: String;
   openingDate: DateTimeOutput;
   closingDate: DateTimeOutput;
   openingTime: DateTimeOutput;
@@ -2455,6 +2432,7 @@ export interface CategoryPromise extends Promise<Category>, Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   subtitle: () => Promise<String>;
+  bannerImage: () => Promise<String>;
   openingDate: () => Promise<DateTimeOutput>;
   closingDate: () => Promise<DateTimeOutput>;
   openingTime: () => Promise<DateTimeOutput>;
@@ -2476,6 +2454,7 @@ export interface CategorySubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
   subtitle: () => Promise<AsyncIterator<String>>;
+  bannerImage: () => Promise<AsyncIterator<String>>;
   openingDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   closingDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   openingTime: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -2497,6 +2476,7 @@ export interface CategoryNullablePromise
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   subtitle: () => Promise<String>;
+  bannerImage: () => Promise<String>;
   openingDate: () => Promise<DateTimeOutput>;
   closingDate: () => Promise<DateTimeOutput>;
   openingTime: () => Promise<DateTimeOutput>;
@@ -2579,6 +2559,7 @@ export interface CategoryPreviousValues {
   id: ID_Output;
   title: String;
   subtitle: String;
+  bannerImage?: String;
   openingDate: DateTimeOutput;
   closingDate: DateTimeOutput;
   openingTime: DateTimeOutput;
@@ -2591,6 +2572,7 @@ export interface CategoryPreviousValuesPromise
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
   subtitle: () => Promise<String>;
+  bannerImage: () => Promise<String>;
   openingDate: () => Promise<DateTimeOutput>;
   closingDate: () => Promise<DateTimeOutput>;
   openingTime: () => Promise<DateTimeOutput>;
@@ -2603,6 +2585,7 @@ export interface CategoryPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
   subtitle: () => Promise<AsyncIterator<String>>;
+  bannerImage: () => Promise<AsyncIterator<String>>;
   openingDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   closingDate: () => Promise<AsyncIterator<DateTimeOutput>>;
   openingTime: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -2799,8 +2782,7 @@ export interface ReviewNullablePromise
 
 export interface CoursePreviousValues {
   id: ID_Output;
-  title: String;
-  subtitle: String;
+  title?: String;
   images?: String;
   number: Int;
   courseLength?: Float;
@@ -2818,7 +2800,6 @@ export interface CoursePreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   title: () => Promise<String>;
-  subtitle: () => Promise<String>;
   images: () => Promise<String>;
   number: () => Promise<Int>;
   courseLength: () => Promise<Float>;
@@ -2836,7 +2817,6 @@ export interface CoursePreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   title: () => Promise<AsyncIterator<String>>;
-  subtitle: () => Promise<AsyncIterator<String>>;
   images: () => Promise<AsyncIterator<String>>;
   number: () => Promise<AsyncIterator<Int>>;
   courseLength: () => Promise<AsyncIterator<Float>>;
