@@ -3,6 +3,7 @@ type User {
   email: String! @unique
   name: String!
   phone: String! @unique
+  stamp: Int! @default(value: 0)
   reviews: [Review!]! @relation(name: "ReviewAuthor", onDelete: SET_NULL)
   fundingAuthor: [Funding!]!
     @relation(name: "FundingAuthor", onDelete: SET_NULL)
@@ -36,6 +37,7 @@ type Course {
   departureTime: DateTime!
   departureArea: String!
   capacity: Int!
+  category: Category @relation(name: "CourseCategory", onDelete: SET_NULL)
   bookingUsers: [User!]! @relation(name: "BookingUser", onDelete: SET_NULL)
   reviews: [Review!]! @relation(name: "CourseReview", onDelete: SET_NULL)
 }

@@ -54,7 +54,23 @@ input CategoryCreateInput {
   closingDate: DateTime!
   openingTime: DateTime!
   closingTime: DateTime!
-  courses: CourseCreateManyInput
+  courses: CourseCreateManyWithoutCategoryInput
+}
+
+input CategoryCreateOneWithoutCoursesInput {
+  create: CategoryCreateWithoutCoursesInput
+  connect: CategoryWhereUniqueInput
+}
+
+input CategoryCreateWithoutCoursesInput {
+  id: ID
+  title: String!
+  subtitle: String!
+  bannerImage: String
+  openingDate: DateTime!
+  closingDate: DateTime!
+  openingTime: DateTime!
+  closingTime: DateTime!
 }
 
 type CategoryEdge {
@@ -118,7 +134,7 @@ input CategoryUpdateInput {
   closingDate: DateTime
   openingTime: DateTime
   closingTime: DateTime
-  courses: CourseUpdateManyInput
+  courses: CourseUpdateManyWithoutCategoryInput
 }
 
 input CategoryUpdateManyMutationInput {
@@ -129,6 +145,30 @@ input CategoryUpdateManyMutationInput {
   closingDate: DateTime
   openingTime: DateTime
   closingTime: DateTime
+}
+
+input CategoryUpdateOneWithoutCoursesInput {
+  create: CategoryCreateWithoutCoursesInput
+  update: CategoryUpdateWithoutCoursesDataInput
+  upsert: CategoryUpsertWithoutCoursesInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: CategoryWhereUniqueInput
+}
+
+input CategoryUpdateWithoutCoursesDataInput {
+  title: String
+  subtitle: String
+  bannerImage: String
+  openingDate: DateTime
+  closingDate: DateTime
+  openingTime: DateTime
+  closingTime: DateTime
+}
+
+input CategoryUpsertWithoutCoursesInput {
+  update: CategoryUpdateWithoutCoursesDataInput!
+  create: CategoryCreateWithoutCoursesInput!
 }
 
 input CategoryWhereInput {
@@ -245,6 +285,7 @@ type Course {
   departureTime: DateTime!
   departureArea: String!
   capacity: Int!
+  category: Category
   bookingUsers(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
 }
@@ -272,17 +313,18 @@ input CourseCreateInput {
   departureTime: DateTime!
   departureArea: String!
   capacity: Int!
+  category: CategoryCreateOneWithoutCoursesInput
   bookingUsers: UserCreateManyWithoutBookingCourseInput
   reviews: ReviewCreateManyWithoutCourseInput
 }
 
-input CourseCreateManyInput {
-  create: [CourseCreateInput!]
+input CourseCreateManyWithoutBookingUsersInput {
+  create: [CourseCreateWithoutBookingUsersInput!]
   connect: [CourseWhereUniqueInput!]
 }
 
-input CourseCreateManyWithoutBookingUsersInput {
-  create: [CourseCreateWithoutBookingUsersInput!]
+input CourseCreateManyWithoutCategoryInput {
+  create: [CourseCreateWithoutCategoryInput!]
   connect: [CourseWhereUniqueInput!]
 }
 
@@ -304,6 +346,24 @@ input CourseCreateWithoutBookingUsersInput {
   departureTime: DateTime!
   departureArea: String!
   capacity: Int!
+  category: CategoryCreateOneWithoutCoursesInput
+  reviews: ReviewCreateManyWithoutCourseInput
+}
+
+input CourseCreateWithoutCategoryInput {
+  id: ID
+  title: String
+  images: String
+  number: Int!
+  courseLength: Float
+  prevStation: String!
+  departureStation: String!
+  nextStation: String!
+  courseRoute: CourseCreatecourseRouteInput
+  departureTime: DateTime!
+  departureArea: String!
+  capacity: Int!
+  bookingUsers: UserCreateManyWithoutBookingCourseInput
   reviews: ReviewCreateManyWithoutCourseInput
 }
 
@@ -320,6 +380,7 @@ input CourseCreateWithoutReviewsInput {
   departureTime: DateTime!
   departureArea: String!
   capacity: Int!
+  category: CategoryCreateOneWithoutCoursesInput
   bookingUsers: UserCreateManyWithoutBookingCourseInput
 }
 
@@ -526,22 +587,6 @@ input CourseUpdatecourseRouteInput {
   set: [String!]
 }
 
-input CourseUpdateDataInput {
-  title: String
-  images: String
-  number: Int
-  courseLength: Float
-  prevStation: String
-  departureStation: String
-  nextStation: String
-  courseRoute: CourseUpdatecourseRouteInput
-  departureTime: DateTime
-  departureArea: String
-  capacity: Int
-  bookingUsers: UserUpdateManyWithoutBookingCourseInput
-  reviews: ReviewUpdateManyWithoutCourseInput
-}
-
 input CourseUpdateInput {
   title: String
   images: String
@@ -554,6 +599,7 @@ input CourseUpdateInput {
   departureTime: DateTime
   departureArea: String
   capacity: Int
+  category: CategoryUpdateOneWithoutCoursesInput
   bookingUsers: UserUpdateManyWithoutBookingCourseInput
   reviews: ReviewUpdateManyWithoutCourseInput
 }
@@ -570,18 +616,6 @@ input CourseUpdateManyDataInput {
   departureTime: DateTime
   departureArea: String
   capacity: Int
-}
-
-input CourseUpdateManyInput {
-  create: [CourseCreateInput!]
-  update: [CourseUpdateWithWhereUniqueNestedInput!]
-  upsert: [CourseUpsertWithWhereUniqueNestedInput!]
-  delete: [CourseWhereUniqueInput!]
-  connect: [CourseWhereUniqueInput!]
-  set: [CourseWhereUniqueInput!]
-  disconnect: [CourseWhereUniqueInput!]
-  deleteMany: [CourseScalarWhereInput!]
-  updateMany: [CourseUpdateManyWithWhereNestedInput!]
 }
 
 input CourseUpdateManyMutationInput {
@@ -610,6 +644,18 @@ input CourseUpdateManyWithoutBookingUsersInput {
   updateMany: [CourseUpdateManyWithWhereNestedInput!]
 }
 
+input CourseUpdateManyWithoutCategoryInput {
+  create: [CourseCreateWithoutCategoryInput!]
+  delete: [CourseWhereUniqueInput!]
+  connect: [CourseWhereUniqueInput!]
+  set: [CourseWhereUniqueInput!]
+  disconnect: [CourseWhereUniqueInput!]
+  update: [CourseUpdateWithWhereUniqueWithoutCategoryInput!]
+  upsert: [CourseUpsertWithWhereUniqueWithoutCategoryInput!]
+  deleteMany: [CourseScalarWhereInput!]
+  updateMany: [CourseUpdateManyWithWhereNestedInput!]
+}
+
 input CourseUpdateManyWithWhereNestedInput {
   where: CourseScalarWhereInput!
   data: CourseUpdateManyDataInput!
@@ -634,6 +680,23 @@ input CourseUpdateWithoutBookingUsersDataInput {
   departureTime: DateTime
   departureArea: String
   capacity: Int
+  category: CategoryUpdateOneWithoutCoursesInput
+  reviews: ReviewUpdateManyWithoutCourseInput
+}
+
+input CourseUpdateWithoutCategoryDataInput {
+  title: String
+  images: String
+  number: Int
+  courseLength: Float
+  prevStation: String
+  departureStation: String
+  nextStation: String
+  courseRoute: CourseUpdatecourseRouteInput
+  departureTime: DateTime
+  departureArea: String
+  capacity: Int
+  bookingUsers: UserUpdateManyWithoutBookingCourseInput
   reviews: ReviewUpdateManyWithoutCourseInput
 }
 
@@ -649,12 +712,8 @@ input CourseUpdateWithoutReviewsDataInput {
   departureTime: DateTime
   departureArea: String
   capacity: Int
+  category: CategoryUpdateOneWithoutCoursesInput
   bookingUsers: UserUpdateManyWithoutBookingCourseInput
-}
-
-input CourseUpdateWithWhereUniqueNestedInput {
-  where: CourseWhereUniqueInput!
-  data: CourseUpdateDataInput!
 }
 
 input CourseUpdateWithWhereUniqueWithoutBookingUsersInput {
@@ -662,21 +721,26 @@ input CourseUpdateWithWhereUniqueWithoutBookingUsersInput {
   data: CourseUpdateWithoutBookingUsersDataInput!
 }
 
+input CourseUpdateWithWhereUniqueWithoutCategoryInput {
+  where: CourseWhereUniqueInput!
+  data: CourseUpdateWithoutCategoryDataInput!
+}
+
 input CourseUpsertWithoutReviewsInput {
   update: CourseUpdateWithoutReviewsDataInput!
   create: CourseCreateWithoutReviewsInput!
-}
-
-input CourseUpsertWithWhereUniqueNestedInput {
-  where: CourseWhereUniqueInput!
-  update: CourseUpdateDataInput!
-  create: CourseCreateInput!
 }
 
 input CourseUpsertWithWhereUniqueWithoutBookingUsersInput {
   where: CourseWhereUniqueInput!
   update: CourseUpdateWithoutBookingUsersDataInput!
   create: CourseCreateWithoutBookingUsersInput!
+}
+
+input CourseUpsertWithWhereUniqueWithoutCategoryInput {
+  where: CourseWhereUniqueInput!
+  update: CourseUpdateWithoutCategoryDataInput!
+  create: CourseCreateWithoutCategoryInput!
 }
 
 input CourseWhereInput {
@@ -810,6 +874,7 @@ input CourseWhereInput {
   capacity_lte: Int
   capacity_gt: Int
   capacity_gte: Int
+  category: CategoryWhereInput
   bookingUsers_every: UserWhereInput
   bookingUsers_some: UserWhereInput
   bookingUsers_none: UserWhereInput
@@ -1553,6 +1618,7 @@ type User {
   email: String!
   name: String!
   phone: String!
+  stamp: Int!
   reviews(where: ReviewWhereInput, orderBy: ReviewOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Review!]
   fundingAuthor(where: FundingWhereInput, orderBy: FundingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Funding!]
   fundingInvest(where: FundingWhereInput, orderBy: FundingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Funding!]
@@ -1570,6 +1636,7 @@ input UserCreateInput {
   email: String!
   name: String!
   phone: String!
+  stamp: Int
   reviews: ReviewCreateManyWithoutAuthorInput
   fundingAuthor: FundingCreateManyWithoutAuthorInput
   fundingInvest: FundingCreateManyWithoutInvestorsInput
@@ -1601,6 +1668,7 @@ input UserCreateWithoutBookingCourseInput {
   email: String!
   name: String!
   phone: String!
+  stamp: Int
   reviews: ReviewCreateManyWithoutAuthorInput
   fundingAuthor: FundingCreateManyWithoutAuthorInput
   fundingInvest: FundingCreateManyWithoutInvestorsInput
@@ -1611,6 +1679,7 @@ input UserCreateWithoutFundingAuthorInput {
   email: String!
   name: String!
   phone: String!
+  stamp: Int
   reviews: ReviewCreateManyWithoutAuthorInput
   fundingInvest: FundingCreateManyWithoutInvestorsInput
   bookingCourse: CourseCreateManyWithoutBookingUsersInput
@@ -1621,6 +1690,7 @@ input UserCreateWithoutFundingInvestInput {
   email: String!
   name: String!
   phone: String!
+  stamp: Int
   reviews: ReviewCreateManyWithoutAuthorInput
   fundingAuthor: FundingCreateManyWithoutAuthorInput
   bookingCourse: CourseCreateManyWithoutBookingUsersInput
@@ -1631,6 +1701,7 @@ input UserCreateWithoutReviewsInput {
   email: String!
   name: String!
   phone: String!
+  stamp: Int
   fundingAuthor: FundingCreateManyWithoutAuthorInput
   fundingInvest: FundingCreateManyWithoutInvestorsInput
   bookingCourse: CourseCreateManyWithoutBookingUsersInput
@@ -1650,6 +1721,8 @@ enum UserOrderByInput {
   name_DESC
   phone_ASC
   phone_DESC
+  stamp_ASC
+  stamp_DESC
 }
 
 type UserPreviousValues {
@@ -1657,6 +1730,7 @@ type UserPreviousValues {
   email: String!
   name: String!
   phone: String!
+  stamp: Int!
 }
 
 input UserScalarWhereInput {
@@ -1716,6 +1790,14 @@ input UserScalarWhereInput {
   phone_not_starts_with: String
   phone_ends_with: String
   phone_not_ends_with: String
+  stamp: Int
+  stamp_not: Int
+  stamp_in: [Int!]
+  stamp_not_in: [Int!]
+  stamp_lt: Int
+  stamp_lte: Int
+  stamp_gt: Int
+  stamp_gte: Int
   AND: [UserScalarWhereInput!]
   OR: [UserScalarWhereInput!]
   NOT: [UserScalarWhereInput!]
@@ -1743,6 +1825,7 @@ input UserUpdateInput {
   email: String
   name: String
   phone: String
+  stamp: Int
   reviews: ReviewUpdateManyWithoutAuthorInput
   fundingAuthor: FundingUpdateManyWithoutAuthorInput
   fundingInvest: FundingUpdateManyWithoutInvestorsInput
@@ -1753,12 +1836,14 @@ input UserUpdateManyDataInput {
   email: String
   name: String
   phone: String
+  stamp: Int
 }
 
 input UserUpdateManyMutationInput {
   email: String
   name: String
   phone: String
+  stamp: Int
 }
 
 input UserUpdateManyWithoutBookingCourseInput {
@@ -1808,6 +1893,7 @@ input UserUpdateWithoutBookingCourseDataInput {
   email: String
   name: String
   phone: String
+  stamp: Int
   reviews: ReviewUpdateManyWithoutAuthorInput
   fundingAuthor: FundingUpdateManyWithoutAuthorInput
   fundingInvest: FundingUpdateManyWithoutInvestorsInput
@@ -1817,6 +1903,7 @@ input UserUpdateWithoutFundingAuthorDataInput {
   email: String
   name: String
   phone: String
+  stamp: Int
   reviews: ReviewUpdateManyWithoutAuthorInput
   fundingInvest: FundingUpdateManyWithoutInvestorsInput
   bookingCourse: CourseUpdateManyWithoutBookingUsersInput
@@ -1826,6 +1913,7 @@ input UserUpdateWithoutFundingInvestDataInput {
   email: String
   name: String
   phone: String
+  stamp: Int
   reviews: ReviewUpdateManyWithoutAuthorInput
   fundingAuthor: FundingUpdateManyWithoutAuthorInput
   bookingCourse: CourseUpdateManyWithoutBookingUsersInput
@@ -1835,6 +1923,7 @@ input UserUpdateWithoutReviewsDataInput {
   email: String
   name: String
   phone: String
+  stamp: Int
   fundingAuthor: FundingUpdateManyWithoutAuthorInput
   fundingInvest: FundingUpdateManyWithoutInvestorsInput
   bookingCourse: CourseUpdateManyWithoutBookingUsersInput
@@ -1929,6 +2018,14 @@ input UserWhereInput {
   phone_not_starts_with: String
   phone_ends_with: String
   phone_not_ends_with: String
+  stamp: Int
+  stamp_not: Int
+  stamp_in: [Int!]
+  stamp_not_in: [Int!]
+  stamp_lt: Int
+  stamp_lte: Int
+  stamp_gt: Int
+  stamp_gte: Int
   reviews_every: ReviewWhereInput
   reviews_some: ReviewWhereInput
   reviews_none: ReviewWhereInput
