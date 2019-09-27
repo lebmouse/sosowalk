@@ -15,6 +15,7 @@ type Category {
   id: ID! @id
   title: String!
   subtitle: String!
+  bannerImage: String
   openingDate: DateTime!
   closingDate: DateTime!
   openingTime: DateTime!
@@ -24,8 +25,7 @@ type Category {
 
 type Course {
   id: ID! @id
-  title: String!
-  subtitle: String!
+  title: String
   images: String
   number: Int!
   courseLength: Float

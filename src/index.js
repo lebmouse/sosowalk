@@ -70,6 +70,16 @@ app.get("/courses/:coursesId", async (req, res) => {
   res.json(course);
 });
 
+app.get("/courses/:coursesId/reviews", async (req, res) => {
+  const PAGE = req.query.page || 1;
+  const PAGE_SIZE = req.query.pagesize || 6;
+  const reviews = await prisma.course({ id: req.params.coursesId }).reviews({
+    first: PAGE_SIZE,
+    skip: (PAGE - 1) * PAGE_SIZE
+  });
+  res.json(reviews);
+});
+
 app.post("/courses/:coursesId/reviews", async (req, res) => {
   const newReview = await prisma.createReview({
     content: req.body.content,
@@ -89,6 +99,18 @@ app.post("/signin", async (req, res) => {
     user = await prisma.createUser(req.body);
   }
   res.json(user);
+});
+
+app.put("/users/:userId", async (req, res) => {
+  const updateUser = await prisma.updateUser({
+    data: {
+      ...req.body
+    },
+    where: {
+      id: req.params.userId
+    }
+  });
+  res.json(updateUser);
 });
 
 app.get("/users/:userId/courses", async (req, res) => {
@@ -116,7 +138,6 @@ app.post("/fundings", async (req, res) => {
 });
 
 app.post("/fundings/:fundingId/investors", async (req, res) => {
-  
   const newInvestor = await prisma.updateFunding({
     where: { id: req.params.fundingId },
     data: {
