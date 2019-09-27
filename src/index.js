@@ -70,6 +70,18 @@ app.get("/courses/:coursesId", async (req, res) => {
   res.json(course);
 });
 
+app.post("/courses/:coursedId/applicants/:userId", async (req, res) => {
+  const newApplicant = await prisma.updateCourse({
+    where: { id: req.params.coursedId },
+    data: {
+      bookingUsers: {
+        connect: { id: req.params.userId }
+      }
+    }
+  });
+  res.json(newApplicant);
+});
+
 app.get("/courses/:coursesId/reviews", async (req, res) => {
   const PAGE = req.query.page || 1;
   const PAGE_SIZE = req.query.pagesize || 6;
@@ -137,12 +149,12 @@ app.post("/fundings", async (req, res) => {
   res.json(newFunding);
 });
 
-app.post("/fundings/:fundingId/investors", async (req, res) => {
+app.post("/fundings/:fundingId/investors/:userId", async (req, res) => {
   const newInvestor = await prisma.updateFunding({
     where: { id: req.params.fundingId },
     data: {
       investors: {
-        connect: { email: req.body.email }
+        connect: { email: req.params.userId }
       }
     }
   });
