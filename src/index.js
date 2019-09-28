@@ -79,6 +79,13 @@ app.get("/courses", async (req, res) => {
           : 0
       );
     }
+    category.courses.sort((a, b) =>
+      a.activeCourse > b.activeCourse
+        ? -1
+        : a.activeCourse < b.activeCourse
+        ? 1
+        : 0
+    );
   });
   res.json(allCourse);
 });
